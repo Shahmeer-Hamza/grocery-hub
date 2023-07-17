@@ -1,0 +1,11 @@
+export const primaryColor = '#2DA041';
+export const primaryColorShaded = '#000000';
+export const textColor = '#222235';
+export const greyishBlackColorShaded = '#454545';
+export const greyColorShaded = '#6F6F6F';
+export const secondaryColor = '#800000';
+export const secondaryColorShaded = '#168c85';
+export const walkthroughBackground= "#ffffff"
+export const whitecolor= "#ffffff"
+export const borderColor = "#E6E6E6"
+export const inputBackgroundColor = "#F2F4F5"

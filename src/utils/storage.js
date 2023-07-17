@@ -1,0 +1,1 @@
+export const firebaseStorageUrl = "https://firebasestorage.googleapis.com/v0/b/davat-ceb73.appspot.com/o/";

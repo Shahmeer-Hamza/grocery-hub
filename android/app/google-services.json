@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "841003551346",
+    "project_id": "davat-ceb73",
+    "storage_bucket": "davat-ceb73.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:841003551346:android:9135013e089fed7d8e10eb",
+        "android_client_info": {
+          "package_name": "com.davat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "841003551346-6m52gj99gbp4cf6g04g6v5bpibv1pvlj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-POe0zralOOc3IBrcXrePYuc7AxQk4po"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "841003551346-6m52gj99gbp4cf6g04g6v5bpibv1pvlj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
