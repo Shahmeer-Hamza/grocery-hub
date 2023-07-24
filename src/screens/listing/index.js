@@ -6,6 +6,7 @@ import {
   Text,
   ScrollView,
   ActivityIndicator, ImageBackground, ToastAndroid,
+  Dimensions,
   RefreshControl,
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
@@ -13,7 +14,7 @@ import { TouchableHighlight, TouchableOpacity, TouchableNativeFeedback } from 'r
 
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-import { primaryColor, primaryColorShaded, secondaryColor } from '../../utils/Colors';
+import { greyColorShaded, primaryColor, primaryColorShaded, secondaryColor, textColor } from '../../utils/Colors';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faFilter, faMapMarked, faTimes } from '@fortawesome/free-solid-svg-icons';
 import Modal from '../../components/Modal';
@@ -22,7 +23,9 @@ import { Icon } from 'react-native-elements';
 import { styles } from '../../assets/styles/listingStyles';
 import { AuthContext } from '../../navigation/AuthProvider';
 import { firebaseStorageUrl } from '../../utils/storage';
+import { Card } from 'react-native-paper';
 
+const { width, height } = Dimensions.get('screen')
 const Home: () => React$Node = ({ route, navigation }) => {
   const [img, setImg] = useState('');
   const { listType, item_id } = route.params;
@@ -91,68 +94,83 @@ const Home: () => React$Node = ({ route, navigation }) => {
     navigation.navigate('ViewItem', { item_id: item_id, name: item_name });
   }
 
+  // const Header = () => {
+  //   const params = route?.params?.name?.toLowerCase()
+  //   let source;
+  //   if (params == "caterers") {
+  //     source = require("../../assets/caterers-header.png")
+  //     //  {uri: `${firebaseStorageUrl}Home%2Fcaterers-header.png?alt=media`,};
+  //   }
+  //   else if (params == "decorators") {
+  //     source = require("../../assets/decorators-header.png")
+  //     //  {uri: `${firebaseStorageUrl}Home%2Fdecorators-header.png?alt=media`,};
+  //   }
+  //   else if (params == "photographers") {
+  //     source = require("../../assets/photographer-header.png")
+  //     //  {uri: `${firebaseStorageUrl}Home%2Fphotographer-header.png?alt=media`,};
+  //   }
+  //   else {
+  //     source = require("../../assets/venues-header.png")
+  //     //  {uri: `${firebaseStorageUrl}Home%2Fvenues-header.png?alt=media`,};
+  //   }
+  //   return (
+  //     source &&
+  //     <ImageBackground resizeMethod='auto' resizeMode='cover' source={source} style={{ width: "100%", height: 150, marginBottom: 10 }}>
+
+  //       <View style={{
+  //         display: "flex",
+  //         flexDirection: "column",
+  //         height: "100%",
+  //         justifyContent: "center",
+  //         alignItems: "center", backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  //       }} >
+  //         <View style={{
+  //           display: "flex",
+  //           flexDirection: "row",
+  //           width: "100%",
+  //           justifyContent: "space-around",
+  //           alignItems: "center"
+  //         }} >
+  //           <TouchableOpacity onPress={() => navigation.goBack()} >
+
+  //             <Image source={require("../../assets/left-arrow.png")} />
+  //           </TouchableOpacity>
+  //           <View style={{
+  //             display: "flex",
+  //             flexDirection: "column",
+  //             height: "100%",
+  //             justifyContent: "center",
+  //             alignItems: "center"
+  //           }} >
+  //             <Text style={{ fontSize: 28, fontFamily: PoppinsRegular, color: "#fff", fontWeight: 800 }} >
+  //               {route?.params?.name}
+  //             </Text>
+  //             <Text style={{ fontSize: 12, fontFamily: PoppinsRegular, color: "#fff", fontWeight: 500 }} >
+  //               99 {route?.params?.name} Available
+  //             </Text>
+  //           </View>
+  //           <TouchableOpacity onPress={() => setModalVisible(true)}>
+  //             <Image source={require("../../assets/filter.png")} />
+  //           </TouchableOpacity>
+  //         </View>
+  //       </View>
+
+  //     </ImageBackground>
+  //   )
+  // }
+
   const Header = () => {
-    const params = route?.params?.name?.toLowerCase()
-    let source;
-    if (params == "caterers") {
-      source = require("../../assets/caterers-header.png")
-      //  {uri: `${firebaseStorageUrl}Home%2Fcaterers-header.png?alt=media`,};
-    }
-    else if (params == "decorators") {
-      source = require("../../assets/decorators-header.png")
-      //  {uri: `${firebaseStorageUrl}Home%2Fdecorators-header.png?alt=media`,};
-    }
-    else if (params == "photographers") {
-      source = require("../../assets/photographer-header.png")
-      //  {uri: `${firebaseStorageUrl}Home%2Fphotographer-header.png?alt=media`,};
-    }
-    else {
-      source = require("../../assets/venues-header.png")
-      //  {uri: `${firebaseStorageUrl}Home%2Fvenues-header.png?alt=media`,};
-    }
     return (
-      source &&
-      <ImageBackground resizeMethod='auto' resizeMode='cover' source={source} style={{ width: "100%", height: 150, marginBottom: 10 }}>
-
-        <View style={{
-          display: "flex",
-          flexDirection: "column",
-          height: "100%",
-          justifyContent: "center",
-          alignItems: "center", backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        }} >
-          <View style={{
-            display: "flex",
-            flexDirection: "row",
-            width: "100%",
-            justifyContent: "space-around",
-            alignItems: "center"
-          }} >
-            <TouchableOpacity onPress={() => navigation.goBack()} >
-
-              <Image source={require("../../assets/left-arrow.png")} />
-            </TouchableOpacity>
-            <View style={{
-              display: "flex",
-              flexDirection: "column",
-              height: "100%",
-              justifyContent: "center",
-              alignItems: "center"
-            }} >
-              <Text style={{ fontSize: 28, fontFamily: PoppinsRegular, color: "#fff", fontWeight: 800 }} >
-                {route?.params?.name}
-              </Text>
-              <Text style={{ fontSize: 12, fontFamily: PoppinsRegular, color: "#fff", fontWeight: 500 }} >
-                99 {route?.params?.name} Available
-              </Text>
-            </View>
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
-              <Image source={require("../../assets/filter.png")} />
-            </TouchableOpacity>
-          </View>
+      <View style={{ backgroundColor: '#fcfcfc' }}>
+        <View>
+          <ImageBackground source={require('../../assets/home-header.png')} resizeMode='stretch' style={{ width: '100%', height: 100, }}>
+          </ImageBackground>
         </View>
-
-      </ImageBackground>
+        <View style={{ flexDirection: 'row', marginVertical: 10, justifyContent: 'center' }}>
+          <Text style={[styles.pageHeader, { color: '#2DA041' }]}>ALL </Text>
+          <Text style={styles.pageHeader}>{route?.params?.name}</Text>
+        </View>
+      </View>
     )
   }
 
@@ -209,35 +227,67 @@ const Home: () => React$Node = ({ route, navigation }) => {
   const ListItem = (item, key) => {
     return (
       // Flat List Item
-      <TouchableNativeFeedback style={styles.listing_card} onPress={() => viewItem(item.key, item.name)}>
-        <View>
-          <View style={styles.card_img_view}>
-            <ImageBackground
+
+      // <TouchableNativeFeedback style={styles.listing_card} onPress={() => viewItem(item.key, item.name)}>
+      <View style={styles.listing_card}>
+        <Card style={styles.card}>
+          <View style={{ padding: 10 }}>
+            <View style={styles.card_img_view}>
+              <Image source={{
+                uri: `https://firebasestorage.googleapis.com/v0/b/davat-ceb73.appspot.com/o/${item.images[0]}?alt=media`,
+              }} resizeMode='contain' style={{ width: '100%', height: '100%' }} />
+              {/* <ImageBackground
               style={styles.card_img}
               imageStyle={{ borderRadius: 15, }}
               source={{
                 uri: `https://firebasestorage.googleapis.com/v0/b/davat-ceb73.appspot.com/o/${item.images[0]}?alt=media`,
               }}
-            >
+              >
               <View style={{ height: "100%", width: "100%", justifyContent: "flex-end", alignItems: "flex-end", flexDirection: "row-reverse" }}>
                 <Text style={styles.heading}>{item.name}</Text>
               </View>
-
-            </ImageBackground>
-          </View>
-          <ScrollView>
+              
+            </ImageBackground> */}
+            </View>
+            <View style={{ marginBottom: 10 }}>
+              <Text style={{ fontFamily: 'Raleway', fontSize: width / 22, fontWeight: '500', color: textColor, letterSpacing: width * 0.003, }}>{item?.name.slice(0, 8)}</Text>
+              <Text style={{ fontFamily: 'Raleway', fontSize: width / 32, fontWeight: '400', color: greyColorShaded, }}>{item?.name.slice(0, 8)}</Text>
+            </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+              <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+                <Text style={{
+                  color: "#2DA041",
+                  fontFamily: 'Play',
+                  fontSize: width / 22,
+                  fontWeight: 400,
+                }}>{item?.price}</Text>
+                <Text style={{
+                  color: "#6F6F6F",
+                  fontFamily: 'Play',
+                  fontSize: width / 30,
+                  fontWeight: 400,
+                  textDecorationLine: 'line-through',
+                }}>{item?.price}</Text>
+              </View>
+              <TouchableOpacity style={[styles.addCartButton]}>
+                <Icon name="add" size={18} color="#fff" />
+              </TouchableOpacity>
+            </View>
+            {/* <ScrollView>
             <View style={styles.card_details}  >
               <View style={styles.details_bottom}>
                 <Icon name="map-pin" size={15} color="#900" type='feather' />
                 <Text numberOfLines={2} style={styles.address}>
                   {item.address}
                 </Text>
-              </View>
-              <Text style={styles.price}>PKR {item.price}</Text>
-            </View>
-          </ScrollView>
-        </View>
-      </TouchableNativeFeedback>
+                </View>
+                <Text style={styles.price}>PKR {item.price}</Text>
+                </View>
+          </ScrollView> */}
+          </View>
+        </Card>
+      </View>
+      // </TouchableNativeFeedback>
     );
   };
 
@@ -254,7 +304,7 @@ const Home: () => React$Node = ({ route, navigation }) => {
             <Text style={{ fontSize: 16, fontWeight: '700', marginLeft: 5 }}>Search Filters</Text>
           </TouchableOpacity>
         </View> */}
-              <ScrollView style={styles.scrollView}>
+              <ScrollView contentContainerStyle={styles.scrollView}>
                 {listings && listings.map((item, index) => {
                   let temp_arr = []
                   wishedList.map((a) => temp_arr.push(a))
@@ -268,9 +318,7 @@ const Home: () => React$Node = ({ route, navigation }) => {
               <Modal isVisible={modalVisible} content={
                 <>
                   <Text style={{ width: '100%', textAlign: 'center', fontWeight: 'bold', fontSize: 22 }}>Select Search Filters</Text>
-
                   <Text style={{ width: '100%', textAlign: 'center', fontWeight: 'bold', fontSize: 16, marginTop: 20 }}>Select Rating</Text>
-
                   <View style={{
                     width: '100%',
                     backgroundColor: '#fff',

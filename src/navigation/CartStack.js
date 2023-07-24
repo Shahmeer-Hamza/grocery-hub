@@ -109,7 +109,7 @@ const CartStackScreen: () => React$Node = ({ navigation }) => {
           name="CartScreen"
           component={Cart}
           options={({ route, navigation }) => ({
-            header: () => <Header navigation={navigation} name="CART" notificationIcon={false} />
+            // header: () => <Header navigation={navigation} name="CART" notificationIcon={false} />
           })}
         />
         <CartStack.Screen

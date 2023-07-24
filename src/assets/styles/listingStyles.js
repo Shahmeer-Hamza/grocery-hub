@@ -1,7 +1,8 @@
 import { secondaryColor } from "../../utils/Colors";
 import { PoppinsBlack } from "../../utils/fonts";
 
-const { StyleSheet } = require("react-native");
+const { StyleSheet, Dimensions } = require("react-native");
+const {width, height} = Dimensions.get('screen')
 
 export const styles = StyleSheet.create({
     horizontal: {
@@ -14,18 +15,35 @@ export const styles = StyleSheet.create({
       height: '100%',
       zIndex: 1,
       flex: 1,
-      alignItems: 'flex-start',
-      justifyContent: 'flex-start',
-      backgroundColor: 'white',
-      paddingBottom: 100
+      // alignItems: 'flex-start',
+      // justifyContent: 'flex-start',
+      backgroundColor: '#FCFCFC',
+      // paddingBottom: 100,
     },
     scrollView: {
       width: '100%',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: "center",
+      alignItems: "center",
+      gap: 20,
+      paddingBottom: 20,
+    },
+    pageHeader: {
+      color: '#222235',
+      fontFamily: 'Raleway',
+      fontSize: 18,
+      fontWeight: 600,
+      lineHeight: 32,
+      letterSpacing: 1.455,
+      textTransform: 'uppercase',
     },
     listing_card: {
-      width: '100%',
-      maxHeight: 250,
-      paddingHorizontal: 20,
+      backgroundColor: '#FFFFFF',
+      // paddingHorizontal: 20,
+    },
+    card: {
+      elevation: 5,
     },
     listing_card_body: {
       width: '100%',
@@ -42,10 +60,14 @@ export const styles = StyleSheet.create({
       borderRadius: 15,
     },
     card_img_view: {
-      width: '100%',
-      minHeight: 184,
-      maxHeight: 200,
-      borderRadius: 20
+      // width: '100%',
+      // minHeight: 184,
+      // maxHeight: 200,
+      backgroundColor: 'red',
+      width: 140,
+      height: 120,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     card_img: {
       width: '100%',
@@ -54,8 +76,15 @@ export const styles = StyleSheet.create({
       // display: "flex",
       // flexDirection: "column",
       // justifyContent: "flex-end",
-      borderRadius: 20
     },
+    addCartButton: {
+      width: 22,
+      height: 22,
+      backgroundColor: '#2DA041',
+      borderRadius: 4,
+      justifyContent: 'center',
+      alignItems: 'center'
+  },
     card_details: {
       width: '100%',
       backgroundColor: 'white',

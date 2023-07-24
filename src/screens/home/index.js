@@ -141,7 +141,7 @@ const Home = ({ navigation, route }) => {
                                 <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 20, fontWeight: '600', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: WINDOWHEIGHT / 50 }}>
                                     Categories
                                 </Text>
-                                <Text style={{ fontFamily: 'Raleway', fontSize: 14, fontWeight: '500', color: primaryColor, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: WINDOWHEIGHT / 50, lineHeight: 22, }}>
+                                <Text style={{ fontFamily: 'Raleway', fontSize: 14, fontWeight: '500', color: primaryColor, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: WINDOWHEIGHT / 50, lineHeight: 22, }} onPress={() => navigation.navigate('Categories')}>
                                     View All
                                 </Text>
                             </View>
@@ -210,8 +210,8 @@ const Home = ({ navigation, route }) => {
                                         1 Dozen
                                     </Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS. 150</Text>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS. 190</Text>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS.150</Text>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.190</Text>
                                         <TouchableOpacity style={[styles.addCartButton]}>
                                             <Icon name="add" size={18} color="#fff" />
                                         </TouchableOpacity>
@@ -233,8 +233,8 @@ const Home = ({ navigation, route }) => {
                                         1 Kilogram
                                     </Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS. 120</Text>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS. 190</Text>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS.120</Text>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.190</Text>
                                         <TouchableOpacity style={[styles.addCartButton]}>
                                             <Icon name="add" size={18} color="#fff" />
                                         </TouchableOpacity>
@@ -257,8 +257,8 @@ const Home = ({ navigation, route }) => {
                                         1 Kilogram
                                     </Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS. 200</Text>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS. 290</Text>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS.200</Text>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.290</Text>
                                         <TouchableOpacity style={[styles.addCartButton]}>
                                             <Icon name="add" size={18} color="#fff" />
                                         </TouchableOpacity>
@@ -280,8 +280,8 @@ const Home = ({ navigation, route }) => {
                                         1 kilogram
                                     </Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS. 200</Text>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS. 290</Text>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS.200</Text>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.290</Text>
                                         <TouchableOpacity style={[styles.addCartButton]}>
                                             <Icon name="add" size={18} color="#fff" />
                                         </TouchableOpacity>
@@ -303,8 +303,8 @@ const Home = ({ navigation, route }) => {
                                         1 Kilogram
                                     </Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS. 200</Text>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS. 290</Text>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS.200</Text>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.290</Text>
                                         <TouchableOpacity style={[styles.addCartButton]}>
                                             <Icon name="add" size={18} color="#fff" />
                                         </TouchableOpacity>
@@ -326,8 +326,8 @@ const Home = ({ navigation, route }) => {
                                         1 kilogram
                                     </Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS. 200</Text>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS. 290</Text>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS.200</Text>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.290</Text>
                                         <TouchableOpacity style={[styles.addCartButton]}>
                                             <Icon name="add" size={18} color="#fff" />
                                         </TouchableOpacity>
@@ -349,8 +349,8 @@ const Home = ({ navigation, route }) => {
                                         1 Kilogram
                                     </Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS. 200</Text>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS. 290</Text>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS.200</Text>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.290</Text>
                                         <TouchableOpacity style={[styles.addCartButton]}>
                                             <Icon name="add" size={18} color="#fff" />
                                         </TouchableOpacity>
@@ -372,8 +372,8 @@ const Home = ({ navigation, route }) => {
                                         1 Dozen
                                     </Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS. 200</Text>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS. 290</Text>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS.200</Text>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.290</Text>
                                         <TouchableOpacity style={[styles.addCartButton]}>
                                             <Icon name="add" size={18} color="#fff" />
                                         </TouchableOpacity>

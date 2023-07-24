@@ -15,6 +15,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { Header } from './CartStack';
 import {useFocusEffect} from '@react-navigation/native';
+import Categories from '../screens/categories';
 
 const HomeStack = createStackNavigator();
 const HomeStackScreen: () => React$Node = ({route}) => {
@@ -32,6 +33,14 @@ const HomeStackScreen: () => React$Node = ({route}) => {
             headerShown: false,
             headerTitle: 'asd',
             headerTitleAlign: 'center',
+          }}
+          />
+        <HomeStack.Screen
+          name="Categories"
+          component={Categories}
+          initialParams={{parentNavigation: route.params.parentNavigation}}
+          options={{
+            headerShown: false,
           }}
         />
         <HomeStack.Screen
