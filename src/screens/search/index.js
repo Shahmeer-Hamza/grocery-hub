@@ -1,4 +1,4 @@
-import React, {Component, useState, useEffect} from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import {
   View,
   StyleSheet,
@@ -9,16 +9,16 @@ import {
   RefreshControl,
 } from 'react-native';
 
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faSearch, faMapMarked} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faSearch, faMapMarked } from '@fortawesome/free-solid-svg-icons';
 
-import {SearchBar} from 'react-native-elements';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {primaryColor, secondaryColor} from '../../utils/Colors';
+import { SearchBar } from 'react-native-elements';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { primaryColor, secondaryColor } from '../../utils/Colors';
 
 import firestore from '@react-native-firebase/firestore';
 // import {} from 'react-native-gesture-handler';
-const Search: () => React$Node = ({navigation}) => {
+const Search: () => React$Node = ({ navigation }) => {
   const [search, setSearch] = useState('');
 
   const [listings, setListings] = useState([]);
@@ -39,7 +39,6 @@ const Search: () => React$Node = ({navigation}) => {
         });
 
         setListings(listingsArray);
-        console.log(listings);
         //   setLoading(false);
       });
 
@@ -102,14 +101,14 @@ const Search: () => React$Node = ({navigation}) => {
         clearIcon={null}
         value={search}
         onChangeText={(text) => updateSearch(text)}
-        style={{color: '#000'}}
+        style={{ color: '#000' }}
       />
 
       <View style={styles.container}>
         <ScrollView style={styles.scrollView}>
           {showListing && filteredListings && filteredListings.map(ListItem)}
           {(filteredListings.length == 0 || !showListing) && (
-            <Text style={{padding: 15}}>No results found</Text>
+            <Text style={{ padding: 15 }}>No results found</Text>
           )}
           {/* {filteredListings.length == 0 && (
             <Text style={{padding: 15}}>No results found</Text>

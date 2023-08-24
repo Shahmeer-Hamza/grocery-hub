@@ -26,6 +26,7 @@ import { AuthContext } from '../../navigation/AuthProvider';
 import { styles } from '../../assets/styles/auth';
 import { windowHeight } from '../../utils/WindowDimensions';
 import { Divider } from 'react-native-elements';
+import { RalewayRegular } from '../../utils/fonts';
 
 const Signup = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -56,18 +57,18 @@ const Signup = ({ navigation }) => {
       register(username, email, password)
     }
   };
-  const {width, height} = Dimensions.get('screen')
+  const { width, height } = Dimensions.get('screen')
   return (
     <SafeAreaView style={styles.container}>
-        <ScrollView style={{ ...styles?.scrollView, }}>
-      <StatusBar barStyle="light-content" backgroundColor={"transparent"} />
-      {/* <View style={{ ...styles.topContainer }}>
+      <ScrollView style={{ ...styles?.scrollView, }}>
+        <StatusBar barStyle="light-content" backgroundColor={"transparent"} />
+        {/* <View style={{ ...styles.topContainer }}>
       </View> */}
-      <View style={{ height: height * .2 }}>
+        <View style={{ height: height * .2 }}>
           <Image resizeMode='contain' source={require('../../assets/auth-header.png')} style={{ width: width, height: height * .2 }} />
         </View>
-      <View style={styles.bottomContainer}>
-        {/* <Text style={{ ...styles.logo, height: 110, position: "absolute", top: (height - (height * 1.1)), alignSelf: "center", marginBottom: 12 }}>
+        <View style={styles.bottomContainer}>
+          {/* <Text style={{ ...styles.logo, height: 110, position: "absolute", top: (height - (height * 1.1)), alignSelf: "center", marginBottom: 12 }}>
           <LogoInverse width={120} height={120} />
         </Text> */}
           <View style={styles?.formContainer}>
@@ -113,10 +114,10 @@ const Signup = ({ navigation }) => {
               <AuthButton buttonText={isLoading ? <ProgressBarAndroid styleAttr="Small" color={secondaryColor} shouldRasterizeIOS /> : "SIGNUP"} onPress={() => doRegister()} />
             </View>
 
-            <View style={{flexDirection: 'row', paddingVertical:1, alignItems: 'center' }}>
-              <View style={{borderTopWidth: 1, width: '40%', height: 0, borderColor:'#000'}}></View>
-              <Text style={{width: '20%', textAlign: 'center', color: greyishBlackColorShaded, fontFamily: 'Raleway', fontSize: 12, fontWeight: 500, letterSpacing: 1, paddingVertical: height/60}}> Or </Text>
-              <View style={{borderTopWidth: 1, width: '40%', height: 0, borderColor:'#000'}}></View>
+            <View style={{ flexDirection: 'row', paddingVertical: 1, alignItems: 'center' }}>
+              <View style={{ borderTopWidth: 1, width: '40%', height: 0, borderColor: '#000' }}></View>
+              <Text style={{ width: '20%', textAlign: 'center', color: greyishBlackColorShaded, fontFamily: RalewayRegular, fontSize: 12, fontWeight: 500, letterSpacing: 1, paddingVertical: height / 60 }}> Or </Text>
+              <View style={{ borderTopWidth: 1, width: '40%', height: 0, borderColor: '#000' }}></View>
             </View>
 
             <View>
@@ -131,17 +132,18 @@ const Signup = ({ navigation }) => {
               </TouchableOpacity>
             </View> */}
           </View>
-      </View>
-      <View style={{}}>
-          <ImageBackground resizeMode='contain' style={{flex:1, flexDirection: 'row', justifyContent:'center', width: width, height: height * .2, alignItems: "center"}} source={require('../../assets/auth-footer.png')}>
+        </View>
+        <View style={{}}>
+          <ImageBackground resizeMode='contain' style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', width: width, height: height * .2, alignItems: "center" }} source={require('../../assets/auth-footer.png')}>
             <Text style={styles.loginText}>Already have an account? </Text>
-              <TouchableOpacity style={{justifyContent: 'flex-end'}} onPress={() => navigation.navigate('Login')}>
-                <Text style={{ ...styles.loginText, 
-               }}>Login</Text>
-              </TouchableOpacity>
+            <TouchableOpacity style={{ justifyContent: 'flex-end' }} onPress={() => navigation.navigate('Login')}>
+              <Text style={{
+                ...styles.loginText,
+              }}>Login</Text>
+            </TouchableOpacity>
           </ImageBackground>
         </View>
-        </ScrollView>
+      </ScrollView>
     </SafeAreaView>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer, useRef, useState } from 'react'
+import React, { useContext, useEffect, useReducer, useRef, useState } from 'react';
 import {
     Pressable,
     StatusBar,
@@ -8,25 +8,26 @@ import {
     LayoutChangeEvent,
     TouchableOpacity,
     Animated,
-} from 'react-native'
+} from 'react-native';
 // navigation
-import { NavigationContainer, useNavigation } from '@react-navigation/native'
-import { BottomTabBarProps, BottomTabNavigationOptions, createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { BottomTabBarProps, BottomTabNavigationOptions, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 // svg
-import Svg, { Path } from 'react-native-svg'
+import Svg, { Path } from 'react-native-svg';
 // reanimated
 // lottie
-import HomeStackScreen from '../navigation/HomeStack'
-import Wishlist from '../screens/wishlist'
-import CartStackScreen from '../navigation/CartStack'
-import AccountStackScreen from '../navigation/AccountStack'
-import { Icon } from 'react-native-elements'
-import { backgroundColor, primaryColor, primaryColorShaded, secondaryColor } from '../utils/Colors'
-import { AuthContext } from '../navigation/AuthProvider'
+import HomeStackScreen from '../navigation/HomeStack';
+import Wishlist from '../screens/wishlist';
+import CartStackScreen from '../navigation/CartStack';
+import AccountStackScreen from '../navigation/AccountStack';
+import { Icon } from 'react-native-elements';
+import { background, primaryColor, primaryColorShaded, secondaryColor } from '../utils/Colors';
+import { AuthContext } from '../navigation/AuthProvider';
 // import CustomDrawerContent from './CustomDrawer'
-import { createStackNavigator } from '@react-navigation/stack'
-import CustomDrawerContent from './CustomDrawer'
+import { createStackNavigator } from '@react-navigation/stack';
+import CustomDrawerContent from './CustomDrawer';
+import LinearGradient from 'react-native-linear-gradient';
 
 // ------------------------------------------------------------------
 const Stack = createStackNavigator()
@@ -38,31 +39,10 @@ const DrawerNav = ({ children, heading }) => {
 
     return (
         <>
-            <View style={{ flex: 1, backgroundColor: primaryColor }} >
-                <Animated.View style={{ flex: 1, borderRadius: showMenu ? 20 : 0, backgroundColor: backgroundColor, position: "absolute", top: 0, bottom: 0, left: 0, right: 0, transform: [{ scale: scale }, { translateX: moveToRight }], opacity: showMenu ? 0.5 : 1 }} >
-                    <View style={{ marginTop: 20, flexDirection: "row", alignItems: "center" }} >
-                        <TouchableOpacity onPress={() => {
-                            Animated.timing(scale, {
-                                toValue: showMenu ? 1 : 0.8,
-                                duration: 300,
-                                useNativeDriver: true
-                            }).start();
-                            Animated.timing(moveToRight, {
-                                toValue: showMenu ? 0 : 300,
-                                useNativeDriver: true
-                            }).start()
-                            setShowMenu(true)
-                        }} style={{ marginLeft: 20 }} >
-
-                            <Icon name='menu' />
-                        </TouchableOpacity>
-                        <Text style={{ color: primaryColorShaded, fontSize: 18, fontWeight: '700', textAlign: "center", width: "80%", textTransform: "uppercase" }} >{heading}</Text>
-                    </View>
-                    {children}
-                </Animated.View>
-                {showMenu &&
-                    <>
-                        <View style={{ marginTop: 20, flexDirection: "row" }} >
+            <LinearGradient colors={['#52D068', '#229236']} style={{ flex: 1, }} >
+                <View style={{ flex: 1, }} >
+                    <Animated.View style={{ flex: 1, borderRadius: showMenu ? 20 : 0, backgroundColor: primaryColor, position: "absolute", top: 50, bottom: 0, left: 0, right: 0, transform: [{ scale: scale }, { translateX: moveToRight }], zIndex: 99 }} >
+                        <View style={{ marginTop: 20, flexDirection: "row", alignItems: "center" }} >
                             <TouchableOpacity onPress={() => {
                                 Animated.timing(scale, {
                                     toValue: showMenu ? 1 : 0.8,
@@ -70,20 +50,43 @@ const DrawerNav = ({ children, heading }) => {
                                     useNativeDriver: true
                                 }).start();
                                 Animated.timing(moveToRight, {
-                                    toValue: showMenu ? 0 : 250,
-                                    duration: 300,
+                                    toValue: showMenu ? 0 : 300,
                                     useNativeDriver: true
                                 }).start()
-                                setShowMenu(false)
+                                setShowMenu(true)
                             }} style={{ marginLeft: 20 }} >
 
-                                <Icon name='close' />
+                                {!showMenu && <Icon name='menu' color="#fff" />}
                             </TouchableOpacity>
+                            <Text style={{ color: primaryColorShaded, fontSize: 18, fontWeight: '700', textAlign: "center", width: "80%", textTransform: "uppercase" }} >{heading}</Text>
                         </View>
-                        <CustomDrawerContent />
-                    </>
-                }
-            </View>
+                        {children}
+                    </Animated.View>
+                    {showMenu &&
+                        <>
+                            <View style={{ marginTop: 20, flexDirection: "row" }} >
+                                <TouchableOpacity onPress={() => {
+                                    Animated.timing(scale, {
+                                        toValue: showMenu ? 1 : 0.8,
+                                        duration: 300,
+                                        useNativeDriver: true
+                                    }).start();
+                                    Animated.timing(moveToRight, {
+                                        toValue: showMenu ? 0 : 250,
+                                        duration: 300,
+                                        useNativeDriver: true
+                                    }).start()
+                                    setShowMenu(false)
+                                }} style={{ marginLeft: 20 }} >
+
+                                    <Icon name='close' />
+                                </TouchableOpacity>
+                            </View>
+                            <CustomDrawerContent />
+                        </>
+                    }
+                </View>
+            </LinearGradient>
         </>
     )
 }

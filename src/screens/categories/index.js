@@ -1,6 +1,8 @@
 import React from 'react'
 import { Text, View, Dimensions, ImageBackground, StyleSheet, ScrollView, Image, Pressable } from 'react-native'
 import DrawerNav from '../../components/BottomTab'
+import { RalewayRegular } from '../../utils/fonts'
+import { background, primaryColor } from '../../utils/Colors'
 
 const { width, height } = Dimensions.get('screen')
 const Categories = ({ navigation }) => {
@@ -14,7 +16,7 @@ const Categories = ({ navigation }) => {
       </View>
       <View>
         <View style={styles.headingContainer}>
-          <Text style={[styles.pageHeading, { color: '#2DA041' }]}>ALL</Text>
+          <Text style={[styles.pageHeading, { color: primaryColor }]}>ALL</Text>
           <Text style={styles.pageHeading}> CATEGORIES</Text>
         </View>
         <ScrollView contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -40,12 +42,12 @@ const Categories = ({ navigation }) => {
               </Pressable>
             </View>
             <View style={{ width: 100, height: 120, }}>
-              <Pressable onPress={() => navigateTo("Cleaning")}> 
+              <Pressable onPress={() => navigateTo("Cleaning")}>
                 <Image source={require('../../assets/cleaning-icon.png')} resizeMode='contain' style={{ width: '100%', height: '100%' }} />
               </Pressable>
             </View>
             <View style={{ width: 100, height: 120, }}>
-              <Pressable onPress={() => navigateTo("Kitchen")}> 
+              <Pressable onPress={() => navigateTo("Kitchen")}>
                 <Image source={require('../../assets/kitchen-icon.png')} resizeMode='contain' style={{ width: '100%', height: '100%' }} />
               </Pressable>
             </View>
@@ -60,7 +62,7 @@ const Categories = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    color: '#fcfcfc',
+    color: background,
     width: width,
     height: height,
   },
@@ -74,7 +76,7 @@ const styles = StyleSheet.create({
   },
   pageHeading: {
     color: '#222235',
-    fontFamily: 'Raleway',
+    fontFamily: RalewayRegular,
     fontSize: 18,
     fontWeight: 600,
     lineHeight: 32,

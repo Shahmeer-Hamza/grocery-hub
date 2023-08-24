@@ -26,6 +26,8 @@ import Swiper from './Swiper';
 import { Walkthrough1 } from './Walkthrough1';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
+import { RalewayRegular } from '../../../utils/fonts';
+// import { AsyncStorage } from 'react-native'
 
 const { width, height } = Dimensions.get('window');
 
@@ -56,12 +58,12 @@ const Walkthrough = ({ navigation }) => {
   const { user,
     setWalkthrough,
     getWalkthrough
-} = useContext(AuthContext);
-// const navigation = useNavigation()
+  } = useContext(AuthContext);
+  // const navigation = useNavigation()
 
-const walkthroughCompleted = () => {
+  const walkthroughCompleted = () => {
     AsyncStorage.setItem("_walkthrough", "1").then((res) => setWalkthrough(1)).then(() => getWalkthrough()).then(() => navigation.navigate("Login"))
-}
+  }
 
   const Slide = ({ item }) => {
     return <View style={{ alignItems: 'center', width, }}>
@@ -78,7 +80,7 @@ const walkthroughCompleted = () => {
         }}>
           {slides.map(
             (_, i) => (
-              <View style={[styles.indicator, currentSlideIndex == i && {
+              <View key={i} style={[styles.indicator, currentSlideIndex == i && {
                 backgroundColor: '#30a444'
               }]} />
             )
@@ -89,7 +91,7 @@ const walkthroughCompleted = () => {
       <View style={{ alignItems: 'center', height: '25%', justifyContent: 'center' }}>
         <Text style={[styles.title]}>{item.title}</Text>
         <View style={{ width: '75%' }}>
-          <Text style={{ color: greyColorShaded, fontFamily: 'Raleway', fontWeight: 500, textAlign: 'center', lineHeight: 22, }}>{item.subtitle}</Text>
+          <Text style={{ color: greyColorShaded, fontFamily: RalewayRegular, fontWeight: 500, textAlign: 'center', lineHeight: 22, }}>{item.subtitle}</Text>
         </View>
       </View>
 
@@ -111,27 +113,27 @@ const walkthroughCompleted = () => {
         flexDirection: 'row',
         alignItems: 'center',
       }}>
-        {currentSlideIndex == slides.length - 1 ? 
-        <View style={{ width: '85%', }}>
-          <TouchableOpacity onPress={walkthroughCompleted} style={{ backgroundColor: '#30a444', width: '100%', height: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 8 }}>
-            <Text style={{ color: '#fff', fontFamily: 'Raleway', fontWeight: 500, fontSize: 14, }}>
-              Get Started
-            </Text>
-          </TouchableOpacity>
-        </View> :
-        <View style={{
-          width: '85%',
-          justifyContent: 'space-between',
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}>
-          <TouchableOpacity onPress={walkthroughCompleted} style={[styles.button]}>
-            <Text style={{ color: greyColorShaded, }}>SKIP</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, { backgroundColor: '#30a444' }]} onPress={goToNextSlide}>
-            <Text style={{ color: '#ffffff' }}>NEXT</Text>
-          </TouchableOpacity>
-        </View>}
+        {currentSlideIndex == slides.length - 1 ?
+          <View style={{ width: '85%', }}>
+            <TouchableOpacity onPress={walkthroughCompleted} style={{ backgroundColor: '#30a444', width: '100%', height: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 8 }}>
+              <Text style={{ color: '#fff', fontFamily: RalewayRegular, fontWeight: 500, fontSize: 14, }}>
+                Get Started
+              </Text>
+            </TouchableOpacity>
+          </View> :
+          <View style={{
+            width: '85%',
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+            <TouchableOpacity onPress={walkthroughCompleted} style={[styles.button]}>
+              <Text style={{ color: greyColorShaded, }}>SKIP</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.button, { backgroundColor: '#30a444' }]} onPress={goToNextSlide}>
+              <Text style={{ color: '#ffffff' }}>NEXT</Text>
+            </TouchableOpacity>
+          </View>}
       </View>
     )
   }
@@ -160,7 +162,7 @@ const walkthroughCompleted = () => {
         horizontal
         showsHorizontalScrollIndicator={false}
         renderItem={
-          ({ item }) => <Slide item={item} />
+          ({ item }) => <Slide key={item?.id} item={item} />
         }
       />
       <Footer />
@@ -189,7 +191,7 @@ const styles = StyleSheet.create({
   title: {
     color: '#000000',
     fontSize: 26,
-    fontFamily: 'Raleway',
+    fontFamily: RalewayRegular,
     fontWeight: 600,
     marginVertical: 10,
     letterSpacing: 1,

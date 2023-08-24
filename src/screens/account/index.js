@@ -8,6 +8,7 @@ import {
   StyleSheet,
   ScrollView,
   Dimensions,
+  Image
 } from 'react-native';
 
 import auth from '@react-native-firebase/auth';
@@ -17,16 +18,16 @@ import Header from '../../components/Header';
 
 import { ToastAndroid, Alert } from 'react-native';
 
-import { InputField, InputFieldFull } from '../../components/InputField';
+import { InputField, InputFieldBorder, InputFieldFull } from '../../components/InputField';
 import { PrimaryButton } from '../../components/Buttons';
-import { borderColor, primaryColor, primaryColorShaded, secondaryColor } from '../../utils/Colors';
+import { background, borderColor, greyishBlackColorShaded, primaryColor, primaryColorShaded, secondaryColor, textColor, whitecolor } from '../../utils/Colors';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
   faChevronRight
 } from '@fortawesome/free-solid-svg-icons';
 
 import firestore from '@react-native-firebase/firestore';
-import { PoppinsRegular } from '../../utils/fonts';
+import { PoppinsRegular, RalewayRegular } from '../../utils/fonts';
 import { Icon } from 'react-native-elements';
 
 const Account = ({ navigation }) => {
@@ -34,6 +35,9 @@ const Account = ({ navigation }) => {
   const [username, setUsername] = useState(user?.displayName);
   const [email, setEmail] = useState(user?.email);
   const [password, setPassword] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
+  const [photo, setPhoto] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
@@ -52,44 +56,61 @@ const Account = ({ navigation }) => {
   return (
     <>
 
-      <TouchableOpacity onPress={() => navigation.navigate('OrderHistory')} style={styles.orderHistoryButton}>
+      {/* <TouchableOpacity onPress={() => navigation.navigate('OrderHistory')} style={styles.orderHistoryButton}>
         <Text style={styles.orderHistoryButtonText}>Orders History</Text>
         <Icon color={primaryColor} name='chevron-right' type='font-awesome' size={16} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       <View style={styles.container}>
         <ScrollView style={styles.scrollView} centerContent={true}>
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <View style={{ width: 105, height: 105, flexDirection: "row", alignItems: "flex-end", marginBottom: 30 }}>
+              <View style={{ backgroundColor: primaryColor, width: 100, height: 100, justifyContent: "center", alignItems: "center", borderRadius: 50, overflow: "hidden" }}>
+                <Image style={{ width: 94, height: 94 }} source={require("../../assets/profile-icon.png")} />
+              </View>
+              {/* <Icon name="photo-camera" size={22} /> */}
+            </View>
+          </View>
           {errorMessage && (
             <Text style={styles.errorMessage}>{errorMessage}</Text>
           )}
 
-          <Text style={styles?.fieldText}>Username:</Text>
-          <InputFieldFull
+          {/* <Text style={styles?.fieldText}>Username:</Text> */}
+          <InputFieldBorder
             placeholder="Username..."
-            placeholderTextColor={primaryColorShaded}
+            placeholderTextColor={greyishBlackColorShaded}
             onChangeText={(text) => setUsername(text)}
             value={username ?? name}
           />
-          <Text style={styles?.fieldText}>Email:</Text>
-          <InputFieldFull
+          {/* <Text style={styles?.fieldText}>Email:</Text> */}
+          <InputFieldBorder
+            placeholder="Phone..."
+            placeholderTextColor={greyishBlackColorShaded}
+            onChangeText={(text) => setPhone(text)}
+            value={phone}
+          />
+          <InputFieldBorder
             placeholder="Email..."
-            placeholderTextColor={primaryColorShaded}
+            placeholderTextColor={greyishBlackColorShaded}
             onChangeText={(text) => setEmail(text)}
             value={email}
           />
-
-          <Text style={styles?.fieldText}>Password:</Text>
-          <InputFieldFull
+          <InputFieldBorder
+            placeholder="Address..."
+            placeholderTextColor={greyishBlackColorShaded}
+            onChangeText={(text) => setAddress(text)}
+            value={address}
+          />
+          {/* <Text style={styles?.fieldText}>Password:</Text> */}
+          <InputFieldBorder
             placeholder="Password..."
             secureTextEntry
-            placeholderTextColor={primaryColorShaded}
+            placeholderTextColor={greyishBlackColorShaded}
             onChangeText={(text) => setPassword(text)}
           />
-
           <TouchableOpacity style={styles.checkout_btn} onPress={() => updateProfile()}>
             <Text style={styles.checkout_btn_text}>UPDATE</Text>
           </TouchableOpacity>
-          <Logout styles={styles} />
         </ScrollView>
       </View>
 
@@ -102,7 +123,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: "#fff"
+    backgroundColor: background,
   },
   errorMessage: {
     width: '70%',
@@ -146,29 +167,29 @@ const styles = StyleSheet.create({
   },
   fieldText: {
     fontSize: 15,
-    fontFamily: PoppinsRegular,
-    fontWeight: '700',
+    fontFamily: RalewayRegular,
+    fontWeight: '600',
     letterSpacing: 0.7,
     marginBottom: 4,
     color: "#000000",
-    fontFamily: PoppinsRegular,
   },
   checkout_btn: {
-    width: '90%',
+    width: '100%',
     padding: 10,
-    backgroundColor: "#000000",
+    backgroundColor: primaryColor,
     textAlign: 'center',
-    marginHorizontal: '5%',
+    // marginHorizontal: '5%',
     borderRadius: 10,
     marginBottom: 20,
     marginTop: 20,
   },
   checkout_btn_text: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
+    color: whitecolor,
+    fontFamily: RalewayRegular,
+    fontSize: 14,
+    fontWeight: '600',
     textAlign: 'center',
-    fontFamily: PoppinsRegular,
+    letterSpacing: 1,
   },
   logout_btn: {
     width: '90%',
@@ -180,7 +201,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginTop: 20,
     fontFamily: PoppinsRegular,
-
   }
 });
 

@@ -29,7 +29,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { firebaseStorageUrl } from '../utils/storage';
 import { Svg, Path, Defs, SvgUri } from 'react-native-svg';
 import SplashScreen from '../screens/SplashScreen';
-const Stack = createStackNavigator();
+import { TouchableOpacity } from 'react-native';
 const MainStack = () => {
   const { contextCartCount, contextWishedCount, setContextWishedCount, setContextCartCount } = useContext(AuthContext);
   firestore()
@@ -57,116 +57,122 @@ const MainStack = () => {
       setContextCartCount(carted);
     });
   const BottomTab = ({ navigation }) => {
-    const Tab = createBottomTabNavigator();
+    const Stack = createStackNavigator();
     return (
-      <Tab.Navigator
-        activeColor="#fff"
-        initialRouteName='Home'
-        screenOptions={{
-          tabBarStyle: {
-            backgroundColor: '#2DA041',
-            position: 'absolute',
-            // right: 20,
-            bottom: 20,
-            marginHorizontal: 20,
-            borderRadius: 50,
-            height: 50,
-            width: 50,
-            // alignSelf: 'flex-end',
-            // flexDirection: "row",
-            // alignItems: "center",
-            // justifyContent: "center",
-            // overflow: 'hidden',
-          },
-        }}
-      >
-        {/* <Tab.Screen
-          name="Home"
-          component={HomeStackScreen}
-          initialParams={{ parentNavigation: navigation }}
-          options={{
-            tabBarLabel: "",
-            headerShown: false,
-            tabBarLabelPosition: "beside-icon",
-            tabBarIcon: ({ color, focused }) => (
-              // <Icon name="home" size={30} color="#900" />
-              <View  >
-                <Image source={{ uri: `${firebaseStorageUrl}bottom-bar%2Fhome-grey.png?alt=media`, }} style={{ width: 20, height: 20, opacity: !focused ? 0.5 : 1 }} />
-              </View>
-            ),
-          }}
-        /> */}
-        {/* <Tab.Screen
-          name="Wishlist"
-          component={Wishlist}
-          initialParams={{ parentNavigation: navigation }}
-          options={{
-            tabBarLabel: '',
-            headerShown: false,
-            tabBarLabelPosition: "beside-icon",
-            tabBarIcon: ({ color, focused }) => {
-              return (
-                <>
-                  <Icon name="heart-o" size={22} color={focused ? "#fff" : "#F4F5F7"} type='font-awesome' style={{ opacity: !focused ? 0.5 : 1 }} />
-                  {contextWishedCount > 0 ? (<Text style={styles.icon_badge}>{contextWishedCount}</Text>) : (<></>)}
-                </>
-              )
+      <>
+        <Stack.Navigator
+          activeColor="#fff"
+          initialRouteName='Home'
+          screenOptions={{
+            tabBarStyle: {
+              backgroundColor: primaryColor,
+              position: 'absolute',
+              // right: 20,
+              bottom: 20,
+              marginHorizontal: 20,
+              borderRadius: 50,
+              height: 50,
+              width: 50,
+              // alignSelf: 'flex-end',
+              // flexDirection: "row",
+              // alignItems: "center",
+              // justifyContent: "center",
+              // overflow: 'hidden',
             },
           }}
-        /> */}
-        <Tab.Screen
-          name="Cart"
-          component={CartStackScreen}
-          options={{
-            tabBarLabel: '',
-            headerShown: false,
-            tabBarLabelPosition: "beside-icon",
-            tabStyle: { width: 50, height: 50, backgroundColor: '#2DA041', marginBottom: 20, borderRadius: 50, justifyContent: 'center', alignItems: 'center' },
-            tabBarIcon: ({ color, focused }) => (
-              <>
-                <Image source={require("../assets/cart.png")} style={{ width: 20, height: 23, opacity: !focused ? 0.5 : 1 }} />
-                {contextCartCount > 0 ? (<Text style={styles.icon_badge}>{contextCartCount}</Text>) : (<></>)}
-              </>
-            ),
-          }}
-        />
-        {/* <Tab.Screen
-          name="AccountStack"
-          component={AccountStack}
-          options={{
-            tabBarLabel: '',
-            headerShown: false,
-            tabBarLabelPosition: "beside-icon",
-            tabBarIcon: ({ color, focused }) => (
-              <>
-                <Image source={{ uri: `${firebaseStorageUrl}bottom-bar%2Fuser.png?alt=media`, }} style={{ width: 20, height: 20, opacity: !focused ? 0.5 : 1 }} />
-              </>
-            ),
-          }}
-        /> */}
-      </Tab.Navigator>
+        >
+          <Stack.Screen
+            name="Home"
+            component={HomeStackScreen}
+            initialParams={{ parentNavigation: navigation }}
+            options={{
+              tabBarLabel: "",
+              headerShown: false,
+              tabBarLabelPosition: "beside-icon",
+              tabBarIcon: ({ color, focused }) => (
+                // <Icon name="home" size={30} color="#900" />
+                <View  >
+                  <Image source={{ uri: `${firebaseStorageUrl}bottom-bar%2Fhome-grey.png?alt=media`, }} style={{ width: 20, height: 20, opacity: !focused ? 0.5 : 1 }} />
+                </View>
+              ),
+            }}
+          />
+          <Stack.Screen
+            name="Wishlist"
+            component={Wishlist}
+            initialParams={{ parentNavigation: navigation }}
+            options={{
+              tabBarLabel: '',
+              headerShown: false,
+              tabBarLabelPosition: "beside-icon",
+              tabBarIcon: ({ color, focused }) => {
+                return (
+                  <>
+                    <Icon name="heart-o" size={22} color={focused ? "#fff" : "#F4F5F7"} type='font-awesome' style={{ opacity: !focused ? 0.5 : 1 }} />
+                    {contextWishedCount > 0 ? (<Text style={styles.icon_badge}>{contextWishedCount}</Text>) : (<></>)}
+                  </>
+                )
+              },
+            }}
+          />
+          <Stack.Screen
+            name="Cart"
+            component={CartStackScreen}
+            options={{
+              tabBarLabel: '',
+              headerShown: false,
+              tabBarLabelPosition: "beside-icon",
+              tabStyle: { width: 50, height: 50, backgroundColor: primaryColor, marginBottom: 20, borderRadius: 50, justifyContent: 'center', alignItems: 'center' },
+              tabBarIcon: ({ color, focused }) => (
+                <>
+                  <Image source={require("../assets/cart.png")} style={{ width: 20, height: 23, opacity: !focused ? 0.5 : 1 }} />
+                  {contextCartCount > 0 ? (<Text style={styles.icon_badge}>{contextCartCount}</Text>) : (<></>)}
+                </>
+              ),
+            }}
+          />
+          <Stack.Screen
+            name="AccountStack"
+            component={AccountStack}
+            options={{
+              tabBarLabel: '',
+              headerShown: false,
+              tabBarLabelPosition: "beside-icon",
+              tabBarIcon: ({ color, focused }) => (
+                <>
+                  <Image source={{ uri: `${firebaseStorageUrl}bottom-bar%2Fuser.png?alt=media`, }} style={{ width: 20, height: 20, opacity: !focused ? 0.5 : 1 }} />
+                </>
+              ),
+            }}
+          />
+        </Stack.Navigator>
+
+      </>
     );
   }
   const Stack = createStackNavigator()
   return (
-    <Stack.Navigator initialRouteName='SplashScreen' >
-      <Stack.Screen
-        name="BottomTab"
-        component={BottomTab}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="Notification"
-        component={NotificationModal}
-        options={{
-          headerShown: false,
-          header: () => <Header name="Notifications" notificationIcon={false} />
-        }}
-      />
-      <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
-    </Stack.Navigator>
+    <>
+      <Stack.Navigator initialRouteName='SplashScreen' >
+        <Stack.Screen
+          name="BottomTab"
+          component={BottomTab}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Notification"
+          component={NotificationModal}
+          options={{
+            headerShown: false,
+            header: () => <Header name="Notifications" notificationIcon={false} />
+          }}
+        />
+        <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
+      </Stack.Navigator>
+
+    </>
   )
 
 };

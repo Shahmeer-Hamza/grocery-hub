@@ -9,21 +9,23 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { View, Text, Button, TouchableOpacity, Image, Dimensions } from 'react-native';
-import { PoppinsRegular } from '../utils/fonts';
-import { borderColor, primaryColor } from '../utils/Colors';
+import { View, Text, Button, TouchableOpacity, Image, Dimensions, ImageBackground, StyleSheet } from 'react-native';
+import { PoppinsRegular, RalewayRegular } from '../utils/fonts';
+import { background, borderColor, primaryColor } from '../utils/Colors';
 import { Modal } from 'react-native-paper';
-import { Divider } from 'react-native-elements';
+import { Divider, Icon } from 'react-native-elements';
 const CartStack = createStackNavigator();
 
 headerIcons = {
-  backgroundColor: '#fff',
+  backgroundColor: '#000',
   elevation: 5, // Controls the shadow depth
   shadowColor: '#000', // Shadow color
   shadowOffset: {
     width: 0,
     height: 2,
   },
+  width: 48,
+  height: 48,
   shadowOpacity: 0.25, // Shadow opacity
   shadowRadius: 3.84, // Shadow radius
   borderRadius: 75, // Half of the width and height for a circular container
@@ -44,13 +46,12 @@ export const NotificationModal = ({ modalVisible, setModalVisible, navigation })
 const WINDOWWIDTH = Dimensions.get("screen").width
 const WINDOWHEIGHT = Dimensions.get("screen").height
 export const Header = ({ navigation, name, notificationIcon = true }) => {
-
   return (
     <>
-      <View style={{
+      {/* <View style={{
         display: "flex",
         flexDirection: "column",
-        height: WINDOWHEIGHT ? WINDOWHEIGHT/10 : WINDOWHEIGHT/15,
+        height: WINDOWHEIGHT ? WINDOWHEIGHT / 10 : WINDOWHEIGHT / 15,
         justifyContent: "center",
         alignItems: "center", backgroundColor: '#ffffff',
       }} >
@@ -62,6 +63,7 @@ export const Header = ({ navigation, name, notificationIcon = true }) => {
           paddingHorizontal: 20,
           alignItems: "center",
         }} >
+
           <TouchableOpacity style={headerIcons} onPress={() => {
             try {
               navigation.goBack()
@@ -72,6 +74,7 @@ export const Header = ({ navigation, name, notificationIcon = true }) => {
 
             <Image source={require("../assets/left-arrow.png")} />
           </TouchableOpacity>
+
           <View style={{
             display: "flex",
             flexDirection: "column",
@@ -95,8 +98,24 @@ export const Header = ({ navigation, name, notificationIcon = true }) => {
               : <View style={{ width: name?.length < 10 ? 45 : 15, height: 45 }} />
           }
         </View>
+      </View> */}
+      <View style={{ backgroundColor: background }}>
+        <View>
+          <ImageBackground source={require('../assets/home-header.png')} resizeMode='stretch' style={{ width: '100%', height: 100, justifyContent: "flex-end", alignItems: "flex-start", }}>
+            <TouchableOpacity onPress={() => {
+              try {
+                navigation.goBack()
+              } catch (error) {
+              }
+            }}>
+              <Icon name="keyboard-backspace" size={28} color="#fff" style={{ marginBottom: 20, marginLeft: 20, }} />
+            </TouchableOpacity>
+          </ImageBackground>
+        </View>
+        <View style={{ flexDirection: 'row', marginVertical: 10, justifyContent: 'center' }}>
+          <Text style={styles.pageHeader}>{name}</Text>
+        </View>
       </View>
-
     </>
   )
 }
@@ -109,14 +128,14 @@ const CartStackScreen: () => React$Node = ({ navigation }) => {
           name="CartScreen"
           component={Cart}
           options={({ route, navigation }) => ({
-            // header: () => <Header navigation={navigation} name="CART" notificationIcon={false} />
+            header: () => <Header navigation={navigation} name="Cart" notificationIcon={false} />
           })}
         />
         <CartStack.Screen
           name="Checkout"
           component={Checkout}
           options={({ route, navigation }) => ({
-            header: () => <Header navigation={navigation} name="CHECK-OUT" notificationIcon={false} />
+            header: () => <Header navigation={navigation} name="CHECKOUT" notificationIcon={false} />
           })}
         />
 
@@ -124,5 +143,17 @@ const CartStackScreen: () => React$Node = ({ navigation }) => {
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  pageHeader: {
+    color: '#222235',
+    fontFamily: RalewayRegular,
+    fontSize: 18,
+    fontWeight: 600,
+    lineHeight: 32,
+    letterSpacing: 1.455,
+    textTransform: 'uppercase',
+  }
+});
 
 export default CartStackScreen;

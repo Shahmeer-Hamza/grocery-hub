@@ -15,11 +15,13 @@ import {
     FlatList,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import { primaryColor, secondaryColorShaded, secondaryColor, primaryColorShaded, greyColorShaded, textColor } from '../../utils/Colors';
+import { primaryColor, secondaryColorShaded, secondaryColor, primaryColorShaded, greyColorShaded, textColor, borderColor } from '../../utils/Colors';
 import { Avatar } from 'react-native-elements';
 import { AuthContext } from '../../navigation/AuthProvider';
-import { PoppinsBlack, PoppinsRegular, fontFamily } from '../../utils/fonts';
+import { PoppinsBlack, PoppinsRegular, RalewayRegular, fontFamily } from '../../utils/fonts';
 import AsyncStorage from '@react-native-community/async-storage';
+// import {AsyncStorage} from 'react-native';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import { firebaseStorageUrl } from '../../utils/storage';
 import { ActivityIndicator, Card } from 'react-native-paper';
 import { windowWidth } from '../../utils/WindowDimensions';
@@ -138,10 +140,10 @@ const Home = ({ navigation, route }) => {
                         </View>
                         <View style={{ marginTop: WINDOWHEIGHT / 40, paddingHorizontal: 20, }}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 20, fontWeight: '600', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: WINDOWHEIGHT / 50 }}>
+                                <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '600', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: WINDOWHEIGHT / 50 }}>
                                     Categories
                                 </Text>
-                                <Text style={{ fontFamily: 'Raleway', fontSize: 14, fontWeight: '500', color: primaryColor, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: WINDOWHEIGHT / 50, lineHeight: 22, }} onPress={() => navigation.navigate('Categories')}>
+                                <Text style={{ fontFamily: RalewayRegular, fontSize: 14, fontWeight: '500', color: primaryColor, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: WINDOWHEIGHT / 50, lineHeight: 22, }} onPress={() => navigation.navigate('Categories')}>
                                     View All
                                 </Text>
                             </View>
@@ -186,10 +188,10 @@ const Home = ({ navigation, route }) => {
                         </View>
                         <View style={{ marginTop: WINDOWHEIGHT / 40, paddingHorizontal: 20, }}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 20, fontWeight: '600', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: WINDOWHEIGHT / 50 }}>
+                                <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '600', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: WINDOWHEIGHT / 50 }}>
                                     Popular Products
                                 </Text>
-                                <Text style={{ fontFamily: 'Raleway', fontSize: 14, fontWeight: '500', color: primaryColor, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: WINDOWHEIGHT / 50, lineHeight: 22, }}>
+                                <Text style={{ fontFamily: RalewayRegular, fontSize: 14, fontWeight: '500', color: primaryColor, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: WINDOWHEIGHT / 50, lineHeight: 22, }}>
                                     View All
                                 </Text>
                             </View>
@@ -203,10 +205,10 @@ const Home = ({ navigation, route }) => {
                                             // }
                                         } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
                                     </View>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
                                         Banana
                                     </Text>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
                                         1 Dozen
                                     </Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
@@ -226,10 +228,10 @@ const Home = ({ navigation, route }) => {
                                             // }
                                         } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
                                     </View>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
                                         Apple
                                     </Text>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
                                         1 Kilogram
                                     </Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
@@ -250,10 +252,10 @@ const Home = ({ navigation, route }) => {
                                             // }
                                         } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
                                     </View>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
                                         strawberries
                                     </Text>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
                                         1 Kilogram
                                     </Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
@@ -273,10 +275,10 @@ const Home = ({ navigation, route }) => {
                                             // }
                                         } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
                                     </View>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
                                         Watermelon
                                     </Text>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
                                         1 kilogram
                                     </Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
@@ -296,10 +298,10 @@ const Home = ({ navigation, route }) => {
                                             // }
                                         } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
                                     </View>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
                                         Pomegranate
                                     </Text>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
                                         1 Kilogram
                                     </Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
@@ -319,10 +321,10 @@ const Home = ({ navigation, route }) => {
                                             // }
                                         } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
                                     </View>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
                                         Avacardo
                                     </Text>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
                                         1 kilogram
                                     </Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
@@ -342,10 +344,10 @@ const Home = ({ navigation, route }) => {
                                             // }
                                         } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
                                     </View>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
                                         Grapes
                                     </Text>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
                                         1 Kilogram
                                     </Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
@@ -365,10 +367,10 @@ const Home = ({ navigation, route }) => {
                                             // }
                                         } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
                                     </View>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
                                         Oranges
                                     </Text>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
                                         1 Dozen
                                     </Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
@@ -421,7 +423,7 @@ const styles = StyleSheet.create({
     },
     deliverText: {
         color: '#3A3A3A',
-        fontFamily: 'Raleway',
+        fontFamily: RalewayRegular,
         fontSize: 12,
         fontWeight: 400,
         // lineHeight: 26.154,
@@ -431,14 +433,14 @@ const styles = StyleSheet.create({
         fontWeight: 500,
         // lineHeight: 26.154,
         letterSpacing: 1.189,
-        fontFamily: 'Raleway',
+        fontFamily: RalewayRegular,
         fontSize: 14,
     },
     searchInputContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#F6F6F7',
+        backgroundColor: '#F6F6F6',
         borderRadius: 8,
         paddingHorizontal: 10,
     },
@@ -472,7 +474,7 @@ const styles = StyleSheet.create({
     },
     cardImage: {
         paddingHorizontal: 5,
-        borderBottomColor: '#C9C9C9',
+        borderBottomColor: borderColor,
         borderBottomWidth: 1,
         justifyContent: 'center',
         alignItems: 'center',
@@ -484,13 +486,13 @@ const styles = StyleSheet.create({
     addCartButton: {
         width: 22,
         height: 22,
-        backgroundColor: '#2DA041',
+        backgroundColor: primaryColor,
         borderRadius: 4,
         justifyContent: 'center',
         alignItems: 'center'
     },
     profilename: {
-        fontFamily: 'Raleway',
+        fontFamily: RalewayRegular,
         color: "#000",
         fontSize: 19,
         fontWeight: '800',

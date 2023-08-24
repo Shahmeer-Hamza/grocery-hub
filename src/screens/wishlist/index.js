@@ -10,7 +10,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import {TouchableNativeFeedback} from 'react-native-gesture-handler';
+import { TouchableNativeFeedback } from 'react-native-gesture-handler';
 
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
@@ -41,7 +41,6 @@ const Wishlist = ({ route, navigation }) => {
 
   useEffect(() => {
 
-    console.log('useeffect');
     firestore()
       .collection('wishlist')
       .where('user', '==', auth().currentUser.uid)
@@ -50,7 +49,7 @@ const Wishlist = ({ route, navigation }) => {
         const listingsArray = [];
         querySnapshot.forEach(function (doc) {
           firestore().collection('listings').doc(doc.data().item).get().then((response) => {
-     
+
             listingsArray.push({
               ...response.data(),
               key: response.id,
@@ -83,12 +82,12 @@ const Wishlist = ({ route, navigation }) => {
           <View style={styles.card_img_view}>
             <ImageBackground
               style={styles.card_img}
-              imageStyle={{borderRadius: 15,}}
+              imageStyle={{ borderRadius: 15, }}
               source={{
-                uri: item.length > 0 ? `https://firebasestorage.googleapis.com/v0/b/davat-ceb73.appspot.com/o/${item?.images[0]}g?alt=media`: "",
+                uri: item.length > 0 ? `https://firebasestorage.googleapis.com/v0/b/davat-ceb73.appspot.com/o/${item?.images[0]}g?alt=media` : "",
               }}
             >
-          
+
               <View style={{ flex: 1, width: "100%", justifyContent: "flex-end", alignItems: "flex-end", flexDirection: "row-reverse" }}>
                 <Text style={styles.heading}>{item.name}</Text>
               </View>

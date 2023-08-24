@@ -14,11 +14,11 @@ import { TouchableHighlight, TouchableOpacity, TouchableNativeFeedback } from 'r
 
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-import { greyColorShaded, primaryColor, primaryColorShaded, secondaryColor, textColor } from '../../utils/Colors';
+import { background, greyColorShaded, primaryColor, primaryColorShaded, secondaryColor, textColor } from '../../utils/Colors';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faFilter, faMapMarked, faTimes } from '@fortawesome/free-solid-svg-icons';
 import Modal from '../../components/Modal';
-import { PoppinsBlack, PoppinsRegular } from '../../utils/fonts';
+import { PoppinsBlack, PoppinsRegular, RalewayRegular } from '../../utils/fonts';
 import { Icon } from 'react-native-elements';
 import { styles } from '../../assets/styles/listingStyles';
 import { AuthContext } from '../../navigation/AuthProvider';
@@ -73,7 +73,6 @@ const Home: () => React$Node = ({ route, navigation }) => {
       const listingsArray = [];
       if (querySnapshot != null) {
         querySnapshot.forEach((documentSnapshot) => {
-          console.log(documentSnapshot.id);
           listingsArray.push({
             ...documentSnapshot.data(),
             key: documentSnapshot.id,
@@ -161,13 +160,13 @@ const Home: () => React$Node = ({ route, navigation }) => {
 
   const Header = () => {
     return (
-      <View style={{ backgroundColor: '#fcfcfc' }}>
+      <View style={{ backgroundColor: background }}>
         <View>
           <ImageBackground source={require('../../assets/home-header.png')} resizeMode='stretch' style={{ width: '100%', height: 100, }}>
           </ImageBackground>
         </View>
         <View style={{ flexDirection: 'row', marginVertical: 10, justifyContent: 'center' }}>
-          <Text style={[styles.pageHeader, { color: '#2DA041' }]}>ALL </Text>
+          <Text style={[styles.pageHeader, { color: primaryColor }]}>ALL </Text>
           <Text style={styles.pageHeader}>{route?.params?.name}</Text>
         </View>
       </View>
@@ -182,7 +181,6 @@ const Home: () => React$Node = ({ route, navigation }) => {
       .then((response) => {
         let data = response.data();
         setItem(data);
-        console.log(data);
         const tableRows = [
           ['Price', data.price], ['City', data.city], ['Address', data.address]
         ];
@@ -250,13 +248,13 @@ const Home: () => React$Node = ({ route, navigation }) => {
             </ImageBackground> */}
             </View>
             <View style={{ marginBottom: 10 }}>
-              <Text style={{ fontFamily: 'Raleway', fontSize: width / 22, fontWeight: '500', color: textColor, letterSpacing: width * 0.003, }}>{item?.name.slice(0, 8)}</Text>
-              <Text style={{ fontFamily: 'Raleway', fontSize: width / 32, fontWeight: '400', color: greyColorShaded, }}>{item?.name.slice(0, 8)}</Text>
+              <Text style={{ fontFamily: RalewayRegular, fontSize: width / 22, fontWeight: '500', color: textColor, letterSpacing: width * 0.003, }}>{item?.name.slice(0, 8)}</Text>
+              <Text style={{ fontFamily: RalewayRegular, fontSize: width / 32, fontWeight: '400', color: greyColorShaded, }}>{item?.name.slice(0, 8)}</Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-              <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+              <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
                 <Text style={{
-                  color: "#2DA041",
+                  color: primaryColor,
                   fontFamily: 'Play',
                   fontSize: width / 22,
                   fontWeight: 400,

@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { Dimensions, StyleSheet, Text, Pressable, Image, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Logo } from '../utils/Logos';
-import { secondaryColor, whitecolor } from '../utils/Colors';
+import { background, primaryColor, secondaryColor, whitecolor } from '../utils/Colors';
 import { useNavigation } from '@react-navigation/native';
+import { RalewayRegular } from '../utils/fonts';
+import LinearGradient from 'react-native-linear-gradient';
 
 
 const windowWidth = Dimensions.get('window').width;
@@ -19,66 +21,81 @@ function CustomDrawerContent({ }) {
     }
 
     return (
+        // <LinearGradient colors={['#52D068', '#229236 ']} style={{ flex: 1, }} >
         <View style={{ ...styles.container, }}>
             <View style={styles.cardContainer}>
                 {/* <View style={{ paddingHorizontal: 30, paddingVertical: 30 }} >
                     <Logo width={220} height={70} />
                 </View> */}
-                <View style={{ justifyContent: 'center', alignItems: 'center'}}>
-                    <View style={{width: '85%', flexDirection: 'row', alignItems: 'center'}}>
-                        <View style={{width: 70, height: 70}}>
-                            <Image source={require('../assets/profile-icon.png')} resizeMode='contain' style={{width: '100%', height: '100%'}} />
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 30, }}>
+                    <View style={{ width: '85%', flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ width: 70, height: 70 }}>
+                            <Image source={require('../assets/profile-icon.png')} resizeMode='contain' style={{ width: '100%', height: '100%' }} />
                         </View>
                         <View style={{ paddingLeft: 20, }}>
-                            <Text style={{ color: whitecolor, fontFamily: 'Raleway', fontSize: 12, fontWeight: '500'}}>Welcome</Text>
-                            <Text style={{ color: whitecolor, fontFamily: 'Raleway', fontSize: 24, fontWeight: '600'}}>Sheheryar Noor</Text>
+                            <Text style={{ color: whitecolor, fontFamily: RalewayRegular, fontSize: 12, fontWeight: '500' }}>Welcome</Text>
+                            <Text style={{ color: whitecolor, fontFamily: RalewayRegular, fontSize: 24, fontWeight: '600' }}>Sheheryar Noor</Text>
                         </View>
                     </View>
                 </View>
-                <Pressable style={styles?.listItem} onPress={() => navigateTo("Home")} >
-                    {active == "Home" && <View style={{ width: 5, height: 50, backgroundColor: secondaryColor, position: "absolute", left: 0, borderTopRightRadius: 7, borderBottomRightRadius: 7 }} ></View>}
-                    <View style={{ paddingVertical: 20, ...styles?.listItem, paddingHorizontal: 40 }} >
-                        {/* <Image source={require("../assets/Vector.png")} /> */}
-                        <Text style={styles?.listItemText} >Dashboard</Text>
-                    </View>
-                </Pressable>
-                <Pressable style={styles?.listItem} onPress={() => navigateTo("Wishlist")} >
-                    {active == "as" && <View style={{ width: 5, height: 50, backgroundColor: secondaryColor, position: "absolute", left: 0, borderTopRightRadius: 7, borderBottomRightRadius: 7 }} ></View>}
-                    <View style={{ paddingVertical: 20, ...styles?.listItem, paddingHorizontal: 40 }} >
-                        {/* <Image source={require("../assets/Vector-1.png")} /> */}
-                        <Text style={styles?.listItemText} >Appointments</Text>
-                    </View>
-                </Pressable>
-                <Pressable style={styles?.listItem} onPress={() => navigateTo("Wishlist")} >
-                    {active == "Wishlist" && <View style={{ width: 5, height: 50, backgroundColor: secondaryColor, position: "absolute", left: 0, borderTopRightRadius: 7, borderBottomRightRadius: 7 }} ></View>}
-                    <View style={{ paddingVertical: 20, ...styles?.listItem, paddingHorizontal: 40 }} >
-                        {/* <Image source={require("../assets/heart-icon.png")} /> */}
-                        <Text style={styles?.listItemText} >Favourites</Text>
-                    </View>
-                </Pressable>
-                <Pressable style={styles?.listItem} onPress={() => navigateTo("Wishlist")} >
-                    {active == "Notifications" && <View style={{ width: 5, height: 50, backgroundColor: secondaryColor, position: "absolute", left: 0, borderTopRightRadius: 7, borderBottomRightRadius: 7 }} ></View>}
-                    <View style={{ paddingVertical: 20, ...styles?.listItem, paddingHorizontal: 40 }} >
-                        {/* <Image source={require("../assets/notification-icon.png")} /> */}
-                        <Text style={styles?.listItemText} >Notifications</Text>
-                    </View>
-                </Pressable>
-                <Pressable style={styles?.listItem} onPress={() => navigateTo("Account")} >
-                    {active == "Account" && <View style={{ width: 5, height: 50, backgroundColor: secondaryColor, position: "absolute", left: 0, borderTopRightRadius: 7, borderBottomRightRadius: 7 }} ></View>}
-                    <View style={{ paddingVertical: 20, ...styles?.listItem, paddingHorizontal: 40 }} >
-                        {/* <Image source={require("../assets/account-icon.png")} /> */}
-                        <Text style={styles?.listItemText} >Account</Text>
-                    </View>
-                </Pressable>
-                <Pressable style={styles?.listItem} onPress={() => navigateTo("Logout")} >
-                    {active == "Notifications" && <View style={{ width: 5, height: 50, backgroundColor: secondaryColor, position: "absolute", left: 0, borderTopRightRadius: 7, borderBottomRightRadius: 7 }} ></View>}
-                    <View style={{ paddingVertical: 20, ...styles?.listItem, paddingHorizontal: 40 }} >
-                        {/* <Image source={require("../assets/logout-icon.png")} /> */}
-                        <Text style={styles?.listItemText} >Logout</Text>
-                    </View>
-                </Pressable>
+                <View style={{ borderTopColor: whitecolor, borderTopWidth: 0.3, paddingVertical: 10, }}>
+                    <Pressable style={[styles?.listItem,]} onPress={() => navigateTo("Dashboard")} >
+                        {active == "Dashboard" && <View style={{ width: 5, height: 50, backgroundColor: secondaryColor, position: "absolute", left: 0, borderTopRightRadius: 7, borderBottomRightRadius: 7 }} ></View>}
+                        <View style={[{ paddingVertical: 10, ...styles?.listItem, paddingHorizontal: 40 }, active == "Dashboard" && { backgroundColor: primaryColor, opacity: 0.9 }]} >
+                            {/* <Image source={require("../assets/Vector.png")} /> */}
+                            <Text style={styles?.listItemText} >Home</Text>
+                        </View>
+                    </Pressable>
+                    <Pressable style={[styles?.listItem,]} onPress={() => navigateTo("Cart")} >
+                        {active == "Cart" && <View style={{ width: 5, height: 50, backgroundColor: secondaryColor, position: "absolute", left: 0, borderTopRightRadius: 7, borderBottomRightRadius: 7 }} ></View>}
+                        <View style={[{ paddingVertical: 10, ...styles?.listItem, paddingHorizontal: 40 }, active == "Cart" && { backgroundColor: "#fff", opacity: 0.1 }]} >
+                            {/* <Image source={require("../assets/Vector-1.png")} /> */}
+                            <Text style={styles?.listItemText} >Cart</Text>
+                        </View>
+                    </Pressable>
+                    <Pressable style={[styles?.listItem,]} onPress={() => navigateTo("Discount")} >
+                        {active == "Discount" && <View style={{ width: 5, height: 50, backgroundColor: secondaryColor, position: "absolute", left: 0, borderTopRightRadius: 7, borderBottomRightRadius: 7 }} ></View>}
+                        <View style={[{ paddingVertical: 10, ...styles?.listItem, paddingHorizontal: 40 }, active == "Discount" && { backgroundColor: "#fff", opacity: 0.1 }]} >
+                            {/* <Image source={require("../assets/Vector-1.png")} /> */}
+                            <Text style={styles?.listItemText}>Discounts</Text>
+                        </View>
+                    </Pressable>
+                </View>
+                <View style={{ borderTopColor: whitecolor, borderTopWidth: 0.3, paddingVertical: 10, }}>
+                    <Pressable style={[styles?.listItem,]} onPress={() => navigateTo("Wishlist")} >
+                        {active == "Wishlist" && <View style={{ width: 5, height: 50, backgroundColor: secondaryColor, position: "absolute", left: 0, borderTopRightRadius: 7, borderBottomRightRadius: 7 }} ></View>}
+                        <View style={[{ paddingVertical: 10, ...styles?.listItem, paddingHorizontal: 40 }, active == "Wishlist" && { backgroundColor: "#fff", opacity: 0.1 }]} >
+                            {/* <Image source={require("../assets/heart-icon.png")} /> */}
+                            <Text style={styles?.listItemText} >Favourites</Text>
+                        </View>
+                    </Pressable>
+                    <Pressable style={[styles?.listItem,]} onPress={() => navigateTo("Wishlist")} >
+                        {active == "Notifications" && <View style={{ width: 5, height: 50, backgroundColor: secondaryColor, position: "absolute", left: 0, borderTopRightRadius: 7, borderBottomRightRadius: 7 }} ></View>}
+                        <View style={[{ paddingVertical: 10, ...styles?.listItem, paddingHorizontal: 40 }, active == "Notifications" && { backgroundColor: "#fff", opacity: 0.1 }]} >
+                            {/* <Image source={require("../assets/notification-icon.png")} /> */}
+                            <Text style={styles?.listItemText} >Notifications</Text>
+                        </View>
+                    </Pressable>
+                </View>
+                <View style={{ borderTopColor: whitecolor, borderTopWidth: 0.3, paddingVertical: 10, }}>
+                    <Pressable style={[styles?.listItem,]} onPress={() => navigateTo("AccountStack")} >
+                        {active == "AccountStack" && <View style={{ width: 5, height: 50, backgroundColor: secondaryColor, position: "absolute", left: 0, borderTopRightRadius: 7, borderBottomRightRadius: 7 }} ></View>}
+                        <View style={[{ paddingVertical: 10, ...styles?.listItem, paddingHorizontal: 40 }, active == "AccountStack" && { backgroundColor: "#fff", opacity: 0.1 }]} >
+                            {/* <Image source={require("../assets/account-icon.png")} /> */}
+                            <Text style={styles?.listItemText} >My Account</Text>
+                        </View>
+                    </Pressable>
+                    <Pressable style={[styles?.listItem,]} onPress={() => navigateTo("Logout")} >
+                        {active == "Notifications" && <View style={{ width: 5, height: 50, backgroundColor: secondaryColor, position: "absolute", left: 0, borderTopRightRadius: 7, borderBottomRightRadius: 7 }} ></View>}
+                        <View style={[{ paddingVertical: 10, ...styles?.listItem, paddingHorizontal: 40 }, active == "Notifications" && { backgroundColor: "#fff", opacity: 0.1 }]} >
+                            {/* <Image source={require("../assets/logout-icon.png")} /> */}
+                            <Text style={styles?.listItemText} >Logout</Text>
+                        </View>
+                    </Pressable>
+                </View>
             </View>
         </View>
+        // </LinearGradient>
     );
 }
 const styles = StyleSheet.create({
@@ -87,10 +104,14 @@ const styles = StyleSheet.create({
     },
     listItem: {
         flexDirection: "row",
-        alignItems: "center"
+        alignItems: "center",
     },
     listItemText: {
-        color: secondaryColor, marginLeft: 10, fontSize: 18, letterSpacing: 0.2
+        color: whitecolor,
+        fontFamily: RalewayRegular,
+        marginLeft: 10,
+        fontSize: 20,
+        letterSpacing: 1,
     },
     navigationContainer: {
     },

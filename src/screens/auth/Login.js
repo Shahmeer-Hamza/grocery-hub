@@ -25,6 +25,7 @@ import { AuthContext } from '../../navigation/AuthProvider';
 import { Image } from 'react-native';
 import { styles } from '../../assets/styles/auth';
 import { Divider } from 'react-native-elements';
+import { RalewayRegular } from '../../utils/fonts';
 
 
 const WINDOWHEIGHT = Dimensions.get("screen").height
@@ -112,11 +113,11 @@ const Login = ({ navigation }) => {
               {/* <SecondaryButton buttonText={isLoading ? <ProgressBarAndroid styleAttr="Small" color={secondaryColor} shouldRasterizeIOS /> : "Login"} onPress={() => doLogin()} /> */}
               <AuthButton buttonText={isLoading ? <ProgressBarAndroid styleAttr="Small" color={secondaryColor} shouldRasterizeIOS /> : "LOGIN"} onPress={() => doLogin()} />
             </View>
-            <View style={{flexDirection: 'row', paddingVertical:1, alignItems: 'center' }}>
+            <View style={{ flexDirection: 'row', paddingVertical: 1, alignItems: 'center' }}>
               {/* <Divider inset={true} width={1} color='#000' insetType='left' /> */}
-              <View style={{borderTopWidth: 1, width: '40%', height: 0, borderColor:'#000'}}></View>
-              <Text style={{width: '20%', textAlign: 'center', color: greyishBlackColorShaded, fontFamily: 'Raleway', fontSize: 12, fontWeight: 500, letterSpacing: 1, paddingVertical: height/60}}> Or </Text>
-              <View style={{borderTopWidth: 1, width: '40%', height: 0, borderColor:'#000'}}></View>
+              <View style={{ borderTopWidth: 1, width: '40%', height: 0, borderColor: '#000' }}></View>
+              <Text style={{ width: '20%', textAlign: 'center', color: greyishBlackColorShaded, fontFamily: RalewayRegular, fontSize: 12, fontWeight: 500, letterSpacing: 1, paddingVertical: height / 60 }}> Or </Text>
+              <View style={{ borderTopWidth: 1, width: '40%', height: 0, borderColor: '#000' }}></View>
               {/* <Divider inset={true} width={1} color='#000' insetType='right' /> */}
             </View>
             <View >
@@ -134,11 +135,11 @@ const Login = ({ navigation }) => {
           <View></View>
         </View>
         <View style={{}}>
-        <ImageBackground resizeMode='contain' style={{flex:1, flexDirection: 'row', justifyContent:'center', width: width, height: height * .2, alignItems: "center"}} source={require('../../assets/auth-footer.png')}>
-        <Text style={styles.loginText}>Don’t have an account?</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-                <Text style={{ ...styles.loginText }}>Sign Up</Text>
-              </TouchableOpacity>
+          <ImageBackground resizeMode='contain' style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', width: width, height: height * .2, alignItems: "center" }} source={require('../../assets/auth-footer.png')}>
+            <Text style={styles.loginText}>Don’t have an account?</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+              <Text style={{ ...styles.loginText }}>Sign Up</Text>
+            </TouchableOpacity>
           </ImageBackground>
         </View>
       </ScrollView>

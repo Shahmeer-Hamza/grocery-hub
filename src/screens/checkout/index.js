@@ -17,7 +17,7 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-import { primaryColor, secondaryColor, primaryColorShaded, secondaryColorShaded } from '../../utils/Colors';
+import { primaryColor, secondaryColor, primaryColorShaded, secondaryColorShaded, whitecolor, background } from '../../utils/Colors';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faMapMarked } from '@fortawesome/free-solid-svg-icons';
 
@@ -28,7 +28,7 @@ import { PrimaryButton } from '../../components/Buttons';
 
 import { ToastAndroid, Alert, Dimensions } from 'react-native';
 import { RadioButton, Snackbar } from 'react-native-paper';
-import { PoppinsRegular } from '../../utils/fonts';
+import { PoppinsRegular, RalewayRegular } from '../../utils/fonts';
 import DateTimePicker, { DateTimePickerAndroid, } from '@react-native-community/datetimepicker';
 import { Icon, Input } from 'react-native-elements';
 const Checkout = ({ route, navigation }) => {
@@ -90,7 +90,6 @@ const Checkout = ({ route, navigation }) => {
           });
           setTimeout(() => {
             setCartTotal(cartTotalSum);
-            console.log(listingsArray);
             setListings(listingsArray);
           }, 1000);
 
@@ -109,7 +108,6 @@ const Checkout = ({ route, navigation }) => {
 
   const selectReceipt = () => {
     launchImageLibrary(options, (response) => {
-      console.log('Response = ', response);
 
       if (response.didCancel) {
         console.log('User cancelled image picker');
@@ -125,7 +123,6 @@ const Checkout = ({ route, navigation }) => {
           .ref(newImageName)
           .putFile(uri)
           .then((snapshot) => {
-            console.log(snapshot);
             //You can check the image is now uploaded in the storage bucket
             let imageRef = storage().ref('/' + newImageName);
             imageRef
@@ -207,39 +204,30 @@ const Checkout = ({ route, navigation }) => {
           {errorMessage && (
             <Text style={styles.errorMessage}>{errorMessage}</Text>
           )}
-
-          <Text style={styles?.fieldText}>Username:</Text>
-          <InputFieldFull
-            placeholder="Username..."
-            placeholderTextColor={primaryColorShaded}
-            onChangeText={(text) => setFullName(text)}
-            value={fullname}
-          />
-          <Text style={styles?.fieldText}>Email:</Text>
-          <InputFieldFull
-            placeholder="Email..."
-            placeholderTextColor={primaryColorShaded}
-            onChangeText={(text) => setEmail(text)}
-            value={email}
-          />
-
-          <Text style={styles?.fieldText}>Phone:</Text>
-          <InputFieldFull
-            placeholder="03365466542"
-            placeholderTextColor={primaryColorShaded}
-            onChangeText={(text) => setPhone(text)}
-            value={phone}
-          />
-
-          <Text style={styles?.fieldText}>CNIC:</Text>
-          <InputFieldFull
-            placeholder="42315566998894"
-            placeholderTextColor={primaryColorShaded}
-            onChangeText={(text) => setCNIC(text)}
-            value={cnic}
-          />
-
-          <View >
+          <View style={{ paddingVertical: 20, }}>
+            <Text style={styles?.fieldText}>Username:</Text>
+            <InputFieldFull
+              placeholder="Username..."
+              placeholderTextColor={primaryColorShaded}
+              onChangeText={(text) => setFullName(text)}
+              value={fullname}
+            />
+            <Text style={styles?.fieldText}>Phone:</Text>
+            <InputFieldFull
+              placeholder="03365466542"
+              placeholderTextColor={primaryColorShaded}
+              onChangeText={(text) => setPhone(text)}
+              value={phone}
+            />
+            <Text style={styles?.fieldText}>Email:</Text>
+            <InputFieldFull
+              placeholder="Address"
+              placeholderTextColor={primaryColorShaded}
+              onChangeText={(text) => setEmail(text)}
+              value={email}
+            />
+          </View>
+          {/* <View >
             <Input
               value={bookingDate?.toLocaleString("en")}
               style={styles.inputViewFull}
@@ -253,34 +241,42 @@ const Checkout = ({ route, navigation }) => {
                 </TouchableOpacity>
               }
             />
-          </View>
-        
-          <Text style={styles.heading}>Billing Details</Text>
-          <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-            <Text style={styles.total_amount}>Total Amount: Rs. {cartTotal}</Text>
-          </View>
-          <Text style={styles.heading}>Payment Method</Text>
-          <RadioButton.Group onValueChange={newValue => setValue(newValue)} value={value} style={{ width: '100%', }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-              <RadioButton color={secondaryColor} value="cash" />
-              <Text style={{ ...styles.radioText, color: value == "cash" ? primaryColor : "grey" }}>Cash</Text>
+          </View> */}
+          <View style={styles.paymentCard}>
+            <View style={{ backgroundColor: "#E3F4ED", paddingVertical: 10, paddingLeft: 20 }}>
+              <Text style={{ color: "#000", fontFamily: RalewayRegular, fontSize: 16, fontWeight: 500, letterSpacing: 1 }}>
+                Payment Method
+              </Text>
             </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-              <RadioButton color={secondaryColor} value="online" />
-              <Text style={{ ...styles.radioText, color: value == "cash" ? "grey" : primaryColor }}>Online</Text>
-              {value == 'online' && (
-                <TouchableOpacity style={styles.upload_btn} onPress={() => selectReceipt()}>
-                  <Text style={styles.upload_btn_text}>Upload Receipt</Text>
-                </TouchableOpacity>
+            <View style={{ paddingVertical: 4 }}>
+              <RadioButton.Group onValueChange={newValue => setValue(newValue)} value={value} style={{ width: '100%', }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "space-between", paddingHorizontal: 20, }}>
+                  <Text style={{ ...styles.radioText, color: value == "cash" ? primaryColor : "grey" }}>Cash</Text>
+                  <RadioButton color={primaryColor} value="cash" />
+                </View>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "space-between", paddingHorizontal: 20, }}>
+                  <Text style={{ ...styles.radioText, color: value == "cash" ? "grey" : primaryColor }}>Online</Text>
+                  {value == 'online' && (
+                    <TouchableOpacity style={styles.upload_btn} onPress={() => selectReceipt()}>
+                      <Text style={styles.upload_btn_text}>Upload Receipt</Text>
+                    </TouchableOpacity>
 
-              )}
+                  )}
+                  <RadioButton color={primaryColor} value="online" />
+                </View>
+              </RadioButton.Group>
             </View>
-          </RadioButton.Group>
-
-          <TouchableOpacity style={styles.checkout_btn} onPress={() => confirmOrder()}>
-            <Text style={styles.checkout_btn_text}>Confirm Order</Text>
-          </TouchableOpacity>
+          </View>
         </ScrollView>
+        <View style={{ backgroundColor: "#fff", width: "100%", alignItems: "center", }}>
+          <View style={{ flexDirection: "row", width: "90%", textAlign: "center", paddingVertical: 10 }}>
+            <Text style={[styles.billing_text, { color: "#000" }]}>Sub Total:</Text>
+            <Text style={[styles.billing_text, { color: "#30A444" }]}>Rs.{cartTotal}</Text>
+          </View>
+          <TouchableOpacity style={styles.checkout_btn} onPress={() => confirmOrder()}>
+            <Text style={styles.checkout_btn_text}>PAY NOW</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {isDatePickerVisible && (
@@ -306,14 +302,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    backgroundColor: "#FFF",
+    backgroundColor: background,
     borderTopColor: "#E6E6E6",
     borderTopWidth: 1
   },
   inputViewFull: {
     borderRadius: 10,
     justifyContent: 'center',
-
     borderBottomWidth: 0,
     fontSize: 14,
     height: 50,
@@ -321,7 +316,8 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     width: '100%',
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingBottom: 20,
   },
   fieldText: {
     fontSize: 15,
@@ -366,29 +362,52 @@ const styles = StyleSheet.create({
     borderRadius: 75, // Half of the width and height for a circular container
     overflow: 'hidden'
   },
+  paymentCard: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    // borderWidth: 1,
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowRadius: 10.84,
+    shadowOpacity: 0.8,
+    elevation: 2,
+    overflow: "hidden",
+    paddingBottom: 10,
+  },
   checkout_btn: {
     width: '90%',
     padding: 10,
     backgroundColor: primaryColor,
     textAlign: 'center',
-    marginHorizontal: '5%',
     borderRadius: 10,
-    marginTop: 30,
-    marginBottom: Dimensions.get("screen").height / 6
+    // marginTop: 30,
+    marginBottom: 20,
+    // marginBottom: Dimensions.get("screen").height / 6
   },
   upload_btn: {
     width: '40%',
     padding: 6,
-    backgroundColor: secondaryColor,
+    fontFamily: RalewayRegular,
+    backgroundColor: primaryColor,
     textAlign: 'center',
     marginHorizontal: '2%',
     borderRadius: 10,
   },
+  billing_text: {
+    fontSize: 18,
+    fontFamily: RalewayRegular,
+    fontWeight: '400',
+    letterSpacing: 1,
+  },
   checkout_btn_text: {
     color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center'
+    fontSize: 14,
+    fontFamily: RalewayRegular,
+    fontWeight: '600',
+    textAlign: 'center',
+    letterSpacing: 1,
   },
   upload_btn_text: {
     color: '#fff',
@@ -408,7 +427,8 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
     fontWeight: '700',
     color: primaryColor
-  }, radioText: {
+  },
+  radioText: {
     fontSize: 15,
     letterSpacing: 0.5,
     fontWeight: '700',
