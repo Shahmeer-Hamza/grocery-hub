@@ -18,6 +18,8 @@ import { Header } from './CartStack';
 import { useFocusEffect } from '@react-navigation/native';
 import Categories from '../screens/categories';
 import { primaryColor } from '../utils/Colors';
+import OrderHistory from '../screens/account/ordersHistory';
+import ViewOrder from '../screens/account/viewOrder';
 
 const HomeStack = createStackNavigator();
 const HomeStackScreen: () => React$Node = ({ route }) => {
@@ -76,6 +78,26 @@ const HomeStackScreen: () => React$Node = ({ route }) => {
         <HomeStack.Screen
           name="Discount"
           component={DiscountItems}
+          options={
+            ({ route, navigation }) => ({
+              headerShown: true,
+              header: () => <Header navigation={navigation} name={route?.name} notificationIcon={false} />,
+            })
+          }
+        />
+        <HomeStack.Screen
+          name="Order"
+          component={OrderHistory}
+          options={
+            ({ route, navigation }) => ({
+              headerShown: true,
+              header: () => <Header navigation={navigation} name={route?.name} notificationIcon={false} />,
+            })
+          }
+        />
+        <HomeStack.Screen
+          name="ViewOrder"
+          component={ViewOrder}
           options={
             ({ route, navigation }) => ({
               headerShown: true,

@@ -113,7 +113,6 @@ const Account = ({ navigation }) => {
           </TouchableOpacity>
         </ScrollView>
       </View>
-
     </>
   );
 };

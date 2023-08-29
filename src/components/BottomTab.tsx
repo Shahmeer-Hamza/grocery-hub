@@ -39,9 +39,9 @@ const DrawerNav = ({ children, heading }) => {
 
     return (
         <>
-            <LinearGradient colors={['#52D068', '#229236']} style={{ flex: 1, }} >
+            <LinearGradient colors={['#52D068', '#229236',]} style={{ flex: 1, }} >
                 <View style={{ flex: 1, }} >
-                    <Animated.View style={{ flex: 1, borderRadius: showMenu ? 20 : 0, backgroundColor: primaryColor, position: "absolute", top: 50, bottom: 0, left: 0, right: 0, transform: [{ scale: scale }, { translateX: moveToRight }], zIndex: 99 }} >
+                    <Animated.View style={{ flex: 1, borderRadius: showMenu ? 20 : 0, backgroundColor: primaryColor, position: "absolute", top: showMenu ? 25 : 0, bottom: 0, left: 0, right: 0, transform: [{ scale: scale }, { translateX: moveToRight }], zIndex: 99 }} >
                         <View style={{ marginTop: 20, flexDirection: "row", alignItems: "center" }} >
                             <TouchableOpacity onPress={() => {
                                 Animated.timing(scale, {
@@ -64,7 +64,7 @@ const DrawerNav = ({ children, heading }) => {
                     </Animated.View>
                     {showMenu &&
                         <>
-                            <View style={{ marginTop: 20, flexDirection: "row" }} >
+                            <View style={{ marginTop: 10, flexDirection: "row" }} >
                                 <TouchableOpacity onPress={() => {
                                     Animated.timing(scale, {
                                         toValue: showMenu ? 1 : 0.8,

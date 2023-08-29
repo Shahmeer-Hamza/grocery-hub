@@ -10,6 +10,17 @@ export const InputField = ({ ...rest }) => {
     </View>
   );
 };
+
+export const InputFieldIcon = ({ rightIcon, ...rest }) => {
+  return (
+    <View style={styles.inputView} {...rest}>
+      <TextInput {...rest} style={{ ...styles.inputText, color: greyishBlackColorShaded }} placeholderTextColor={greyishBlackColorShaded} />
+      <View style={{ position: "absolute", right: 20, }}>
+        {rightIcon}
+      </View>
+    </View>
+  );
+};
 export const InputFieldFull = ({ ...rest }) => {
   return (
     <View style={styles.inputViewFull}>
@@ -37,12 +48,12 @@ export const TextAreaFull = ({ ...rest }) => {
 const styles = StyleSheet.create({
   inputView: {
     // width: '80%',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#fff',
     borderRadius: 4,
     height: 50,
     // marginBottom: 10,
     justifyContent: 'center',
-    borderColor: "#000",
+    // borderColor: "#000",
     // borderWidth: 1,
     padding: 20,
     // shadowColor: '#000',

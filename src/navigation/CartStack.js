@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     color: '#222235',
     fontFamily: RalewayRegular,
     fontSize: 18,
-    fontWeight: 600,
+    fontWeight: "600",
     lineHeight: 32,
     letterSpacing: 1.455,
     textTransform: 'uppercase',

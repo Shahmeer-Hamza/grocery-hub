@@ -17,17 +17,36 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { AuthContext } from '../../navigation/AuthProvider';
 import storage from '@react-native-firebase/storage';
-import { borderColor, primaryColor, primaryColorShaded, secondaryColor, secondaryColorShaded } from '../../utils/Colors';
-import { PoppinsRegular } from '../../utils/fonts';
+import { background, borderColor, greyColorShaded, primaryColor, primaryColorShaded, secondaryColor, secondaryColorShaded, textColor } from '../../utils/Colors';
+import { PoppinsRegular, RalewayRegular } from '../../utils/fonts';
 
 export const Item = ({ v }: ItemProps) => (
   <View style={styles.item}>
-    <Text style={{ ...styles.title, color: secondaryColor, fontWeight: '700', letterSpacing: 0.5 }}>Order ID: <Text style={{ ...styles.title, fontWeight: '700', letterSpacing: 0.5 }}> {v.order_id}</Text></Text>
-    <Text style={styles.title}>Booking Date:<Text style={styles.value}> {v.bookingDate}</Text></Text>
-    <Text style={styles.title}>Order Status:<Text style={styles.value}> {v.status}</Text></Text>
-    <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-      <Text style={styles.title}>Payment Status:<Text style={styles.value}> {v.payment} </Text></Text>
-      {v.button}
+    <View style={{ borderBottomColor: borderColor, borderBottomWidth: 0.2, paddingVertical: 15 }}>
+      <View style={{ flexDirection: "row", }}>
+        <View>
+          <Text style={{ ...styles.title, }}>Order ID:</Text>
+          <Text style={styles.title}>Booking Date:</Text>
+          <Text style={styles.title}>Order Status:</Text>
+          <Text style={styles.title}>Payment Status:</Text>
+        </View>
+        <View>
+          <Text style={{ ...styles.title, fontWeight: '700', letterSpacing: 0.5 }}> {v.order_id}</Text>
+          <Text style={styles.value}> {v.bookingDate}</Text>
+          <Text style={styles.value}> {v.status}</Text>
+          <Text style={styles.value}> {v.payment} </Text>
+        </View>
+      </View>
+
+      <View style={{ justifyContent: 'flex-end' }}>
+        {v.button}
+      </View>
+
+
+      {/* <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+        <Text style={styles.title}>Payment Status:<Text style={styles.value}> {v.payment} </Text></Text>
+        {v.button}
+      </View> */}
     </View>
 
   </View>
@@ -76,7 +95,10 @@ const OrderHistory = ({ navigation }) => {
           try {
             tableRows.push({
               order_id: doc.id,
-              bookingDate: doc.data().bookingDate, status: status, payment: doc.data().payment, button: <TouchableOpacity onPress={() => navigation.navigate('ViewOrder', { order_id: doc.id, name: 'Order #' + doc.id })} style={styles.viewButton}><Text style={styles.viewButtonText}>View</Text></TouchableOpacity>
+              bookingDate: doc.data().bookingDate, status: status, payment: doc.data().payment,
+              button: <TouchableOpacity onPress={() => navigation.navigate('ViewOrder', { order_id: doc.id, name: 'Order #' + doc.id })} style={styles.viewButton}>
+                <Text style={styles.viewButtonText}>View</Text>
+              </TouchableOpacity>
             })
           } catch (error) {
             console.log(error);
@@ -105,13 +127,18 @@ const OrderHistory = ({ navigation }) => {
             onRefresh={loadOrders}
           />
         }>
-
-          {
-            tableData.map((v, i) => <Item v={v} />)
-          }
+          <View style={{ justifyContent: "center", alignItems: "center", paddingVertical: 20, }}>
+            <View style={{
+              backgroundColor: primaryColor, width: "90%", borderRadius: 10, elevation: 1, overflow: "hidden"
+            }}>
+              {
+                tableData.map((v, i) => <Item v={v} />)
+              }
+            </View>
+          </View>
 
         </ScrollView>
-      </SafeAreaView>
+      </SafeAreaView >
     </>
   );
 };
@@ -129,7 +156,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    backgroundColor: 'white'
+    backgroundColor: background,
   },
   scrollView: {
     width: '100%',
@@ -203,7 +230,7 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
   },
   viewButton: {
-    backgroundColor: primaryColorShaded,
+    backgroundColor: primaryColor,
     width: 80,
     marginLeft: '20%',
     borderRadius: 5,
@@ -213,29 +240,36 @@ const styles = StyleSheet.create({
   },
   viewButtonText: {
     color: 'white',
+    fontFamily: RalewayRegular,
+    fontSize: 14,
+    fontWeight: 600,
     textAlign: 'center',
-    fontWeight: 'bold'
   },
   item: {
-    backgroundColor: '#F2F4F5',
-    padding: 20,
-    borderRadius: 10,
-    marginVertical: 8,
-    marginHorizontal: 16,
+    backgroundColor: '#FFF',
+    paddingHorizontal: 10,
+    // borderWidth: 1,
+    // borderRadius: 10,
+    // marginVertical: 8,
+    // marginHorizontal: 16,
+    marginLeft: 10,
   },
   title: {
+    color: "#6D6D6D",
+    fontFamily: RalewayRegular,
     fontSize: 14,
-    fontFamily: PoppinsRegular,
-    color: primaryColor,
-    marginTop: 5,
-    fontWeight: '700'
+    fontWeight: '400',
+    lineHeight: 25,
+    letterSpacing: 1.4
+    // marginTop: 5,
   },
   value: {
-    fontFamily: PoppinsRegular,
+    color: textColor,
+    fontFamily: RalewayRegular,
     fontSize: 14,
-    color: "#666666",
-    fontWeight: '600',
-    textTransform: "capitalize"
+    fontWeight: '400',
+    lineHeight: 25,
+    letterSpacing: 1.4,
   },
 
 });

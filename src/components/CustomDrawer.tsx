@@ -6,6 +6,7 @@ import { background, primaryColor, secondaryColor, whitecolor } from '../utils/C
 import { useNavigation } from '@react-navigation/native';
 import { RalewayRegular } from '../utils/fonts';
 import LinearGradient from 'react-native-linear-gradient';
+import Logout from '../screens/account/actions/logout';
 
 
 const windowWidth = Dimensions.get('window').width;
@@ -38,58 +39,59 @@ function CustomDrawerContent({ }) {
                         </View>
                     </View>
                 </View>
-                <View style={{ borderTopColor: whitecolor, borderTopWidth: 0.3, paddingVertical: 10, }}>
-                    <Pressable style={[styles?.listItem,]} onPress={() => navigateTo("Dashboard")} >
+                <View style={{ borderTopColor: whitecolor, borderTopWidth: 0.3, paddingVertical: 20, }}>
+                    <Pressable style={[styles?.listItem, active == "Dashboard" && { backgroundColor: primaryColor, opacity: 0.9 }]} onPress={() => navigateTo("Dashboard")} >
                         {active == "Dashboard" && <View style={{ width: 5, height: 50, backgroundColor: secondaryColor, position: "absolute", left: 0, borderTopRightRadius: 7, borderBottomRightRadius: 7 }} ></View>}
-                        <View style={[{ paddingVertical: 10, ...styles?.listItem, paddingHorizontal: 40 }, active == "Dashboard" && { backgroundColor: primaryColor, opacity: 0.9 }]} >
+                        <View style={[{ paddingVertical: 10, ...styles?.listItem, paddingHorizontal: 40 }]} >
                             {/* <Image source={require("../assets/Vector.png")} /> */}
                             <Text style={styles?.listItemText} >Home</Text>
                         </View>
                     </Pressable>
-                    <Pressable style={[styles?.listItem,]} onPress={() => navigateTo("Cart")} >
+                    <Pressable style={[styles?.listItem, active == "Cart" && { backgroundColor: "#fff", opacity: 0.1 }]} onPress={() => navigateTo("Cart")} >
                         {active == "Cart" && <View style={{ width: 5, height: 50, backgroundColor: secondaryColor, position: "absolute", left: 0, borderTopRightRadius: 7, borderBottomRightRadius: 7 }} ></View>}
-                        <View style={[{ paddingVertical: 10, ...styles?.listItem, paddingHorizontal: 40 }, active == "Cart" && { backgroundColor: "#fff", opacity: 0.1 }]} >
+                        <View style={[{ paddingVertical: 10, ...styles?.listItem, paddingHorizontal: 40 },]} >
                             {/* <Image source={require("../assets/Vector-1.png")} /> */}
                             <Text style={styles?.listItemText} >Cart</Text>
                         </View>
                     </Pressable>
-                    <Pressable style={[styles?.listItem,]} onPress={() => navigateTo("Discount")} >
+                    <Pressable style={[styles?.listItem, active == "Discount" && { backgroundColor: "#fff", opacity: 0.1 }]} onPress={() => navigateTo("Discount")} >
                         {active == "Discount" && <View style={{ width: 5, height: 50, backgroundColor: secondaryColor, position: "absolute", left: 0, borderTopRightRadius: 7, borderBottomRightRadius: 7 }} ></View>}
-                        <View style={[{ paddingVertical: 10, ...styles?.listItem, paddingHorizontal: 40 }, active == "Discount" && { backgroundColor: "#fff", opacity: 0.1 }]} >
+                        <View style={[{ paddingVertical: 10, ...styles?.listItem, paddingHorizontal: 40 },]} >
                             {/* <Image source={require("../assets/Vector-1.png")} /> */}
                             <Text style={styles?.listItemText}>Discounts</Text>
                         </View>
                     </Pressable>
                 </View>
-                <View style={{ borderTopColor: whitecolor, borderTopWidth: 0.3, paddingVertical: 10, }}>
-                    <Pressable style={[styles?.listItem,]} onPress={() => navigateTo("Wishlist")} >
+                <View style={{ borderTopColor: whitecolor, borderTopWidth: 0.3, paddingVertical: 20, }}>
+                    {/* <Pressable style={[styles?.listItem, active == "Wishlist" && { backgroundColor: "#fff", opacity: 0.1 }]} onPress={() => navigateTo("Wishlist")} >
                         {active == "Wishlist" && <View style={{ width: 5, height: 50, backgroundColor: secondaryColor, position: "absolute", left: 0, borderTopRightRadius: 7, borderBottomRightRadius: 7 }} ></View>}
-                        <View style={[{ paddingVertical: 10, ...styles?.listItem, paddingHorizontal: 40 }, active == "Wishlist" && { backgroundColor: "#fff", opacity: 0.1 }]} >
-                            {/* <Image source={require("../assets/heart-icon.png")} /> */}
+                        <View style={[{ paddingVertical: 10, ...styles?.listItem, paddingHorizontal: 40 },]} >
+                            <Image source={require("../assets/heart-icon.png")} />
                             <Text style={styles?.listItemText} >Favourites</Text>
                         </View>
-                    </Pressable>
-                    <Pressable style={[styles?.listItem,]} onPress={() => navigateTo("Wishlist")} >
-                        {active == "Notifications" && <View style={{ width: 5, height: 50, backgroundColor: secondaryColor, position: "absolute", left: 0, borderTopRightRadius: 7, borderBottomRightRadius: 7 }} ></View>}
-                        <View style={[{ paddingVertical: 10, ...styles?.listItem, paddingHorizontal: 40 }, active == "Notifications" && { backgroundColor: "#fff", opacity: 0.1 }]} >
-                            {/* <Image source={require("../assets/notification-icon.png")} /> */}
-                            <Text style={styles?.listItemText} >Notifications</Text>
+                    </Pressable> */}
+                    <Pressable style={[styles?.listItem, active == "Wishlist" && { backgroundColor: "#fff", opacity: 0.1 }]} onPress={() => navigateTo("Order")} >
+                        {active == "Order" && <View style={{ width: 5, height: 50, backgroundColor: secondaryColor, position: "absolute", left: 0, borderTopRightRadius: 7, borderBottomRightRadius: 7 }} ></View>}
+                        <View style={[{ paddingVertical: 10, ...styles?.listItem, paddingHorizontal: 40 },]} >
+                            {/* <Image source={require("../assets/heart-icon.png")} /> */}
+                            <Text style={styles?.listItemText} >My Orders</Text>
                         </View>
                     </Pressable>
-                </View>
-                <View style={{ borderTopColor: whitecolor, borderTopWidth: 0.3, paddingVertical: 10, }}>
-                    <Pressable style={[styles?.listItem,]} onPress={() => navigateTo("AccountStack")} >
+                    <Pressable style={[styles?.listItem, active == "AccountStack" && { backgroundColor: "#fff", opacity: 0.1 }]} onPress={() => navigateTo("AccountStack")} >
                         {active == "AccountStack" && <View style={{ width: 5, height: 50, backgroundColor: secondaryColor, position: "absolute", left: 0, borderTopRightRadius: 7, borderBottomRightRadius: 7 }} ></View>}
-                        <View style={[{ paddingVertical: 10, ...styles?.listItem, paddingHorizontal: 40 }, active == "AccountStack" && { backgroundColor: "#fff", opacity: 0.1 }]} >
+                        <View style={[{ paddingVertical: 10, ...styles?.listItem, paddingHorizontal: 40 },]} >
                             {/* <Image source={require("../assets/account-icon.png")} /> */}
                             <Text style={styles?.listItemText} >My Account</Text>
                         </View>
                     </Pressable>
-                    <Pressable style={[styles?.listItem,]} onPress={() => navigateTo("Logout")} >
+                </View>
+                <View style={{ borderTopColor: whitecolor, borderTopWidth: 0.3, paddingVertical: 20, }}>
+                    <Pressable style={[styles?.listItem, active == "Notifications" && { backgroundColor: "#fff", opacity: 0.1 }]} onPress={() => navigateTo("Logout")} >
                         {active == "Notifications" && <View style={{ width: 5, height: 50, backgroundColor: secondaryColor, position: "absolute", left: 0, borderTopRightRadius: 7, borderBottomRightRadius: 7 }} ></View>}
-                        <View style={[{ paddingVertical: 10, ...styles?.listItem, paddingHorizontal: 40 }, active == "Notifications" && { backgroundColor: "#fff", opacity: 0.1 }]} >
+                        <View style={[{ paddingVertical: 10, ...styles?.listItem, paddingHorizontal: 40 },]} >
                             {/* <Image source={require("../assets/logout-icon.png")} /> */}
-                            <Text style={styles?.listItemText} >Logout</Text>
+                            {/* <Text style={styles?.listItemText} >Logout</Text> */}
+                            <Logout styles={styles} />
                         </View>
                     </Pressable>
                 </View>

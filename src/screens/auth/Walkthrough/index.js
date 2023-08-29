@@ -108,7 +108,7 @@ const Walkthrough = ({ navigation }) => {
   const Footer = () => {
     return (
       <View style={{
-        height: height * 0.15,
+        height: height * 0.10,
         justifyContent: 'center',
         flexDirection: 'row',
         alignItems: 'center',
@@ -152,7 +152,7 @@ const Walkthrough = ({ navigation }) => {
   }
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <StatusBar barStyle="light-content" />
+      <StatusBar translucent={true} backgroundColor={'transparent'} barStyle="light-content" />
       <FlatList
         ref={ref}
         onMomentumScrollEnd={updateCurrentSlide}
