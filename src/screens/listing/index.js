@@ -162,7 +162,7 @@ const Home: () => React$Node = ({ route, navigation }) => {
     return (
       <View style={{ backgroundColor: background }}>
         <View>
-          <ImageBackground source={require('../../assets/home-header.png')} resizeMode='stretch' style={{ width: '100%', height: 100, }}>
+          <ImageBackground source={require('../../assets/home-header1.png')} resizeMode='stretch' style={{ width: '100%', height: 100, }}>
           </ImageBackground>
         </View>
         <View style={{ flexDirection: 'row', marginVertical: 10, justifyContent: 'center' }}>
@@ -267,7 +267,7 @@ const Home: () => React$Node = ({ route, navigation }) => {
                   textDecorationLine: 'line-through',
                 }}>{item?.price}</Text>
               </View>
-              <TouchableOpacity style={[styles.addCartButton]}>
+              <TouchableOpacity style={[styles.addCartButton]} onPress={() => viewItem(item?.key, item?.name)}>
                 <Icon name="add" size={18} color="#fff" />
               </TouchableOpacity>
             </View>

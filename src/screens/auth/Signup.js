@@ -17,6 +17,7 @@ import {
   secondaryColor,
   primaryColorShaded,
   greyishBlackColorShaded,
+  borderColor,
 } from '../../utils/Colors';
 
 import { LogoInverse } from '../../utils/Logos';
@@ -116,9 +117,9 @@ const Signup = ({ navigation }) => {
                 </View>
               </View>
               <View style={{ flexDirection: 'row', paddingVertical: 1, alignItems: 'center' }}>
-                <View style={{ borderTopWidth: 1, width: '40%', height: 0, borderColor: '#000' }}></View>
+                <View style={{ borderTopWidth: 0.5, width: '40%', height: 0, borderColor: borderColor }}></View>
                 <Text style={{ width: '20%', textAlign: 'center', color: greyishBlackColorShaded, fontFamily: RalewayRegular, fontSize: 12, fontWeight: 500, letterSpacing: 1, paddingVertical: height * 0.020, lineHeight: 22 }}> Or </Text>
-                <View style={{ borderTopWidth: 1, width: '40%', height: 0, borderColor: '#000' }}></View>
+                <View style={{ borderTopWidth: 0.5, width: '40%', height: 0, borderColor: borderColor }}></View>
               </View>
 
               <View>

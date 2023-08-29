@@ -101,7 +101,7 @@ export const Header = ({ navigation, name, notificationIcon = true }) => {
       </View> */}
       <View style={{ backgroundColor: background }}>
         <View>
-          <ImageBackground source={require('../assets/home-header.png')} resizeMode='stretch' style={{ width: '100%', height: 100, justifyContent: "flex-end", alignItems: "flex-start", }}>
+          <ImageBackground source={require('../assets/home-header1.png')} resizeMode='stretch' style={{ width: '100%', height: 100, justifyContent: "flex-end", alignItems: "flex-start", }}>
             <TouchableOpacity onPress={() => {
               try {
                 navigation.goBack()

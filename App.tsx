@@ -27,7 +27,7 @@ const App: () => React$Node = () => {
 
   return (
     <>
-      <StatusBar barStyle="default" backgroundColor="transparent" />
+      <StatusBar barStyle="default" translucent={true} backgroundColor="transparent" />
       <AuthProvider splashShow={splashShow} ><Providers /></AuthProvider>
     </>
   );

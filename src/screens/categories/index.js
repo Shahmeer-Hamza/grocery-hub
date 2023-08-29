@@ -11,7 +11,7 @@ const Categories = ({ navigation }) => {
     // <DrawerNav children={
     <View style={styles.container}>
       <View style={styles.header}>
-        <ImageBackground source={require('../../assets/home-header.png')} resizeMode='stretch' style={{ width: width, height: '100%' }}>
+        <ImageBackground source={require('../../assets/home-header1.png')} resizeMode='stretch' style={{ width: width, height: '100%' }}>
         </ImageBackground>
       </View>
       <View>

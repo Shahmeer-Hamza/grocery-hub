@@ -4,10 +4,7 @@ import { background, primaryColorShaded, whitecolor } from '../../utils/Colors'
 import { RalewayRegular } from '../../utils/fonts'
 
 const { width, height } = Dimensions.get("window")
-const DiscountItems = () => {
-
-
-
+const DiscountItems = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <View style={styles.contentContainer}>
@@ -18,7 +15,7 @@ const DiscountItems = () => {
                     <Text style={styles.messageText}>No Discount Available Right Now</Text>
                 </View>
                 <View>
-                    <Pressable style={styles.backButton}>
+                    <Pressable style={styles.backButton} onPress={() => navigation.navigate('Dashboard')}>
                         <Text style={styles.backButtonText}>
                             BACK TO HOME
                         </Text>
@@ -55,6 +52,7 @@ const styles = StyleSheet.create({
         // backgroundColor: "red",
         alignItems: "center",
         justifyContent: "center",
+        paddingBottom: 100,
     },
     imageContainer: {
         // backgroundColor: "aqua",
