@@ -436,7 +436,7 @@ const Item = ({ route }) => {
   const SCREEN_HEIGHT = Dimensions.get("window").height;
   const Header = ({ children }) => {
     const params = route?.params?.name?.toLowerCase()
-    let source = item?.images?.length > 0 ? `https://firebasestorage.googleapis.com/v0/b/davat-ceb73.appspot.com/o/${item?.images[0]}?alt=media` : ""
+    let source = item?.images?.length > 0 ? `https://firebasestorage.googleapis.com/v0/b/groceryhub-ceb73.appspot.com/o/${item?.images[0]}?alt=media` : ""
     return (
       source &&
       <ImageBackground resizeMethod='auto' resizeMode={SCREEN_HEIGHT > 500 ? 'stretch' : 'cover'} source={{ uri: source }} style={{ width: "100%", height: SCREEN_HEIGHT > 500 ? SCREEN_HEIGHT / 2 : SCREEN_HEIGHT / 3 }}>

@@ -96,9 +96,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.davat"
+    namespace "com.groceryhub"
     defaultConfig {
-        applicationId "com.davat"
+        applicationId "com.groceryhub"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

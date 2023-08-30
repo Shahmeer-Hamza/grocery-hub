@@ -230,15 +230,17 @@ const Home: () => React$Node = ({ route, navigation }) => {
       <View style={styles.listing_card}>
         <Card style={styles.card}>
           <View style={{ padding: 10 }}>
-            <View style={styles.card_img_view}>
-              <Image source={{
-                uri: `https://firebasestorage.googleapis.com/v0/b/davat-ceb73.appspot.com/o/${item.images[0]}?alt=media`,
-              }} resizeMode='contain' style={{ width: '100%', height: '100%' }} />
-              {/* <ImageBackground
+            <View style={{ width: 130 }}>
+              <View style={styles.card_img_view}>
+                {console.log(item)}
+                <Image source={{
+                  uri: `https://firebasestorage.googleapis.com/v0/b/davat-ceb73.appspot.com/o/${item?.image[0]}?alt=media`,
+                }} resizeMode='contain' />
+                {/* <ImageBackground
               style={styles.card_img}
               imageStyle={{ borderRadius: 15, }}
               source={{
-                uri: `https://firebasestorage.googleapis.com/v0/b/davat-ceb73.appspot.com/o/${item.images[0]}?alt=media`,
+                uri: `https://firebasestorage.googleapis.com/v0/b/groceryhub-ceb73.appspot.com/o/${item.images[0]}?alt=media`,
               }}
               >
               <View style={{ height: "100%", width: "100%", justifyContent: "flex-end", alignItems: "flex-end", flexDirection: "row-reverse" }}>
@@ -246,30 +248,31 @@ const Home: () => React$Node = ({ route, navigation }) => {
               </View>
               
             </ImageBackground> */}
-            </View>
-            <View style={{ marginBottom: 10 }}>
-              <Text style={{ fontFamily: RalewayRegular, fontSize: width / 22, fontWeight: '500', color: textColor, letterSpacing: width * 0.003, }}>{item?.name.slice(0, 8)}</Text>
-              <Text style={{ fontFamily: RalewayRegular, fontSize: width / 32, fontWeight: '400', color: greyColorShaded, }}>{item?.name.slice(0, 8)}</Text>
-            </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-              <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-                <Text style={{
-                  color: primaryColor,
-                  fontFamily: 'Play',
-                  fontSize: width / 22,
-                  fontWeight: 400,
-                }}>{item?.price}</Text>
-                <Text style={{
-                  color: "#6F6F6F",
-                  fontFamily: 'Play',
-                  fontSize: width / 30,
-                  fontWeight: 400,
-                  textDecorationLine: 'line-through',
-                }}>{item?.price}</Text>
               </View>
-              <TouchableOpacity style={[styles.addCartButton]} onPress={() => viewItem(item?.key, item?.name)}>
-                <Icon name="add" size={18} color="#fff" />
-              </TouchableOpacity>
+              <View style={{ marginBottom: 10 }}>
+                <Text style={{ fontFamily: RalewayRegular, fontSize: width / 22, fontWeight: '500', color: textColor, letterSpacing: width * 0.003, }}>{item?.name}</Text>
+                <Text style={{ fontFamily: RalewayRegular, fontSize: width / 32, fontWeight: '400', color: greyColorShaded, }}>{item?.quantity + " " + item?.quantity_type}</Text>
+              </View>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+                  <Text style={{
+                    color: primaryColor,
+                    fontFamily: 'Play',
+                    fontSize: width / 22,
+                    fontWeight: 400,
+                  }}>{item?.price}</Text>
+                  <Text style={{
+                    color: "#6F6F6F",
+                    fontFamily: 'Play',
+                    fontSize: width / 30,
+                    fontWeight: 400,
+                    textDecorationLine: 'line-through',
+                  }}>{item?.price}</Text>
+                </View>
+                <TouchableOpacity style={[styles.addCartButton]} onPress={() => viewItem(item?.key, item?.name)}>
+                  <Icon name="add" size={18} color="#fff" />
+                </TouchableOpacity>
+              </View>
             </View>
             {/* <ScrollView>
             <View style={styles.card_details}  >

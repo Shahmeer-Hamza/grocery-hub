@@ -84,7 +84,7 @@ const Wishlist = ({ route, navigation }) => {
               style={styles.card_img}
               imageStyle={{ borderRadius: 15, }}
               source={{
-                uri: item.length > 0 ? `https://firebasestorage.googleapis.com/v0/b/davat-ceb73.appspot.com/o/${item?.images[0]}g?alt=media` : "",
+                uri: item.length > 0 ? `https://firebasestorage.googleapis.com/v0/b/groceryhub-ceb73.appspot.com/o/${item?.images[0]}g?alt=media` : "",
               }}
             >
 

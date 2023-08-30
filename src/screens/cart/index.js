@@ -83,7 +83,7 @@ const Cart = ({ route, navigation }) => {
               style={styles.card_img}
               // imageStyle={{ borderRadius: 20, }}
               source={{
-                uri: `https://firebasestorage.googleapis.com/v0/b/davat-ceb73.appspot.com/o/${item.images[0]}?alt=media`,
+                uri: `https://firebasestorage.googleapis.com/v0/b/groceryhub-ceb73.appspot.com/o/${item.images[0]}?alt=media`,
               }}
             />
           </View>

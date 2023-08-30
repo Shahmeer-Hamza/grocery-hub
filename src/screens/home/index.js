@@ -192,7 +192,7 @@ const Home = ({ navigation, route }) => {
                                         width: WINDOWWIDTH * 0.24, height: WINDOWWIDTH * 0.30, borderRadius: 20
                                     }} />
                                 </TouchableOpacity>
-                                <TouchableOpacity style={{ borderRadius: 20, marginHorizontal: 5 }} onPress={() => navigateTo("Caterer")}  >
+                                <TouchableOpacity style={{ borderRadius: 20, marginHorizontal: 5 }} onPress={() => navigateTo("Fruit")}  >
                                     <Image onLoadEnd={() => setLoading(false)} source={
                                         require("../../assets/fruits-icon.png")
                                         //     {
@@ -202,7 +202,7 @@ const Home = ({ navigation, route }) => {
                                         width: WINDOWWIDTH * 0.24, height: WINDOWWIDTH * 0.30, borderRadius: 20, display: !isLoading ? "flex" : "none"
                                     }} />
                                 </TouchableOpacity>
-                                <TouchableOpacity style={{ borderRadius: 20, marginHorizontal: 5 }} onPress={() => navigateTo("Decorator")} >
+                                <TouchableOpacity style={{ borderRadius: 20, marginHorizontal: 5 }} onPress={() => navigateTo("Caterer")} >
                                     <Image source={
                                         require("../../assets/dairy-icon.png")
                                         //     {

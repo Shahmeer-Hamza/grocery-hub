@@ -9,12 +9,157 @@
       "client_info": {
         "mobilesdk_app_id": "1:841003551346:android:9135013e089fed7d8e10eb",
         "android_client_info": {
-          "package_name": "com.davat"
+          "package_name": "com.davat.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "841003551346-6m52gj99gbp4cf6g04g6v5bpibv1pvlj.apps.googleusercontent.com",
+          "client_id": "841003551346-9tsu96i9lc7btia3ghqsk7jge530b8q2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-POe0zralOOc3IBrcXrePYuc7AxQk4po"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "841003551346-6m52gj99gbp4cf6g04g6v5bpibv1pvlj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:841003551346:android:af0968137a85c5458e10eb",
+        "android_client_info": {
+          "package_name": "com.davatvendor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "841003551346-9tsu96i9lc7btia3ghqsk7jge530b8q2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-POe0zralOOc3IBrcXrePYuc7AxQk4po"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "841003551346-6m52gj99gbp4cf6g04g6v5bpibv1pvlj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:841003551346:android:9444d1da3c3748a38e10eb",
+        "android_client_info": {
+          "package_name": "com.groceryhub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "841003551346-9tsu96i9lc7btia3ghqsk7jge530b8q2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-POe0zralOOc3IBrcXrePYuc7AxQk4po"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "841003551346-6m52gj99gbp4cf6g04g6v5bpibv1pvlj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:841003551346:android:21eeaef4d3eb6ded8e10eb",
+        "android_client_info": {
+          "package_name": "com.hifzat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "841003551346-9tsu96i9lc7btia3ghqsk7jge530b8q2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-POe0zralOOc3IBrcXrePYuc7AxQk4po"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "841003551346-6m52gj99gbp4cf6g04g6v5bpibv1pvlj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:841003551346:android:d6145b733a62c5598e10eb",
+        "android_client_info": {
+          "package_name": "com.khelo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "841003551346-9tsu96i9lc7btia3ghqsk7jge530b8q2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-POe0zralOOc3IBrcXrePYuc7AxQk4po"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "841003551346-6m52gj99gbp4cf6g04g6v5bpibv1pvlj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:841003551346:android:5b53c658fd845c178e10eb",
+        "android_client_info": {
+          "package_name": "com.medicare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "841003551346-9tsu96i9lc7btia3ghqsk7jge530b8q2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

@@ -61,7 +61,7 @@ const ForgotPassword = ({ navigation }) => {
           </Text>
 
           <View style={styles?.formContainer}>
-            <Text style={styles.heading}>Welcome To Davat</Text>
+            <Text style={styles.heading}>Welcome To groceryhub</Text>
             <Text style={{ ...styles.forecolor, textAlign: "center", }}>making memories memorable</Text>
             {successMessage && (
               <Text style={styles.successMessage}>{successMessage}</Text>
@@ -116,7 +116,7 @@ const ForgotPassword = ({ navigation }) => {
           </Text>
 
           <View style={styles?.formContainer}>
-            <Text style={styles.heading}>Welcome To Davat</Text>
+            <Text style={styles.heading}>Welcome To groceryhub</Text>
             <Text style={{ ...styles.forecolor, textAlign: "center", }}>making memories memorable</Text>
             {successMessage && (
               <Text style={styles.successMessage}>{successMessage}</Text>
@@ -144,13 +144,13 @@ const ForgotPassword = ({ navigation }) => {
 
           </View>
         </View>
-        <View style={{ backgroundColor: "#fff", height: WINDOWHEIGHT / 5, borderTopLeftRadius: 30, borderTopRightRadius: 30 , display: "flex", flexDirection:"column", justifyContent: "center", position: "absolute", bottom: 0, width: "100%" }}>
+        <View style={{ backgroundColor: "#fff", height: WINDOWHEIGHT / 5, borderTopLeftRadius: 30, borderTopRightRadius: 30, display: "flex", flexDirection: "column", justifyContent: "center", position: "absolute", bottom: 0, width: "100%" }}>
 
-          <View style={{ ...styles?.viewSignup}}>
+          <View style={{ ...styles?.viewSignup }}>
             <Text style={{ ...styles.loginText, color: "#000", fontSize: 14, fontWeight: '600' }}>
               Don't have an account? </Text>
             <TouchableOpacity
-            onPress={() => navigation.navigate('Signup')}
+              onPress={() => navigation.navigate('Signup')}
             >
               <Text style={{ ...styles.loginText, fontWeight: "700", color: secondaryColor }}>Sign Up</Text>
             </TouchableOpacity>

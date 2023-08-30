@@ -185,7 +185,7 @@ const Checkout = ({ route, navigation }) => {
 
               });
             });
-          fetch('http://davat.thevertexsolutions.com/admin/apis/email.php?email=' + email + '&subject=Order%20Received&msg=Your%20order%20has%20been%20received%20and%20it%20will%20be%20confirmed%20shortly')
+          fetch('http://groceryhub.thevertexsolutions.com/admin/apis/email.php?email=' + email + '&subject=Order%20Received&msg=Your%20order%20has%20been%20received%20and%20it%20will%20be%20confirmed%20shortly')
           ToastAndroid.show('Order Placed Successfully', ToastAndroid.SHORT);
           navigation.goBack();
         })
