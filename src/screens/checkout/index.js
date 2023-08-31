@@ -86,10 +86,12 @@ const Checkout = ({ route, navigation }) => {
             listingsArray.push(
               doc.data().item,
             );
+
+            console.log("Data", response.data().price)
             cartTotalSum += parseFloat(response.data().price.replace(/,/g, ''));
+            setCartTotal(cartTotalSum);
           });
           setTimeout(() => {
-            setCartTotal(cartTotalSum);
             setListings(listingsArray);
           }, 1000);
 

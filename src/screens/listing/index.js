@@ -36,7 +36,8 @@ const Home: () => React$Node = ({ route, navigation }) => {
   const [selectedRating, setSelectedRating] = useState('All');
   const [selectedCity, setSelectedCity] = useState('All');
   const [wishedList, setWishedList] = useState([]);
-  const { user, contextWishedCount, setContextWishedCount } = useContext(AuthContext);
+  const [addedCart, setAddedCart] = useState(false);
+  const { user, contextCartCount, setContextCartCount, contextWishedCount, setContextWishedCount, } = useContext(AuthContext);
 
   const getListing = (force = 0) => {
     setLoading(true);
@@ -92,6 +93,39 @@ const Home: () => React$Node = ({ route, navigation }) => {
   const viewItem = (item_id, item_name) => {
     navigation.navigate('ViewItem', { item_id: item_id, name: item_name });
   }
+
+  const addToCart = (item_id) => {
+    console.log(item_id)
+    // if (addedCart) {
+    // var cart_query = firestore()
+    //   .collection('carts')
+    //   .where('user', '==', user.uid)
+    //   .where('item', '==', item_id)
+    //   .get()
+    //   .then(function (querySnapshot) {
+    //     querySnapshot.forEach(function (doc) {
+    //       doc.ref.delete();
+    //       // setAddedCart(false);
+    //       // setContextCartCount(1 - contextCartCount);
+    //       ToastAndroid.show('Item Removed From The Cart', ToastAndroid.SHORT);
+    //     });
+    //   });
+    // }
+    // else {
+    firestore().collection("carts").add({
+      user: user.uid,
+      item: item_id
+    })
+      .then((docRef) => {
+        ToastAndroid.show('Item Added To The Cart', ToastAndroid.SHORT);
+        setAddedCart(true);
+        setContextCartCount(1 + contextCartCount);
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
+    // }
+  };
 
   // const Header = () => {
   //   const params = route?.params?.name?.toLowerCase()
@@ -229,13 +263,14 @@ const Home: () => React$Node = ({ route, navigation }) => {
       // <TouchableNativeFeedback style={styles.listing_card} onPress={() => viewItem(item.key, item.name)}>
       <View style={styles.listing_card}>
         <Card style={styles.card}>
-          <View style={{ padding: 10 }}>
+          <View style={{ paddingHorizontal: 15, paddingVertical: 10, }}>
             <View style={{ width: 130 }}>
+
               <View style={styles.card_img_view}>
                 {console.log(item)}
                 <Image source={{
                   uri: `https://firebasestorage.googleapis.com/v0/b/davat-ceb73.appspot.com/o/${item?.image[0]}?alt=media`,
-                }} resizeMode='contain' />
+                }} resizeMode='contain' style={{ width: 100, height: 80 }} />
                 {/* <ImageBackground
               style={styles.card_img}
               imageStyle={{ borderRadius: 15, }}
@@ -250,26 +285,27 @@ const Home: () => React$Node = ({ route, navigation }) => {
             </ImageBackground> */}
               </View>
               <View style={{ marginBottom: 10 }}>
-                <Text style={{ fontFamily: RalewayRegular, fontSize: width / 22, fontWeight: '500', color: textColor, letterSpacing: width * 0.003, }}>{item?.name}</Text>
-                <Text style={{ fontFamily: RalewayRegular, fontSize: width / 32, fontWeight: '400', color: greyColorShaded, }}>{item?.quantity + " " + item?.quantity_type}</Text>
+                <Text style={{ fontFamily: RalewayRegular, fontSize: width * 0.04, fontWeight: '500', color: textColor, letterSpacing: width * 0.003, }}>{item?.name}</Text>
+                <Text style={{ fontFamily: RalewayRegular, fontSize: width * 0.026, fontWeight: '400', color: greyColorShaded, }}>{item?.quantity + " " + item?.quantity_type}</Text>
               </View>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 5 }}>
                   <Text style={{
                     color: primaryColor,
                     fontFamily: 'Play',
-                    fontSize: width / 22,
+                    fontSize: width * 0.04,
                     fontWeight: 400,
-                  }}>{item?.price}</Text>
+                    // paddingRight: 10,
+                  }}>Rs.{item?.price}</Text>
                   <Text style={{
                     color: "#6F6F6F",
                     fontFamily: 'Play',
-                    fontSize: width / 30,
+                    fontSize: width * 0.030,
                     fontWeight: 400,
                     textDecorationLine: 'line-through',
-                  }}>{item?.price}</Text>
+                  }}>Rs.{item?.price}</Text>
                 </View>
-                <TouchableOpacity style={[styles.addCartButton]} onPress={() => viewItem(item?.key, item?.name)}>
+                <TouchableOpacity style={[styles.addCartButton]} onPress={() => addToCart(item?.key)}>
                   <Icon name="add" size={18} color="#fff" />
                 </TouchableOpacity>
               </View>

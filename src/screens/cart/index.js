@@ -83,7 +83,7 @@ const Cart = ({ route, navigation }) => {
               style={styles.card_img}
               // imageStyle={{ borderRadius: 20, }}
               source={{
-                uri: `https://firebasestorage.googleapis.com/v0/b/groceryhub-ceb73.appspot.com/o/${item.images[0]}?alt=media`,
+                uri: `https://firebasestorage.googleapis.com/v0/b/davat-ceb73.appspot.com/o/${item.image[0]}?alt=media`,
               }}
             />
           </View>
@@ -102,8 +102,8 @@ const Cart = ({ route, navigation }) => {
             </View>
           </ScrollView> */}
           <View style={{ justifyContent: "center", paddingLeft: 10, width: '70%' }}>
-            <Text style={styles.heading}>{item.name.slice(0, 8)}</Text>
-            <Text style={styles.quantityheading}>{item.name.slice(0, 8)}</Text>
+            <Text style={styles.heading}>{item.name}</Text>
+            <Text style={styles.quantityheading}>{item?.quantity + " " + item?.quantity_type}</Text>
             <View style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
@@ -112,8 +112,8 @@ const Cart = ({ route, navigation }) => {
               paddingTop: 8
             }}>
               <View style={{ flexDirection: 'row', alignItems: 'flex-end', }}>
-                <Text style={styles.currentPrice}>Rs.{item.price.slice(0, 4)}</Text>
-                <Text style={styles.origanalPrice}>Rs.{item.price.slice(0, 4)}</Text>
+                <Text style={styles.currentPrice}>Rs.{item.price}</Text>
+                <Text style={styles.origanalPrice}>Rs.{item.price}</Text>
               </View>
               <View style={{ flexDirection: "row", }}>
                 <Pressable style={{ backgroundColor: "#f6f6f6", borderRadius: 4 }} disabled={quantity <= 1 ? true : false} onPress={() => setQuantity(quantity - 1)}>
@@ -141,11 +141,11 @@ const Cart = ({ route, navigation }) => {
           {/* </View> */}
         </ScrollView>
         {(listings && listings.length > 0) ? (
-          <View><Text>Cart is empty</Text></View>
-        ) : (
           <TouchableOpacity style={styles.checkout_btn} onPress={() => navigation.navigate('Checkout')}>
             <Text style={styles.checkout_btn_text}>CHECKOUT</Text>
           </TouchableOpacity>
+        ) : (
+          <View><Text>Cart is empty</Text></View>
         )}
       </View>
     </>
@@ -203,7 +203,8 @@ const styles = StyleSheet.create({
   card_img: {
     width: 100,
     height: 100,
-    resizeMode: 'cover',
+    resizeMode: 'contain',
+    backgroundColor: "#E3F4ED",
     // display: "flex",
     // flexDirection: "column",
     // justifyContent: "flex-end",

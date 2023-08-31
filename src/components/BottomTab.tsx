@@ -36,12 +36,70 @@ const DrawerNav = ({ children, heading }) => {
     const [showMenu, setShowMenu] = useState(false);
     const moveToRight = useRef(new Animated.Value(0)).current;
     const scale = useRef(new Animated.Value(1)).current
+    const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
+
+    const closeDrawwer = () => {
+        Animated.timing(scale, {
+            toValue: showMenu ? 1 : 0.8,
+            duration: 300,
+            useNativeDriver: true
+        }).start();
+        Animated.timing(moveToRight, {
+            toValue: showMenu ? 0 : 250,
+            duration: 300,
+            useNativeDriver: true
+        }).start()
+        setShowMenu(false)
+    }
+
+    const openDrawwer = () => {
+        Animated.timing(scale, {
+            toValue: showMenu ? 1 : 0.8,
+            duration: 300,
+            useNativeDriver: true
+        }).start();
+        Animated.timing(moveToRight, {
+            toValue: showMenu ? 0 : 270,
+            useNativeDriver: true
+        }).start()
+        setShowMenu(true)
+    }
 
     return (
         <>
             <LinearGradient colors={['#52D068', '#229236',]} style={{ flex: 1, }} >
                 <View style={{ flex: 1, }} >
-                    <Animated.View style={{ flex: 1, borderRadius: showMenu ? 20 : 0, backgroundColor: primaryColor, position: "absolute", top: showMenu ? 25 : 0, bottom: 0, left: 0, right: 0, transform: [{ scale: scale }, { translateX: moveToRight }], zIndex: 99 }} >
+                    {showMenu ? <AnimatedTouchable style={{ flex: 1, borderRadius: showMenu ? 20 : 0, backgroundColor: primaryColor, position: "absolute", top: showMenu ? 45 : 0, bottom: 0, left: 0, right: 0, transform: [{ scale: scale }, { translateX: moveToRight }], zIndex: 99 }}
+                        onPress={() => {
+                            // showMenu ? closeDrawwer() : openDrawwer()
+                            showMenu && closeDrawwer()
+
+                        }}
+                    >
+                        {/* <Pressable>
+                            <> */}
+                        <View style={{ marginTop: 20, flexDirection: "row", alignItems: "center", position: "relative", top: 20, zIndex: 10, }} >
+                            <TouchableOpacity onPress={() => {
+                                Animated.timing(scale, {
+                                    toValue: showMenu ? 1 : 0.8,
+                                    duration: 300,
+                                    useNativeDriver: true
+                                }).start();
+                                Animated.timing(moveToRight, {
+                                    toValue: showMenu ? 0 : 270,
+                                    useNativeDriver: true
+                                }).start()
+                                setShowMenu(true)
+                            }} style={{ marginLeft: 20 }} >
+
+                                {!showMenu && <Icon name='menu' color="#fff" />}
+                            </TouchableOpacity>
+                            {/* <Text style={{ color: primaryColorShaded, fontSize: 18, fontWeight: '700', textAlign: "center", width: "80%", textTransform: "uppercase" }} >{heading}</Text> */}
+                        </View>
+                        {children}
+                        {/* </>
+                        </Pressable> */}
+                    </AnimatedTouchable> : <Animated.View style={{ flex: 1, borderRadius: showMenu ? 20 : 0, backgroundColor: primaryColor, position: "absolute", top: showMenu ? 25 : 0, bottom: 0, left: 0, right: 0, transform: [{ scale: scale }, { translateX: moveToRight }], zIndex: 99 }} >
                         <View style={{ marginTop: 20, flexDirection: "row", alignItems: "center", position: "relative", top: 20, zIndex: 10, }} >
                             <TouchableOpacity onPress={() => {
                                 Animated.timing(scale, {
@@ -62,9 +120,10 @@ const DrawerNav = ({ children, heading }) => {
                         </View>
                         {children}
                     </Animated.View>
+                    }
                     {showMenu &&
                         <>
-                            <View style={{ marginTop: 10, flexDirection: "row" }} >
+                            <View style={{ marginTop: 30, flexDirection: "row", justifyContent: "flex-end" }} >
                                 <TouchableOpacity onPress={() => {
                                     Animated.timing(scale, {
                                         toValue: showMenu ? 1 : 0.8,
@@ -77,12 +136,12 @@ const DrawerNav = ({ children, heading }) => {
                                         useNativeDriver: true
                                     }).start()
                                     setShowMenu(false)
-                                }} style={{ marginLeft: 20 }} >
+                                }} style={{ marginRight: 20, marginTop: 5 }} >
 
                                     <Icon name='close' />
                                 </TouchableOpacity>
                             </View>
-                            <CustomDrawerContent />
+                            <CustomDrawerContent setShowMenu={setShowMenu} closeDrawwer={closeDrawwer} />
                         </>
                     }
                 </View>

@@ -182,7 +182,7 @@ const Home = ({ navigation, route }) => {
                                 </Text>
                             </View>
                             <ScrollView horizontal contentContainerStyle={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: 'center', marginHorizontal: 10, }} >
-                                <TouchableOpacity onPress={() => navigateTo("Venue")} style={{ borderRadius: 20, marginHorizontal: 5 }}>
+                                <TouchableOpacity onPress={() => navigateTo("Vegetable")} style={{ borderRadius: 20, marginHorizontal: 5 }}>
                                     <Image source={
                                         require("../../assets/vegetables-icon.png")
                                         //     {
@@ -202,7 +202,7 @@ const Home = ({ navigation, route }) => {
                                         width: WINDOWWIDTH * 0.24, height: WINDOWWIDTH * 0.30, borderRadius: 20, display: !isLoading ? "flex" : "none"
                                     }} />
                                 </TouchableOpacity>
-                                <TouchableOpacity style={{ borderRadius: 20, marginHorizontal: 5 }} onPress={() => navigateTo("Caterer")} >
+                                <TouchableOpacity style={{ borderRadius: 20, marginHorizontal: 5 }} onPress={() => navigateTo("Dairy")} >
                                     <Image source={
                                         require("../../assets/dairy-icon.png")
                                         //     {

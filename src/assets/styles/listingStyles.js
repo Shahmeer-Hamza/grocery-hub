@@ -1,4 +1,4 @@
-import { background, primaryColor, secondaryColor } from "../../utils/Colors";
+import { background, borderColor, primaryColor, secondaryColor } from "../../utils/Colors";
 import { PoppinsBlack, RalewayRegular } from "../../utils/fonts";
 
 const { StyleSheet, Dimensions } = require("react-native");
@@ -64,12 +64,14 @@ export const styles = StyleSheet.create({
     // minHeight: 184,
     // maxHeight: 200,
     // backgroundColor: 'red',
-    width: 100,
-    height: 80,
+    width: 140,
+    height: 90,
     // backgroundColor: "aqua",
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
+    borderBottomWidth: 0.2,
+    borderBottomColor: borderColor,
   },
   card_img: {
     width: '100%',

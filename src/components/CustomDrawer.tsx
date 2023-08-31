@@ -13,7 +13,7 @@ import Logout from '../screens/account/actions/logout';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-function CustomDrawerContent({ }) {
+function CustomDrawerContent({ setShowMenu, closeDrawwer }) {
     const { logout } = useContext(AuthContext);
     const navigation = useNavigation()
     const [active, setActive] = useState("")
@@ -21,6 +21,8 @@ function CustomDrawerContent({ }) {
     const navigateTo = (pathname) => {
         setActive(pathname)
         navigation.getParent().navigate(pathname)
+        // setShowMenu(false)
+        closeDrawwer()
     }
 
     return (
