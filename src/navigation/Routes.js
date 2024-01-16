@@ -20,7 +20,9 @@ const Routes: () => React$Node = ({ navigation }) => {
     setVendor,
     setErrorMessage,
     name,
-    setName,setLoading,isLoading
+    setName, 
+    setLoading,
+    isLoading
   } = useContext(AuthContext);
   const [initializing, setInitializing] = useState(true);
 

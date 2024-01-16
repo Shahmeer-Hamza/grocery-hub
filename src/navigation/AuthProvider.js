@@ -30,6 +30,7 @@ export const AuthProvider = ({ children, navigation }) => {
         errorMessage,
         setErrorMessage,
         isLoading,
+        setLoading,
         successMessage,
         setSuccessMessage,
         vendor,
@@ -58,8 +59,10 @@ export const AuthProvider = ({ children, navigation }) => {
                       email: u.user.email,
                       emailVerified: u.user.emailVerified,
                       phoneNumber: u.user.phoneNumber,
-                      photoURL: u.user.photoURL, displayName: userData.data().username
+                      photoURL: u.user.photoURL, 
+                      displayName: userData.data().username
                     });
+                    ToastAndroid.show('Login Successful', ToastAndroid.SHORT);
                     setLoading(false)
                   }).catch((err) => console.log(err))
                 setLoading(false)
@@ -80,12 +83,14 @@ export const AuthProvider = ({ children, navigation }) => {
         },
         register: async (username, email, password) => {
           setLoading(true)
+          // console.log("User Name : "+username, 'Email : '+email, "Password : "+password)
           try {
             setName(username);
             AsyncStorage.setItem("username", username).then(() => { })
             await auth()
-              .createUserWithEmailAndPassword(email, password)
-              .then(async (userData) => {
+            .createUserWithEmailAndPassword(email, password)
+            .then(async (userData) => {
+                console.log("User Name : "+username, 'Email : '+email, "Password : "+password, "UserData :" + userData)
                 await firestore()
                   .collection('users')
                   .doc(userData.user.uid)

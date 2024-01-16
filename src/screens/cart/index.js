@@ -49,10 +49,10 @@ const Cart = ({ route, navigation }) => {
         const listingsArray = [];
         querySnapshot.forEach(function (doc) {
           firestore().collection('listings').doc(doc.data().item).get().then((response) => {
-
             listingsArray.push({
               ...response.data(),
               key: response.id,
+              quantity
             });
           });
         });
@@ -71,9 +71,15 @@ const Cart = ({ route, navigation }) => {
   }
   const viewItem = (item_id, item_name) => {
     navigation.navigate('ViewItem', { item_id: item_id, name: item_name });
+  };
+
+  const addQuantity=(index)=>{
+    setQuantity(quantity + 1);
+    // setListings(listings=>[...listings, listings[index]= {...listings[index], quantity} ]);
   }
 
-  const ListItem = (item, key) => {
+  const ListItem = (item, index) => {
+    console.log("index", index);
     return (
       // Flat List Item
       <TouchableNativeFeedback style={styles.listing_card}>
@@ -120,7 +126,7 @@ const Cart = ({ route, navigation }) => {
                   <Icon name="remove" color="#CCCCCC" />
                 </Pressable>
                 <Text style={{ color: "#000", fontSize: 18, paddingHorizontal: 8, }}>{quantity}</Text>
-                <Pressable style={{ backgroundColor: primaryColor, borderRadius: 4 }} onPressIn={() => setQuantity(quantity + 1)}>
+                <Pressable style={{ backgroundColor: primaryColor, borderRadius: 4 }} onPressIn={()=>addQuantity(index)}>
                   <Icon name="add" color="#fff" />
                 </Pressable>
               </View>

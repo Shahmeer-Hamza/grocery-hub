@@ -18,6 +18,7 @@ import {
   primaryColorShaded,
   greyishBlackColorShaded,
   borderColor,
+  whitecolor,
 } from '../../utils/Colors';
 
 import { LogoInverse } from '../../utils/Logos';
@@ -114,7 +115,7 @@ const Login = ({ navigation }) => {
               <View style={{ paddingBottom: 10, }}>
                 <View style={[]} >
                   {/* <SecondaryButton buttonText={isLoading ? <ProgressBarAndroid styleAttr="Small" color={secondaryColor} shouldRasterizeIOS /> : "Login"} onPress={() => doLogin()} /> */}
-                  <AuthButton buttonText={isLoading ? <ProgressBarAndroid styleAttr="Small" color={secondaryColor} shouldRasterizeIOS /> : "LOGIN"} onPress={() => doLogin()} />
+                  <AuthButton buttonText={isLoading ? <ProgressBarAndroid styleAttr="Small" color={whitecolor} shouldRasterizeIOS /> : "LOGIN"} onPress={() => doLogin()} />
                 </View>
                 <View style={{ flexDirection: 'row', paddingVertical: 1, alignItems: 'center' }}>
                   {/* <Divider inset={true} width={1} color='#000' insetType='left' /> */}

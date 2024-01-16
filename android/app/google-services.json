@@ -109,6 +109,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "841003551346-00l3pvt7a9hibd0g0rh9cbc0v0ktceu8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.groceryhub",
+            "certificate_hash": "ebc049991864e4a403b5ae18f5a6fd8bf6689555"
+          }
+        },
+        {
+          "client_id": "841003551346-mbnaan3tems6uf18tm7lpktcnhnihsgq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.groceryhub",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
           "client_id": "841003551346-9tsu96i9lc7btia3ghqsk7jge530b8q2.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -166,6 +182,22 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "841003551346-0faqjt7qq8nennhbd5gt55cec50km7ot.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.khelo",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "841003551346-bsble44j2hr7va1k4qndu3uar6fdmcvn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.khelo",
+            "certificate_hash": "f1a2c4f43baae8bc82b2513ab0ae95613b00bc73"
+          }
+        },
         {
           "client_id": "841003551346-9tsu96i9lc7btia3ghqsk7jge530b8q2.apps.googleusercontent.com",
           "client_type": 3

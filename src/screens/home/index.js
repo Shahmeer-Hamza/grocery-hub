@@ -181,7 +181,7 @@ const Home = ({ navigation, route }) => {
                                     View All
                                 </Text>
                             </View>
-                            <ScrollView horizontal contentContainerStyle={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: 'center', marginHorizontal: 10, }} >
+                            <ScrollView showsHorizontalScrollIndicator={false} horizontal contentContainerStyle={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: 'center', marginHorizontal: 10, }} >
                                 <TouchableOpacity onPress={() => navigateTo("Vegetable")} style={{ borderRadius: 20, marginHorizontal: 5 }}>
                                     <Image source={
                                         require("../../assets/vegetables-icon.png")
@@ -210,12 +210,9 @@ const Home = ({ navigation, route }) => {
                                         // }
                                     } style={{ width: WINDOWWIDTH * 0.24, height: WINDOWWIDTH * 0.30, borderRadius: 20 }} />
                                 </TouchableOpacity>
-                                <TouchableOpacity style={{ borderRadius: 20, marginHorizontal: 5 }} onPress={() => navigateTo("Decorator")} >
+                                <TouchableOpacity style={{ borderRadius: 20, marginHorizontal: 5 }} onPress={() => navigateTo("Sweets")} >
                                     <Image source={
                                         require("../../assets/sweets-icon.png")
-                                        //     {
-                                        //     uri: `${firebaseStorageUrl}Home%2Fdecorate.png?alt=media`,
-                                        // }
                                     } style={{ width: WINDOWWIDTH * 0.24, height: WINDOWWIDTH * 0.30, borderRadius: 20 }} />
                                 </TouchableOpacity>
                             </ScrollView>
@@ -229,7 +226,7 @@ const Home = ({ navigation, route }) => {
                                     View All
                                 </Text>
                             </View>
-                            <ScrollView horizontal contentContainerStyle={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }} >
+                            <ScrollView showsHorizontalScrollIndicator={false} horizontal contentContainerStyle={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }} >
                                 <Card style={[styles.shadow, styles.card]}>
                                     <View style={[styles.cardImage]}>
                                         <Image source={
