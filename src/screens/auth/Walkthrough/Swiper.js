@@ -21,7 +21,7 @@ import Step3 from "./Step3";
 import { AuthContext, storage } from "../../../navigation/AuthProvider";
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 // import { AsyncStorage } from 'react-native'
 import { useNavigation } from "@react-navigation/native";
 import BottomSwipe from "./BottomSwipe";

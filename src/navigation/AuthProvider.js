@@ -3,7 +3,7 @@ import auth from '@react-native-firebase/auth';
 import firestore, { firebase } from '@react-native-firebase/firestore';
 
 import { ToastAndroid, Alert, DevSettings, ProgressBarAndroid } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { AsyncStorage } from 'react-native'
 export const AuthContext = createContext();
 

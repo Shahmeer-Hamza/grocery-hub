@@ -27,7 +27,6 @@ import { Text, View, StyleSheet } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { firebaseStorageUrl } from '../utils/storage';
-import { Svg, Path, Defs, SvgUri } from 'react-native-svg';
 import SplashScreen from '../screens/SplashScreen';
 import { TouchableOpacity } from 'react-native';
 const MainStack = () => {

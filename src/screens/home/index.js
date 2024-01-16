@@ -19,7 +19,7 @@ import { primaryColor, secondaryColorShaded, secondaryColor, primaryColorShaded,
 import { Avatar } from 'react-native-elements';
 import { AuthContext } from '../../navigation/AuthProvider';
 import { PoppinsBlack, PoppinsRegular, RalewayRegular, fontFamily } from '../../utils/fonts';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import {AsyncStorage} from 'react-native';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import { firebaseStorageUrl } from '../../utils/storage';

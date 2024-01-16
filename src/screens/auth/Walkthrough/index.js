@@ -25,7 +25,7 @@ import { AuthContext } from '../../../navigation/AuthProvider';
 import Swiper from './Swiper';
 import { Walkthrough1 } from './Walkthrough1';
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RalewayRegular } from '../../../utils/fonts';
 // import { AsyncStorage } from 'react-native'
 

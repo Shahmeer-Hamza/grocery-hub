@@ -7,6 +7,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:841003551346:android:bb97b5934654dd3c8e10eb",
+        "android_client_info": {
+          "package_name": "com.davat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "841003551346-jlk9spngo6j1vf6j54ffvv141mritk3h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.davat",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "841003551346-9tsu96i9lc7btia3ghqsk7jge530b8q2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-POe0zralOOc3IBrcXrePYuc7AxQk4po"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "841003551346-6m52gj99gbp4cf6g04g6v5bpibv1pvlj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:841003551346:android:9135013e089fed7d8e10eb",
         "android_client_info": {
           "package_name": "com.davat.app"

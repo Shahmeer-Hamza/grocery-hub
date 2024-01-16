@@ -14,7 +14,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { BottomTabBarProps, BottomTabNavigationOptions, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 // svg
-import Svg, { Path } from 'react-native-svg';
+
 // reanimated
 // lottie
 import HomeStackScreen from '../navigation/HomeStack';
