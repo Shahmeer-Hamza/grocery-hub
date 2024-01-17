@@ -31,6 +31,7 @@ import SplashScreen from '../screens/SplashScreen';
 import { TouchableOpacity } from 'react-native';
 const MainStack = () => {
   const { contextCartCount, contextWishedCount, setContextWishedCount, setContextCartCount } = useContext(AuthContext);
+  
   firestore()
     .collection('wishlist')
     .where('user', '==', auth().currentUser?.uid)

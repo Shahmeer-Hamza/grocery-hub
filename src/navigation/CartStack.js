@@ -120,7 +120,7 @@ export const Header = ({ navigation, name, notificationIcon = true }) => {
   )
 }
 
-const CartStackScreen: () => React$Node = ({ navigation }) => {
+const CartStackScreen = ({ navigation }) => {
   return (
     <>
       <CartStack.Navigator initialRouteName='Cart'>
