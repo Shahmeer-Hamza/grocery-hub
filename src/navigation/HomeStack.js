@@ -20,9 +20,10 @@ import Categories from '../screens/categories';
 import { primaryColor } from '../utils/Colors';
 import OrderHistory from '../screens/account/ordersHistory';
 import ViewOrder from '../screens/account/viewOrder';
+import ScreenHeader from '../components/ScreenHeader';
 
 const HomeStack = createStackNavigator();
-const HomeStackScreen: () => React$Node = ({ route }) => {
+const HomeStackScreen = ({ route }) => {
   const navigation = useNavigation()
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -43,9 +44,11 @@ const HomeStackScreen: () => React$Node = ({ route }) => {
           name="Categories"
           component={Categories}
           initialParams={{ parentNavigation: route.params.parentNavigation }}
-          options={{
-            headerShown: false,
-          }}
+          options={
+            ({ route, navigation }) => ({
+              header: () => <ScreenHeader navigation={navigation} name="Categories" type={true} />,
+            })
+          }
         />
         <HomeStack.Screen
           name="Listing"
@@ -54,9 +57,11 @@ const HomeStackScreen: () => React$Node = ({ route }) => {
             modalVisible,
             setModalVisible
           }}
-          options={{
-            headerShown: false,
-          }}
+          options={
+            ({ route, navigation }) => ({
+              header: () => <ScreenHeader navigation={navigation} name={route.params?.name} type={true} />,
+            })
+          }
         />
         <HomeStack.Screen
           name="Search"
@@ -91,7 +96,7 @@ const HomeStackScreen: () => React$Node = ({ route }) => {
           options={
             ({ route, navigation }) => ({
               headerShown: true,
-              header: () => <Header navigation={navigation} name={route?.name} notificationIcon={false} />,
+              header: () => <ScreenHeader navigation={navigation} name={route?.name} notificationIcon={false} />,
             })
           }
         />

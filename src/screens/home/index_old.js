@@ -10,7 +10,7 @@ import {
 
 import {secondaryColor} from '../../utils/Colors';
 // import {} from 'react-native-gesture-handler';
-const Home: () => React$Node = ({navigation}) => {
+const Home = ({navigation}) => {
   return (
     <>
       <Header

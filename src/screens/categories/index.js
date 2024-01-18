@@ -1,6 +1,5 @@
 import React from 'react'
 import { Text, View, Dimensions, ImageBackground, StyleSheet, ScrollView, Image, Pressable } from 'react-native'
-import DrawerNav from '../../components/BottomTab'
 import { RalewayRegular } from '../../utils/fonts'
 import { background, primaryColor } from '../../utils/Colors'
 
@@ -10,7 +9,7 @@ const Categories = ({ navigation }) => {
   return (
     // <DrawerNav children={
     <View style={styles.container}>
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
         <ImageBackground source={require('../../assets/home-header1.png')} resizeMode='stretch' style={{ width: width, height: '100%' }}>
         </ImageBackground>
       </View>
@@ -19,15 +18,18 @@ const Categories = ({ navigation }) => {
           <Text style={[styles.pageHeading, { color: primaryColor }]}>ALL</Text>
           <Text style={styles.pageHeading}> CATEGORIES</Text>
         </View>
+      </View> */}
+
+      <View>
         <ScrollView contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 15, width: '90%', justifyContent: 'center' }}>
             <View style={{ width: 100, height: 120, }}>
-              <Pressable onPress={() => navigateTo("Vegetables")}>
+              <Pressable onPress={() => navigateTo("Vegetable")}>
                 <Image source={require('../../assets/vegetables-icon.png')} resizeMode='contain' style={{ width: '100%', height: '100%' }} />
               </Pressable>
             </View>
             <View style={{ width: 100, height: 120, }}>
-              <Pressable onPress={() => navigateTo("Fruits")}>
+              <Pressable onPress={() => navigateTo("Fruit")}>
                 <Image source={require('../../assets/fruits-icon.png')} resizeMode='contain' style={{ width: '100%', height: '100%' }} />
               </Pressable>
             </View>
@@ -37,7 +39,7 @@ const Categories = ({ navigation }) => {
               </Pressable>
             </View>
             <View style={{ width: 100, height: 120, }}>
-              <Pressable onPress={() => navigateTo("Sweets")}>
+              <Pressable onPress={() => navigateTo("Sweet")}>
                 <Image source={require('../../assets/sweets-icon.png')} resizeMode='contain' style={{ width: '100%', height: '100%' }} />
               </Pressable>
             </View>
@@ -62,7 +64,7 @@ const Categories = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    color: background,
+    backgroundColor: background,
     width: width,
     height: height,
   },

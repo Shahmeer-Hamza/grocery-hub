@@ -50,17 +50,47 @@ const banners = [
 const Home = ({ navigation, route }) => {
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0)
     const ref = useRef(null)
-    const { user, getUser, setName, name } = React.useContext(AuthContext)
+    const { user, getUser, setName, name, setContextCartCount, contextCartCount } = React.useContext(AuthContext)
     const WINDOWWIDTH = Dimensions.get("screen").width
     const WINDOWHEIGHT = Dimensions.get("screen").height;
-
     const [isLoading, setLoading] = useState(true)
+    const [popularItems, setPopularItems] = useState([])
 
     const navigateTo = (name) => navigation.navigate('Listing', { name: `${name}s`, listType: name })
 
+    const getPopularItems = async () => {
+        try {
+            setLoading(true)
+            const list_ref = await firestore().collection('listings').where('type', '==', 'Fruit');
+            list_ref.onSnapshot(
+                (querySnapshot) => {
+                    const listingsArray = [];
+                    if (querySnapshot != null && querySnapshot !== undefined) {
+
+                        // console.log('Snapshot', querySnapshot.size)
+                        querySnapshot?.forEach(
+                            (documentSnapshot) => {
+                                // console.log('Snapshot', documentSnapshot)
+                                listingsArray.push({
+                                    ...documentSnapshot.data(),
+                                    key: documentSnapshot.id,
+                                });
+                            })
+                    }
+                    setPopularItems(listingsArray)
+                    // console.log('listings', listingsArray)
+                })
+        } catch (err) {
+            console.error(err)
+        } finally {
+            setLoading(true)
+        }
+    }
     useEffect(() => {
         AsyncStorage.getItem("username").then((name) => setName(name))
+        getPopularItems()
     }, [])
+
 
     const Slide = ({ item }) => {
         return (
@@ -72,6 +102,7 @@ const Home = ({ navigation, route }) => {
             </View>
         )
     }
+
     const updateCurrentSlide = (slide) => {
         const contentOffsetX = slide.nativeEvent.contentOffset.x;
         const currentIndex = Math.round(contentOffsetX / WINDOWWIDTH)
@@ -79,21 +110,21 @@ const Home = ({ navigation, route }) => {
     }
 
     const addToCart = (item_id) => {
-        console.log(item_id)
+        // console.log(item_id)
         // if (addedCart) {
-        var cart_query = firestore()
-            .collection('carts')
-            .where('user', '==', user.uid)
-            .where('item', '==', item_id)
-            .get()
-            .then(function (querySnapshot) {
-                querySnapshot.forEach(function (doc) {
-                    doc.ref.delete();
-                    setAddedCart(false);
-                    setContextCartCount(1 - contextCartCount);
-                    ToastAndroid.show('Item Removed From The Cart', ToastAndroid.SHORT);
-                });
-            });
+        // var cart_query = firestore()
+        //     .collection('carts')
+        //     .where('user', '==', user.uid)
+        //     .where('item', '==', item_id)
+        //     .get()
+        //     .then(function (querySnapshot) {
+        //         querySnapshot.forEach(function (doc) {
+        //             doc.ref.delete();
+        //             // setAddedCart(false);
+        //             // setContextCartCount(1 - contextCartCount);
+        //             ToastAndroid.show('Item Removed From The Cart', ToastAndroid.SHORT);
+        //         });
+        //     });
         // }
         // else {
         firestore().collection("carts").add({
@@ -102,14 +133,47 @@ const Home = ({ navigation, route }) => {
         })
             .then((docRef) => {
                 ToastAndroid.show('Item Added To The Cart', ToastAndroid.SHORT);
-                setAddedCart(true);
-                setContextCartCount(1 + contextCartCount);
+                // setAddedCart(true);
+                // setContextCartCount(1 + contextCartCount);
             })
             .catch((error) => {
                 console.error("Error adding document: ", error);
             });
         // }
     };
+
+    const ItemCard = ({ item }) => {
+        // console.log("Popural Item", item);
+        return (
+            <Card style={[styles.shadow, styles.card]}>
+                <View style={[styles.cardImage]}>
+                    <Image source={
+                        // require("../../assets/fruits/banana-icon.png")
+                        {
+                            uri: `${firebaseStorageUrl}${item?.image[0]}?alt=media`,
+                        }
+                    } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
+                </View>
+                <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
+                    {item?.name}
+                </Text>
+                <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
+                    1 {item?.quantity_type}
+                </Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
+                    <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>
+                        RS.{item?.price}
+                    </Text>
+                    <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.190</Text>
+                    <TouchableOpacity style={[styles.addCartButton]} onPress={() => addToCart(item?.key)}>
+                        <Icon name="add" size={18} color="#fff" />
+                    </TouchableOpacity>
+                </View>
+            </Card>
+        )
+    }
+
+    // console.log('Popular Item', popularItems)
 
     return (
         <DrawerNav children={
@@ -227,7 +291,7 @@ const Home = ({ navigation, route }) => {
                                     View All
                                 </Text>
                             </View>
-                            <ScrollView showsHorizontalScrollIndicator={false} horizontal contentContainerStyle={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }} >
+                            {/* <ScrollView showsHorizontalScrollIndicator={false} horizontal contentContainerStyle={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }} >
                                 <Card style={[styles.shadow, styles.card]}>
                                     <View style={[styles.cardImage]}>
                                         <Image source={
@@ -413,7 +477,19 @@ const Home = ({ navigation, route }) => {
                                         </TouchableOpacity>
                                     </View>
                                 </Card>
-                            </ScrollView>
+                            </ScrollView> */}
+                            {
+                                popularItems && <FlatList
+                                    data={popularItems}
+                                    renderItem={ItemCard}
+                                    // ListEmptyComponent={}
+                                    horizontal
+                                    keyExtractor={item => item.key}
+                                    showsHorizontalScrollIndicator={false}
+                                    initialNumToRender={3}
+                                    maxToRenderPerBatch={3}
+                                />
+                            }
                         </View>
                     </ScrollView>
                 </View>

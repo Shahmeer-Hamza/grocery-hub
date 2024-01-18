@@ -6,7 +6,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import LinearGradient from 'react-native-linear-gradient';
 import { useFocusEffect } from '@react-navigation/native';
 
-const SplashScreen: () => React$Node = ({ navigation }) => {
+const SplashScreen = ({ navigation }) => {
   const { walkthrough, getWalkthrough, user } = useContext(AuthContext)
 
   useEffect(() => {

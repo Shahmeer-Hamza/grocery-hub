@@ -11,10 +11,7 @@ export const AuthProvider = ({ children, navigation }) => {
   const [user, setUser] = useState(null);
   const [walkthrough, setWalkthrough] = useState(0);
   const [isLoading, setLoading] = useState(false)
-
-  const [vendor, setVendor] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-
   const [successMessage, setSuccessMessage] = useState(null);
   const [name, setName] = useState(null);
   const [contextWishedCount, setContextWishedCount] = useState(null);
@@ -33,8 +30,6 @@ export const AuthProvider = ({ children, navigation }) => {
         setLoading,
         successMessage,
         setSuccessMessage,
-        vendor,
-        setVendor,
         name,
         setName,
         contextWishedCount,

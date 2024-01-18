@@ -18,7 +18,7 @@ import { primaryColor, secondaryColor } from '../../utils/Colors';
 
 import firestore from '@react-native-firebase/firestore';
 // import {} from 'react-native-gesture-handler';
-const Search: () => React$Node = ({ navigation }) => {
+const Search = ({ navigation }) => {
   const [search, setSearch] = useState('');
 
   const [listings, setListings] = useState([]);

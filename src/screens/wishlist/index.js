@@ -19,7 +19,7 @@ import { borderColor, primaryColor, secondaryColor } from '../../utils/Colors';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faMapMarked } from '@fortawesome/free-solid-svg-icons';
 
-// const Wishlist: () => React$Node = ({route, navigation}) => {
+// const Wishlist = ({route, navigation}) => {
 
 import { useIsFocused } from '@react-navigation/native';
 import { AuthContext } from '../../navigation/AuthProvider';

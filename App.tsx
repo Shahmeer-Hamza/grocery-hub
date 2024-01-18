@@ -16,7 +16,7 @@ import Providers from './src/navigation/index';
 // import {Logo} from './src/utils/Logos';
 import { AuthProvider } from './src/navigation/AuthProvider';
 
-const App: () => React$Node = () => {
+const App: React.FC = () => {
   const [splashShow, setSplashShow] = useState('flex');
 
   useEffect(() => {

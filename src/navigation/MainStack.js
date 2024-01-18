@@ -25,10 +25,9 @@ import {
 import { AuthContext } from './AuthProvider';
 import { Text, View, StyleSheet } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 import { firebaseStorageUrl } from '../utils/storage';
 import SplashScreen from '../screens/SplashScreen';
-import { TouchableOpacity } from 'react-native';
 const MainStack = () => {
   const { contextCartCount, contextWishedCount, setContextWishedCount, setContextCartCount } = useContext(AuthContext);
   
@@ -44,7 +43,6 @@ const MainStack = () => {
       setContextWishedCount(wished);
     });
 
-
   firestore()
     .collection('carts')
     .where('user', '==', auth().currentUser.uid)
@@ -56,6 +54,7 @@ const MainStack = () => {
       });
       setContextCartCount(carted);
     });
+
   const BottomTab = ({ navigation }) => {
     const Stack = createStackNavigator();
     return (

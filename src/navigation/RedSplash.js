@@ -13,7 +13,7 @@ import { secondaryColor, walkthroughBackground } from '../utils/Colors';
 import { AuthContext } from './AuthProvider';
 
 
-const RedSplash: () => React$Node = ({ navigation }) => {
+const RedSplash = ({ navigation }) => {
     const { walkthrough } = useContext(AuthContext)
 
     useEffect(() => {

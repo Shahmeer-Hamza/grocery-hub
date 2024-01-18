@@ -23,7 +23,7 @@ import { PoppinsRegular, RalewayRegular } from '../../utils/fonts';
 export const Item = ({ v }: ItemProps) => (
   <View style={styles.item}>
     <View style={{ borderBottomColor: borderColor, borderBottomWidth: 0.2, paddingVertical: 15 }}>
-      <View style={{ flexDirection: "row", }}>
+      {/* <View style={{ flexDirection: "row", }}>
         <View>
           <Text style={{ ...styles.title, }}>Order ID:</Text>
           <Text style={styles.title}>Booking Date:</Text>
@@ -36,11 +36,11 @@ export const Item = ({ v }: ItemProps) => (
           <Text style={styles.value}> {v.status}</Text>
           <Text style={styles.value}> {v.payment} </Text>
         </View>
-      </View>
+      </View> */}
 
-      <View style={{ justifyContent: 'flex-end' }}>
+      {/* <View style={{ justifyContent: 'flex-end' }}>
         {v.button}
-      </View>
+      </View> */}
 
 
       {/* <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
@@ -68,8 +68,10 @@ const OrderHistory = ({ navigation }) => {
       .where('user', '==', auth().currentUser.uid)
       .get()
       .then((querySnapshot) => {
+        console.log("Orders query snapshot", querySnapshot)
         let tableRows = [];
         querySnapshot.forEach(function (doc) {
+          console.log("Orders Doc", doc.data())
           let status = '';
           if (doc.data().status == 0) {
             status = 'New Order';
@@ -95,7 +97,9 @@ const OrderHistory = ({ navigation }) => {
           try {
             tableRows.push({
               order_id: doc.id,
-              bookingDate: doc.data().bookingDate, status: status, payment: doc.data().payment,
+              bookingDate: doc.data().bookingDate,
+              status: status,
+              payment: doc.data().payment,
               button: <TouchableOpacity onPress={() => navigation.navigate('ViewOrder', { order_id: doc.id, name: 'Order #' + doc.id })} style={styles.viewButton}>
                 <Text style={styles.viewButtonText}>View</Text>
               </TouchableOpacity>

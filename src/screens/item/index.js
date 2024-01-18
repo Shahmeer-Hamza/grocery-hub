@@ -113,8 +113,8 @@ const Item = ({ route }) => {
         .then(function (querySnapshot) {
           querySnapshot.forEach(function (doc) {
             doc.ref.delete();
-            setAddedCart(false);
-            setContextCartCount(1 - contextCartCount);
+            // setAddedCart(false);
+            // setContextCartCount(1 - contextCartCount);
             ToastAndroid.show('Item Removed From The Cart', ToastAndroid.SHORT);
           });
         });
@@ -126,8 +126,8 @@ const Item = ({ route }) => {
       })
         .then((docRef) => {
           ToastAndroid.show('Item Added To The Cart', ToastAndroid.SHORT);
-          setAddedCart(true);
-          setContextCartCount(1 + contextCartCount);
+          // setAddedCart(true);
+          // setContextCartCount(1 + contextCartCount);
         })
         .catch((error) => {
           console.error("Error adding document: ", error);

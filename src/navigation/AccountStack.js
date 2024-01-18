@@ -13,7 +13,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { View, Text, Button } from 'react-native';
 import { Header } from './CartStack';
 const AccountStack = createStackNavigator();
-const AccountStackScreen: () => React$Node = ({ navigation }) => {
+const AccountStackScreen = ({ navigation }) => {
   return (
     <>
       <AccountStack.Navigator initialRouteName='AccountScreen'  >
@@ -24,22 +24,22 @@ const AccountStackScreen: () => React$Node = ({ navigation }) => {
             header: () => <Header navigation={navigation} name="ACCOUNT" notificationIcon={false} />
           })}
         />
-        {/* <AccountStack.Screen
+        <AccountStack.Screen
           name="OrderHistory"
           component={OrderHistory}
           options={({ route, navigation }) => ({
             headerTitle: '',
             header: () => <Header navigation={navigation} name="Order History" notificationIcon={false} />
           })}
-        /> */}
-        {/* <AccountStack.Screen
+        />
+        <AccountStack.Screen
           name="ViewOrder"
           component={ViewOrder}
           options={({ route, navigation }) => ({
             headerTitle: '',
             header: () => <Header navigation={navigation} name={"Order: " + " " + route?.params?.order_id} notificationIcon={false} />
           })}
-        /> */}
+        />
 
       </AccountStack.Navigator>
     </>

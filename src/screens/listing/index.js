@@ -24,9 +24,10 @@ import { styles } from '../../assets/styles/listingStyles';
 import { AuthContext } from '../../navigation/AuthProvider';
 import { firebaseStorageUrl } from '../../utils/storage';
 import { Card } from 'react-native-paper';
+import ScreenHeader from '../../components/ScreenHeader';
 
 const { width, height } = Dimensions.get('screen')
-const Home: () => React$Node = ({ route, navigation }) => {
+const Home = ({ route, navigation }) => {
   const [img, setImg] = useState('');
   const { listType, item_id } = route.params;
   const [item, setItem] = useState('');
@@ -73,7 +74,10 @@ const Home: () => React$Node = ({ route, navigation }) => {
     list_ref2.onSnapshot((querySnapshot) => {
       const listingsArray = [];
       if (querySnapshot != null) {
-        querySnapshot.forEach((documentSnapshot) => {
+        // console.log('Snapshot', querySnapshot)
+        querySnapshot.forEach(
+          (documentSnapshot) => {
+          // console.log('Document Snapshot', documentSnapshot)
           listingsArray.push({
             ...documentSnapshot.data(),
             key: documentSnapshot.id,
@@ -88,6 +92,7 @@ const Home: () => React$Node = ({ route, navigation }) => {
   }
   useEffect(() => {
     getListing();
+    // alert(listType)
   }, []);
 
   const viewItem = (item_id, item_name) => {
@@ -192,22 +197,6 @@ const Home: () => React$Node = ({ route, navigation }) => {
   //   )
   // }
 
-  const Header = () => {
-    return (
-      <View style={{ backgroundColor: background }}>
-        <View>
-          <ImageBackground source={require('../../assets/home-header1.png')} resizeMode='stretch' style={{ width: '100%', height: 100, }}>
-          </ImageBackground>
-        </View>
-        <View style={{ flexDirection: 'row', marginVertical: 10, justifyContent: 'center' }}>
-          <Text style={[styles.pageHeader, { color: primaryColor }]}>ALL </Text>
-          <Text style={styles.pageHeader}>{route?.params?.name}</Text>
-        </View>
-      </View>
-    )
-  }
-
-
   const getItemData = () => {
     firestore().collection('listings')
       .doc(item_id)
@@ -259,7 +248,6 @@ const Home: () => React$Node = ({ route, navigation }) => {
   const ListItem = (item, key) => {
     return (
       // Flat List Item
-
       // <TouchableNativeFeedback style={styles.listing_card} onPress={() => viewItem(item.key, item.name)}>
       <View style={styles.listing_card}>
         <Card style={styles.card}>
@@ -330,7 +318,8 @@ const Home: () => React$Node = ({ route, navigation }) => {
 
   return (
     <>
-      {route?.params && <Header />}
+      {/* {route?.params && <Header />}
+      {route?.params && <ScreenHeader name="VEGETABLES" type="Categories" />} */}
       {
         loading ? <View style={[styles.container, styles.horizontal]}><ActivityIndicator size="large" color={primaryColorShaded} /></View> :
           <>

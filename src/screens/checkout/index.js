@@ -153,10 +153,10 @@ const Checkout = ({ route, navigation }) => {
       setErrorMessage('Email field is required');
     } else if (phone == '') {
       setErrorMessage('Phone field is required');
-    } else if (bookingDate == '') {
-      setErrorMessage('Booking Date field is required');
-    } else if (cnic == '') {
-      setErrorMessage('CNIC field is required');
+    // } else if (bookingDate == '') {
+    //   setErrorMessage('Booking Date field is required');
+    // } else if (cnic == '') {
+    //   setErrorMessage('CNIC field is required');
     } else {
       if (value == 'online' && imageDownloadLink == '') {
         setErrorMessage('Upload Receipt is required');

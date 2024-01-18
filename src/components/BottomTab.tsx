@@ -14,7 +14,6 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { BottomTabBarProps, BottomTabNavigationOptions, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 // svg
-
 // reanimated
 // lottie
 import HomeStackScreen from '../navigation/HomeStack';
@@ -24,14 +23,13 @@ import AccountStackScreen from '../navigation/AccountStack';
 import { Icon } from 'react-native-elements';
 import { background, primaryColor, primaryColorShaded, secondaryColor } from '../utils/Colors';
 import { AuthContext } from '../navigation/AuthProvider';
-// import CustomDrawerContent from './CustomDrawer'
 import { createStackNavigator } from '@react-navigation/stack';
 import CustomDrawerContent from './CustomDrawer';
 import LinearGradient from 'react-native-linear-gradient';
 
 // ------------------------------------------------------------------
 const Stack = createStackNavigator()
-const DrawerNav = ({ children, heading }) => {
+const DrawerNav = ({ children, heading }: any) => {
 
     const [showMenu, setShowMenu] = useState(false);
     const moveToRight = useRef(new Animated.Value(0)).current;
