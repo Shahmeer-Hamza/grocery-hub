@@ -106,7 +106,7 @@ const HomeStackScreen = ({ route }) => {
           options={
             ({ route, navigation }) => ({
               headerShown: true,
-              header: () => <Header navigation={navigation} name={route?.name} notificationIcon={false} />,
+              header: () => <ScreenHeader navigation={navigation} name={route?.name} notificationIcon={false} />,
             })
           }
         />

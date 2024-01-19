@@ -20,10 +20,10 @@ import storage from '@react-native-firebase/storage';
 import { background, borderColor, greyColorShaded, primaryColor, primaryColorShaded, secondaryColor, secondaryColorShaded, textColor } from '../../utils/Colors';
 import { PoppinsRegular, RalewayRegular } from '../../utils/fonts';
 
-export const Item = ({ v }: ItemProps) => (
+export const Item = ({ v }) => (
   <View style={styles.item}>
     <View style={{ borderBottomColor: borderColor, borderBottomWidth: 0.2, paddingVertical: 15 }}>
-      {/* <View style={{ flexDirection: "row", }}>
+      <View style={{ flexDirection: "row", }}>
         <View>
           <Text style={{ ...styles.title, }}>Order ID:</Text>
           <Text style={styles.title}>Booking Date:</Text>
@@ -36,25 +36,29 @@ export const Item = ({ v }: ItemProps) => (
           <Text style={styles.value}> {v.status}</Text>
           <Text style={styles.value}> {v.payment} </Text>
         </View>
-      </View> */}
+      </View>
 
-      {/* <View style={{ justifyContent: 'flex-end' }}>
+      <View style={{ justifyContent: 'flex-end' }}>
         {v.button}
-      </View> */}
+      </View>
 
 
       {/* <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-        <Text style={styles.title}>Payment Status:<Text style={styles.value}> {v.payment} </Text></Text>
+        <Text
+          style={styles.title}
+        >
+          Payment Status:
+          <Text style={styles.value}>
+            {v.payment}
+          </Text>
+        </Text>
         {v.button}
       </View> */}
     </View>
-
   </View>
 );
 
-
 const OrderHistory = ({ navigation }) => {
-
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [tableData, setTableData] = useState([]);
@@ -100,13 +104,26 @@ const OrderHistory = ({ navigation }) => {
               bookingDate: doc.data().bookingDate,
               status: status,
               payment: doc.data().payment,
-              button: <TouchableOpacity onPress={() => navigation.navigate('ViewOrder', { order_id: doc.id, name: 'Order #' + doc.id })} style={styles.viewButton}>
-                <Text style={styles.viewButtonText}>View</Text>
-              </TouchableOpacity>
+              button: (
+                <TouchableOpacity
+                  onPress={
+                    () => navigation.navigate('ViewOrder',
+                      { order_id: doc.id, name: 'Order #' + doc.id }
+                    )
+                  }
+                  style={styles.viewButton}
+
+                >
+                  <Text
+                    style={styles.viewButtonText}
+                  >
+                    View
+                  </Text>
+                </TouchableOpacity >
+              )
             })
           } catch (error) {
             console.log(error);
-
           }
         });
         setTableData(tableRows);
@@ -118,9 +135,9 @@ const OrderHistory = ({ navigation }) => {
     return <View style={[styles.container, styles.horizontal]}><ActivityIndicator size="large" color={primaryColorShaded} /></View>;
   }
 
-  const viewItem = (item_id) => {
-    navigator.navigate()
-  }
+  // const viewItem = (item_id) => {
+  //   navigator.navigate()
+  // }
 
   return (
     <>
@@ -136,7 +153,9 @@ const OrderHistory = ({ navigation }) => {
               backgroundColor: primaryColor, width: "90%", borderRadius: 10, elevation: 1, overflow: "hidden"
             }}>
               {
-                tableData.map((v, i) => <Item v={v} />)
+                tableData.map(
+                  (v, i) => <Item v={v} key={v.order_id} />
+                )
               }
             </View>
           </View>
@@ -246,7 +265,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: RalewayRegular,
     fontSize: 14,
-    fontWeight: 600,
+    fontWeight: '600',
     textAlign: 'center',
   },
   item: {

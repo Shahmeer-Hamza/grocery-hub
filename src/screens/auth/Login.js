@@ -67,11 +67,11 @@ const Login = ({ navigation }) => {
     <>
       <StatusBar translucent={true} backgroundColor={'transparent'} barStyle="light-content" />
       <SafeAreaView style={styles.container}>
-        <View style={{ height: height * .18 }}>
-          <Image resizeMode='stretch' source={require('../../assets/auth-header.png')} style={{ width: width, height: height * .18 }} />
+        <View style={{ height: height * .18, position: 'relative', top: 0, left: 0 }}>
+          <Image resizeMode='stretch' source={require('../../assets/auth-header.png')} style={{ width: width + 1, height: height * .18 }} />
         </View>
-        <View style={[styles.bottomContainer, { height: height * .64 }]}>
-          <ScrollView style={styles?.scrollView}>
+        <ScrollView style={styles?.scrollView}>
+          <View style={[styles.bottomContainer, {  }]}>
             <View style={styles?.formContainer}>
               <View style={styles.messageContainer}>
                 {/* <Text>{height * .6}</Text> */}
@@ -138,11 +138,11 @@ const Login = ({ navigation }) => {
             </View> */}
             </View>
             {/* <View></View> */}
-          </ScrollView>
-        </View>
-        <View style={{ width: width, height: height * .16, }}>
-          <ImageBackground resizeMode='stretch' style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', width: width + 1, height: height * .2, alignItems: "center" }} source={require('../../assets/auth-footer.png')}>
-            <View style={{ position: "absolute", bottom: 20, flexDirection: 'row', justifyContent: 'center', }}>
+          </View>
+        </ScrollView>
+        <View style={{ width: width, height: height * .16, position: 'relative', bottom: 0, left: 0, }}>
+          <ImageBackground resizeMode='stretch' style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', width: width + 1, height: height * .2, alignItems: "flex-end" }} source={require('../../assets/auth-footer.png')}>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingBottom: height * .02 }}>
               <Text style={styles.loginText}>Don’t have an account? </Text>
               <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
                 <Text style={{ ...styles.loginText }}>Sign Up</Text>
