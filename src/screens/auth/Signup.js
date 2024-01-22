@@ -63,13 +63,13 @@ const Signup = ({ navigation }) => {
     <>
       <StatusBar barStyle="light-content" translucent={true} backgroundColor={"transparent"} />
       <SafeAreaView style={styles.container}>
-        <View style={{ height: height * .16, width: width, }}>
+        <View style={{ height: height * .18, position: 'relative', top: 0, left: 0, zIndex: -99999, }}>
           <Image resizeMode='stretch' source={require('../../assets/auth-header.png')} style={{ width: width + 1, height: height * .16 }} />
         </View>
         {/* <View style={{ ...styles.topContainer }}>
       </View> */}
-        <View style={[styles.bottomContainer, { height: height * .66 }]}>
-          <ScrollView style={{ ...styles?.scrollView, }}>
+        <ScrollView style={{ ...styles?.scrollView, }}>
+          <View style={[styles.bottomContainer, {}]}>
             {/* <Text style={{ ...styles.logo, height: 110, position: "absolute", top: (height - (height * 1.1)), alignSelf: "center", marginBottom: 12 }}>
           <LogoInverse width={120} height={120} />
         </Text> */}
@@ -116,14 +116,15 @@ const Signup = ({ navigation }) => {
                   <AuthButton buttonText={isLoading ? <ProgressBarAndroid styleAttr="Small" color={secondaryColor} shouldRasterizeIOS /> : "SIGNUP"} onPress={() => doRegister()} />
                 </View>
               </View>
-              <View style={{ flexDirection: 'row', paddingVertical: 1, alignItems: 'center' }}>
-                <View style={{ borderTopWidth: 0.5, width: '40%', height: 0, borderColor: borderColor }}></View>
-                <Text style={{ width: '20%', textAlign: 'center', color: greyishBlackColorShaded, fontFamily: RalewayRegular, fontSize: 12, fontWeight: 500, letterSpacing: 1, paddingVertical: height * 0.020, lineHeight: 22 }}> Or </Text>
-                <View style={{ borderTopWidth: 0.5, width: '40%', height: 0, borderColor: borderColor }}></View>
-              </View>
-
-              <View>
-                <PrimaryButton buttonText={<><Image resizeMode='contain' style={{ width: 15, height: 15 }} source={require("../../assets/google-icon.png")} /> <Text style={{ fontSize: 12 }}>Signup with Google</Text></>} />
+              <View style={{paddingBottom: 10}}>
+                <View style={{ flexDirection: 'row', paddingVertical: 1, alignItems: 'center' }}>
+                  <View style={{ borderTopWidth: 0.5, width: '40%', height: 0, borderColor: borderColor }}></View>
+                  <Text style={{ width: '20%', textAlign: 'center', color: greyishBlackColorShaded, fontFamily: RalewayRegular, fontSize: 12, fontWeight: 500, letterSpacing: 1, paddingVertical: height * 0.020, lineHeight: 22 }}> Or </Text>
+                  <View style={{ borderTopWidth: 0.5, width: '40%', height: 0, borderColor: borderColor }}></View>
+                </View>
+                <View>
+                  <PrimaryButton buttonText={<><Image resizeMode='contain' style={{ width: 15, height: 15 }} source={require("../../assets/google-icon.png")} /> <Text style={{ fontSize: 12 }}>Signup with Google</Text></>} />
+                </View>
               </View>
 
               {/* <View style={{ ...styles?.viewSignup, marginTop: 0 }}>
@@ -134,11 +135,11 @@ const Signup = ({ navigation }) => {
               </TouchableOpacity>
             </View> */}
             </View>
-          </ScrollView>
-        </View>
-        <View style={{ width: width, height: height * .16, }}>
-          <ImageBackground resizeMode='stretch' style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', width: width + 1, height: height * .2, alignItems: "center" }} source={require('../../assets/auth-footer.png')}>
-            <View style={{ position: "absolute", bottom: 20, flexDirection: 'row', justifyContent: 'center', }}>
+          </View>
+        </ScrollView>
+        <View style={{ width: width, height: height * .16, position: 'relative', bottom: 0, left: 0, }}>
+          <ImageBackground resizeMode='stretch' style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', width: width + 1, height: height * .2, alignItems: "flex-end" }} source={require('../../assets/auth-footer.png')}>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingBottom: height * .02, }}>
               <Text style={styles.loginText}>Already have an account? </Text>
               <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                 <Text style={{ ...styles.loginText }}>Login</Text>
