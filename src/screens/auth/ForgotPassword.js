@@ -6,25 +6,37 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
+  SafeAreaView,
+  ScrollView,
+  Pressable,
+  ImageBackground,
 } from 'react-native';
 
 import {
   primaryColor,
   secondaryColor,
   primaryColorShaded,
+  greyishBlackColorShaded,
+  borderColor,
 } from '../../utils/Colors';
 
 import { LogoInverse } from '../../utils/Logos';
-import { PrimaryButton } from '../../components/Buttons';
-import { InputField } from '../../components/InputField';
+import { AuthButton, PrimaryButton } from '../../components/Buttons';
+import { InputField, InputFieldIcon } from '../../components/InputField';
 import { AuthContext } from '../../navigation/AuthProvider';
 import { Image } from 'react-native';
 import { styles } from '../../assets/styles/auth';
+import { Icon } from 'react-native-elements';
+import { RalewayRegular } from '../../utils/fonts';
 
-const WINDOWHEIGHT = Dimensions.get("screen").height
+const { width, height } = Dimensions.get("screen")
 const ForgotPassword = ({ navigation }) => {
   const [email, setEmail] = useState('');
 
+  const {
+    login,
+    isLoading,
+  } = useContext(AuthContext);
   const {
     forgotPassword,
     errorMessage,
@@ -48,115 +60,66 @@ const ForgotPassword = ({ navigation }) => {
 
   return (
     <>
-
-      <View style={styles.container}>
-        <StatusBar barStyle="light-content" backgroundColor={"transparent"} />
-        <View style={{ ...styles.topContainer }}>
-
+      <StatusBar translucent={true} backgroundColor={'transparent'} barStyle="light-content" />
+      <SafeAreaView style={styles.container}>
+        <View style={{ height: height * .18, position: 'relative', top: 0, left: 0 }}>
+          <Image resizeMode='stretch' source={require('../../assets/auth-header.png')} style={{ width: width + 1, height: height * .18 }} />
         </View>
-        {/*   <View style={styles.bottomContainer}>
 
-          <Text style={{ ...styles.logo, height: 110, position: "absolute", top: (WINDOWHEIGHT - (WINDOWHEIGHT * 1.1)), alignSelf: "center", marginBottom: 12 }}>
-            <LogoInverse width={120} height={120} />
-          </Text>
-
+        <View style={[styles.bottomContainer, { height: height * .64, justifyContent: 'center' }]}>
           <View style={styles?.formContainer}>
-            <Text style={styles.heading}>Welcome To groceryhub</Text>
-            <Text style={{ ...styles.forecolor, textAlign: "center", }}>making memories memorable</Text>
+            <View style={styles.messageContainer}>
+              {/* <Text>{height * .6}</Text> */}
+              <Text style={styles.heading}>Forgot Password!</Text>
+              <Text style={{ ...styles.forecolor, textAlign: "center", }}>Enter your email to reset password</Text>
+            </View>
             {successMessage && (
               <Text style={styles.successMessage}>{successMessage}</Text>
             )}
-
             {errorMessage && (
               <Text style={styles.errorMessage}>{errorMessage}</Text>
             )}
+            <View style={{gap: height * 0.045}}>
 
-            <View>
-              <Text style={styles.forecolor}>Email: </Text>
-              <InputField
-                placeholder="Enter your email"
-                placeholderTextColor={primaryColorShaded}
-                onChangeText={(text) => setEmail(text)}
-              />
+              <View style={[styles.inputContainer]}>
+                <View>
+                  {/* <Text style={styles.forecolor}>Email: </Text> */}
+                  <InputFieldIcon
+                    placeholder="Enter your email"
+                    placeholderTextColor={greyishBlackColorShaded}
+                    onChangeText={(text) => setEmail(text)}
+                    rightIcon={<Icon size={20} name="user" type="feather" />}
+                  />
+                </View>
+              </View>
+              <View style={{}}>
+                <View style={[]} >
+                  {/* <SecondaryButton buttonText={isLoading ? <ProgressBarAndroid styleAttr="Small" color={secondaryColor} shouldRasterizeIOS /> : "Login"} onPress={() => doLogin()} /> */}
+                  <AuthButton buttonText={isLoading ? <ProgressBarAndroid styleAttr="Small" color={whitecolor} shouldRasterizeIOS /> : "SUBMIT"} onPress={() => doForgotPassword()} />
+                </View>
+              </View>
             </View>
 
-            <View style={styles.marginTop} >
-              <Text style={styles.forecolor}>Password:</Text>
-              <InputField
-                secureTextEntry
-                placeholder="*********"
-                placeholderTextColor={primaryColorShaded}
-                onChangeText={(text) => setPassword(text)}
-              />
-            </View>
-            <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
-              <Text style={styles.forgot}>Forgot Password?</Text>
-            </TouchableOpacity>
-
-            <View style={styles.marginTop} >
-              <PrimaryButton buttonText="Login" onPress={() => doLogin()} />
-            </View>
-            <View style={styles.marginTop} >
-              <PrimaryButton buttonText={<><Image resizeMode='stretch' style={{ width: 15, height: 15 }} source={require("../../assets/google-icon.png")} /> <Text style={{ fontSize: 14 }}>Login with Google</Text></>} />
-            </View>
-
-            <View style={{...styles?.viewSignup, marginTop: 20}}>
+            {/* <View style={{ ...styles?.viewSignup, marginTop: WINDOWHEIGHT / 200 }}>
               <Text style={styles.loginText}>
                 Don't have an account? </Text>
               <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
                 <Text style={{ ...styles.loginText, fontWeight: "700" }}>Sign Up</Text>
               </TouchableOpacity>
-            </View>
-          </View>
-            </View>*/}
-        <View style={{ ...styles.bottomContainer, height: WINDOWHEIGHT / 2 }}>
-
-          <Text style={{ ...styles.logo, height: 110, position: "absolute", top: (WINDOWHEIGHT - (WINDOWHEIGHT * 1.1)), alignSelf: "center", marginBottom: 12 }}>
-            <LogoInverse width={120} height={120} />
-          </Text>
-
-          <View style={styles?.formContainer}>
-            <Text style={styles.heading}>Welcome To groceryhub</Text>
-            <Text style={{ ...styles.forecolor, textAlign: "center", }}>making memories memorable</Text>
-            {successMessage && (
-              <Text style={styles.successMessage}>{successMessage}</Text>
-            )}
-
-            {errorMessage && (
-              <Text style={styles.errorMessage}>{errorMessage}</Text>
-            )}
-
-            <View style={styles.marginTop} >
-              <Text style={styles.forecolor}>Email or Phone Number: </Text>
-              <InputField
-                placeholder="Enter here"
-                placeholderTextColor={primaryColorShaded}
-                onChangeText={(text) => setEmail(text)}
-              />
-            </View>
-
-            <View style={styles.marginTop} >
-              <PrimaryButton buttonText="Submit" onPress={() => doForgotPassword()} />
-            </View>
-
-
-
-
+            </View> */}
           </View>
         </View>
-        <View style={{ backgroundColor: "#fff", height: WINDOWHEIGHT / 5, borderTopLeftRadius: 30, borderTopRightRadius: 30, display: "flex", flexDirection: "column", justifyContent: "center", position: "absolute", bottom: 0, width: "100%" }}>
-
-          <View style={{ ...styles?.viewSignup }}>
-            <Text style={{ ...styles.loginText, color: "#000", fontSize: 14, fontWeight: '600' }}>
-              Don't have an account? </Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Signup')}
-            >
-              <Text style={{ ...styles.loginText, fontWeight: "700", color: secondaryColor }}>Sign Up</Text>
-            </TouchableOpacity>
-          </View>
+        <View style={{ width: width, height: height * .16, position: 'absolute', bottom: 0, left: 0, }}>
+          <ImageBackground resizeMode='stretch' style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', width: width + 1, height: height * .2, alignItems: "flex-end" }} source={require('../../assets/auth-footer.png')}>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingBottom: height * .02 }}>
+              <Text style={styles.loginText}>Remember your account? </Text>
+              <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                <Text style={{ ...styles.loginText }}>Login</Text>
+              </TouchableOpacity>
+            </View>
+          </ImageBackground>
         </View>
-      </View>
+      </SafeAreaView>
     </>
   );
 };
