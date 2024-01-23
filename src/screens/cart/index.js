@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
 
   card_details: {
     width: '100%',
-    backgroundColor: backgroundColor,
+    backgroundColor,
     alignItems: "center",
     flexDirection: "column",
     justifyContent: "center",
