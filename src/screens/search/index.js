@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect, useRef } from 'react';
+import React, { Component, useState, useEffect, useRef, useContext } from 'react';
 import {
   View,
   StyleSheet,
@@ -22,6 +22,7 @@ import { useNavigation } from '@react-navigation/native';
 import { itemTypes } from '../../utils/itemTypes';
 import { Card } from 'react-native-paper';
 import { styles } from '../../assets/styles/listingStyles';
+import { AuthContext } from '../../navigation/AuthProvider';
 // import {} from 'react-native-gesture-handler';
 const { width, height } = Dimensions.get('screen')
 
@@ -32,7 +33,7 @@ const Search = ({ listType, placeholderText, setSearchItems, main, searchText })
   const [listings, setListings] = useState([]);
   const [filteredListings, setFilteredListings] = useState([]);
   const [showListing, setShowListing] = useState(false);
-  const { user, contextCartCount, setContextCartCount, contextWishedCount, setContextWishedCount, } = useContext(AuthContext);
+  const { user, contextCartCount, setContextCartCount } = useContext(AuthContext);
 
   const searchRef = useRef(null);
 
