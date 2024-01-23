@@ -1,24 +1,43 @@
 import React from 'react';
-import {StyleSheet, View, TextInput} from 'react-native';
+import { StyleSheet, View, TextInput } from 'react-native';
 
-import {greyishBlackColorShaded, primaryColor, secondaryColorShaded} from '../utils/Colors';
+import { borderColor, greyishBlackColorShaded, primaryColor, secondaryColorShaded } from '../utils/Colors';
 
-export const InputField = ({...rest}) => {
+export const InputField = ({ ...rest }) => {
   return (
     <View style={styles.inputView} {...rest}>
-      <TextInput {...rest} style={{...styles.inputText, color: greyishBlackColorShaded}} placeholderTextColor={greyishBlackColorShaded} />
-    </View>
-  );
-};
-export const InputFieldFull = ({...rest}) => {
-  return (
-    <View style={styles.inputViewFull}>
-      <TextInput {...rest} style={styles.inputText} placeholderTextColor={"grey"}/>
+      <TextInput {...rest} style={{ ...styles.inputText, color: greyishBlackColorShaded }} placeholderTextColor={greyishBlackColorShaded} />
     </View>
   );
 };
 
-export const TextAreaFull = ({...rest}) => {
+export const InputFieldIcon = ({ rightIcon, ...rest }) => {
+  return (
+    <View style={styles.inputView} {...rest}>
+      <TextInput {...rest} style={{ ...styles.inputText, color: greyishBlackColorShaded }} placeholderTextColor={greyishBlackColorShaded} />
+      <View style={{ position: "absolute", right: 20, }}>
+        {rightIcon}
+      </View>
+    </View>
+  );
+};
+export const InputFieldFull = ({ ...rest }) => {
+  return (
+    <View style={styles.inputViewFull}>
+      <TextInput {...rest} style={styles.inputText} placeholderTextColor={greyishBlackColorShaded} />
+    </View>
+  );
+};
+
+export const InputFieldBorder = ({ ...rest }) => {
+  return (
+    <View style={[styles.inputViewFull, { borderWidth: 1, borderColor: borderColor }]}>
+      <TextInput {...rest} style={styles.inputText} placeholderTextColor={greyishBlackColorShaded} />
+    </View>
+  );
+};
+
+export const TextAreaFull = ({ ...rest }) => {
   return (
     <View style={styles.textAreaViewFull}>
       <TextInput {...rest} style={styles.textAreaText} multiline />
@@ -29,12 +48,12 @@ export const TextAreaFull = ({...rest}) => {
 const styles = StyleSheet.create({
   inputView: {
     // width: '80%',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#fff',
     borderRadius: 4,
     height: 50,
     // marginBottom: 10,
     justifyContent: 'center',
-    borderColor: "#000",
+    // borderColor: "#000",
     // borderWidth: 1,
     padding: 20,
     // shadowColor: '#000',
@@ -48,12 +67,12 @@ const styles = StyleSheet.create({
   },
   inputViewFull: {
     width: '100%',
-    backgroundColor: '#F5F7F9',
-    borderRadius: 10,
+    backgroundColor: '#fff',
+    borderRadius: 4,
     height: 50,
     marginBottom: 20,
     justifyContent: 'center',
-    padding: 20,
+    paddingHorizontal: 20,
     // shadowColor: '#000',
     // shadowOffset: {
     //   width: 0,
@@ -61,7 +80,7 @@ const styles = StyleSheet.create({
     // },
     // shadowOpacity: 0.22,
     // shadowRadius: 2.22,
-    // elevation: 3,
+    elevation: 1,
   },
   textAreaViewFull: {
     width: '100%',
@@ -84,10 +103,11 @@ const styles = StyleSheet.create({
   },
   inputText: {
     height: 50,
-    color: "#000",
-    
+    color: greyishBlackColorShaded,
+    fontSize: 12,
+
   },
-  textAreaText:{
-    color: primaryColor,  
+  textAreaText: {
+    color: primaryColor,
   }
 });

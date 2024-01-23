@@ -3,18 +3,15 @@ import auth from '@react-native-firebase/auth';
 import firestore, { firebase } from '@react-native-firebase/firestore';
 
 import { ToastAndroid, Alert, DevSettings, ProgressBarAndroid } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+// import { AsyncStorage } from 'react-native'
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children, navigation }) => {
   const [user, setUser] = useState(null);
   const [walkthrough, setWalkthrough] = useState(0);
   const [isLoading, setLoading] = useState(false)
-
-  const [vendor, setVendor] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-
   const [successMessage, setSuccessMessage] = useState(null);
   const [name, setName] = useState(null);
   const [contextWishedCount, setContextWishedCount] = useState(null);
@@ -30,10 +27,9 @@ export const AuthProvider = ({ children, navigation }) => {
         errorMessage,
         setErrorMessage,
         isLoading,
+        setLoading,
         successMessage,
         setSuccessMessage,
-        vendor,
-        setVendor,
         name,
         setName,
         contextWishedCount,
@@ -58,8 +54,10 @@ export const AuthProvider = ({ children, navigation }) => {
                       email: u.user.email,
                       emailVerified: u.user.emailVerified,
                       phoneNumber: u.user.phoneNumber,
-                      photoURL: u.user.photoURL, displayName: userData.data().username
+                      photoURL: u.user.photoURL, 
+                      displayName: userData.data().username
                     });
+                    ToastAndroid.show('Login Successful', ToastAndroid.SHORT);
                     setLoading(false)
                   }).catch((err) => console.log(err))
                 setLoading(false)
@@ -80,12 +78,14 @@ export const AuthProvider = ({ children, navigation }) => {
         },
         register: async (username, email, password) => {
           setLoading(true)
+          // console.log("User Name : "+username, 'Email : '+email, "Password : "+password)
           try {
             setName(username);
             AsyncStorage.setItem("username", username).then(() => { })
             await auth()
-              .createUserWithEmailAndPassword(email, password)
-              .then(async (userData) => {
+            .createUserWithEmailAndPassword(email, password)
+            .then(async (userData) => {
+                console.log("User Name : "+username, 'Email : '+email, "Password : "+password, "UserData :" + userData)
                 await firestore()
                   .collection('users')
                   .doc(userData.user.uid)

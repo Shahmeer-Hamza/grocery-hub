@@ -54,6 +54,7 @@ const Item = ({ route }) => {
   const [writeReview, setWriteReview] = useState(true);
 
   //#region FUNCTIONALLITY FIREBASE
+  console.log("ID", item_id)
 
   const getItemData = () => {
     firestore().collection('listings')
@@ -70,11 +71,8 @@ const Item = ({ route }) => {
       });
   }
 
-
   const addToWishlist = () => {
-
     if (wishedList) {
-
       var wishlist_query = firestore()
         .collection('wishlist')
         .where('user', '==', user.uid)
@@ -88,7 +86,6 @@ const Item = ({ route }) => {
             ToastAndroid.show('Item Removed From The Wishlist', ToastAndroid.SHORT);
           });
         });
-
     }
     else {
       firestore().collection("wishlist").add({
@@ -104,14 +101,10 @@ const Item = ({ route }) => {
           console.error("Error adding document: ", error);
         });
     }
-
   };
 
-
   const addToCart = () => {
-
     if (addedCart) {
-
       var cart_query = firestore()
         .collection('carts')
         .where('user', '==', user.uid)
@@ -120,12 +113,11 @@ const Item = ({ route }) => {
         .then(function (querySnapshot) {
           querySnapshot.forEach(function (doc) {
             doc.ref.delete();
-            setAddedCart(false);
-            setContextCartCount(1 - contextCartCount);
+            // setAddedCart(false);
+            // setContextCartCount(1 - contextCartCount);
             ToastAndroid.show('Item Removed From The Cart', ToastAndroid.SHORT);
           });
         });
-
     }
     else {
       firestore().collection("carts").add({
@@ -134,18 +126,16 @@ const Item = ({ route }) => {
       })
         .then((docRef) => {
           ToastAndroid.show('Item Added To The Cart', ToastAndroid.SHORT);
-          setAddedCart(true);
-          setContextCartCount(1 + contextCartCount);
+          // setAddedCart(true);
+          // setContextCartCount(1 + contextCartCount);
         })
         .catch((error) => {
           console.error("Error adding document: ", error);
         });
     }
-
   };
 
   const reviewModal = () => {
-
     setModalVisible(true);
   };
 
@@ -157,7 +147,6 @@ const Item = ({ route }) => {
           <Icon color={(i <= index) ? secondaryColor : '#d3d3d3'} name='star' type='font-awesome' size={40} />
         </TouchableOpacity>);
     }
-
     setEditModalBody(modalBodyArr);
     setModalBody(modalBodyArr);
     setRate(index);
@@ -176,7 +165,6 @@ const Item = ({ route }) => {
     return (
       // Flat List Item
       <View style={[styles.review_view, review.user == user.uid ? { backgroundColor: '#f3f3f3' } : '']}>
-
         <View style={styles.review_user_avatar}>
           <Image
             source={require('../../assets/user-avatar.png')}
@@ -194,29 +182,22 @@ const Item = ({ route }) => {
                 <Icon color={review.rating >= 4 ? "#FEC007" : '#d3d3d3'} name='star' type='font-awesome' size={17} />
                 <Icon color={review.rating == 5 ? "#FEC007" : '#d3d3d3'} name='star' type='font-awesome' size={17} />
               </Text>
-
             </View>
           </View>
           <View style={{ paddingHorizontal: 10, flexDirection: 'row', justifyContent: "space-between" }}>
             <Text style={{ color: primaryColor }}>{review?.reviews}</Text>
-
             {review.user == user.uid && (
               <View style={{ flexDirection: 'row', }}>
-
                 <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => editReview()}>
                   <Icon color={primaryColor} name='edit' type='font-awesome' size={20} />
                 </TouchableOpacity>
-
                 <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => deleteReview()}>
                   <Icon color={"maroon"} name='trash' type='font-awesome' size={20} />
                 </TouchableOpacity>
-
               </View>
-
             )}
           </View>
         </View>
-
       </View>
     );
   };
@@ -241,7 +222,6 @@ const Item = ({ route }) => {
               key: doc.id,
             });
           }
-
         });
         if (user_review != '') {
           data.unshift(user_review);
@@ -250,7 +230,6 @@ const Item = ({ route }) => {
           setWriteReview(false);
         }
         else {
-
           setWriteReview(true);
           setUserReview('');
           setUserReviewReviews('');
@@ -259,7 +238,6 @@ const Item = ({ route }) => {
         setLoading(false);
       });
     setRate(0);
-
   };
 
   useEffect(() => {
@@ -285,17 +263,10 @@ const Item = ({ route }) => {
           setAddedCart(true);
         });
       });
-
     // Unsubscribe from events when no longer in use
     // return () => subscriber();
-
     getReviews();
-
     rateItem(0);
-
-
-
-
   }, []);
 
 
@@ -310,7 +281,6 @@ const Item = ({ route }) => {
         .doc(user.uid)
         .get()
         .then((userData) => {
-
           // add reviews
           firestore().collection("reviews").add({
             user: user.uid,
@@ -320,11 +290,8 @@ const Item = ({ route }) => {
             username: userData.data().username
           })
             .then((docRef) => {
-
-
               let items_ref = firestore()
                 .collection('listings').doc(item_id);
-
               // get item's old ratings and total_ratings
               items_ref
                 .get()
@@ -332,7 +299,6 @@ const Item = ({ route }) => {
                   let data = response.data();
                   let total_ratings = response.get('total_ratings') != null ? data.total_ratings : 0;
                   let new_rating = response.get('rating') != null ? (data.rating * total_ratings) : 0;
-
                   if (total_ratings == 0) {
                     new_rating = rate;
                     total_ratings++;
@@ -341,7 +307,6 @@ const Item = ({ route }) => {
                     total_ratings++;
                     new_rating = (new_rating + rate) / total_ratings;
                   }
-
                   // set item's new ratings and total_ratings
                   firestore()
                     .collection('listings').doc(item_id).set({
@@ -356,17 +321,11 @@ const Item = ({ route }) => {
                       getItemData();
                     });
                 });
-
-
             })
             .catch((error) => {
               console.error("Error adding document: ", error);
             });
         });
-
-
-
-
       setRatingError(false);
     }
   };
@@ -392,11 +351,8 @@ const Item = ({ route }) => {
             username: userData.data().username
           }, { merge: true })
             .then((docRef) => {
-
-
               let items_ref = firestore()
                 .collection('listings').doc(item_id);
-
               // get item's old ratings and total_ratings
               items_ref
                 .get()
@@ -412,7 +368,6 @@ const Item = ({ route }) => {
                     total_ratings++;
                     new_rating = ((new_rating * total_ratings) - userReview.rating + rate) / total_ratings;
                   }
-
                   // set item's new ratings and total_ratings
                   firestore()
                     .collection('listings').doc(item_id).set({
@@ -428,17 +383,11 @@ const Item = ({ route }) => {
                       setLoading(true);
                     });
                 });
-
-
             })
             .catch((error) => {
               console.error("Error adding document: ", error);
             });
         });
-
-
-
-
       setRatingError(false);
     }
   };
@@ -446,11 +395,8 @@ const Item = ({ route }) => {
   const destroyReview = () => {
     firestore().collection("reviews").doc(userReview.key).delete()
       .then((docRef) => {
-
-
         let items_ref = firestore()
           .collection('listings').doc(item_id);
-
         // get item's old ratings and total_ratings
         items_ref
           .get()
@@ -458,14 +404,12 @@ const Item = ({ route }) => {
             let data = response.data();
             let total_ratings = response.get('total_ratings') - 1;
             let new_rating = response.get('rating');
-
             if (total_ratings == 0) {
               new_rating = 0;
             }
             else {
               new_rating = ((new_rating * (total_ratings + 1)) - userReview.rating) / total_ratings;
             }
-
             // set item's new ratings and total_ratings
             firestore()
               .collection('listings').doc(item_id).set({
@@ -482,26 +426,20 @@ const Item = ({ route }) => {
                 setLoading(true);
               });
           });
-
-
       })
       .catch((error) => {
         console.error("Error adding document: ", error);
       });
-
-
   };
   //#endregion
 
   const SCREEN_HEIGHT = Dimensions.get("window").height;
   const Header = ({ children }) => {
     const params = route?.params?.name?.toLowerCase()
-    let source = item?.images?.length > 0 ? `https://firebasestorage.googleapis.com/v0/b/davat-ceb73.appspot.com/o/${item?.images[0]}?alt=media` : ""
-
+    let source = item?.images?.length > 0 ? `https://firebasestorage.googleapis.com/v0/b/groceryhub-ceb73.appspot.com/o/${item?.images[0]}?alt=media` : ""
     return (
       source &&
       <ImageBackground resizeMethod='auto' resizeMode={SCREEN_HEIGHT > 500 ? 'stretch' : 'cover'} source={{ uri: source }} style={{ width: "100%", height: SCREEN_HEIGHT > 500 ? SCREEN_HEIGHT / 2 : SCREEN_HEIGHT / 3 }}>
-
         <View style={{
           display: "flex",
           flexDirection: "column",
@@ -509,7 +447,6 @@ const Item = ({ route }) => {
           justifyContent: "center",
           alignItems: "center",
           // backgroundColor: 'rgba(0, 0, 0, 0.5)',
-
         }} >
           {/* <View style={{
             display: "flex",
@@ -520,19 +457,14 @@ const Item = ({ route }) => {
             alignItems: "center"
           }} >
             <TouchableOpacity onPress={() => navigation.goBack()} >
-
               <Image source={require("../../assets/left-arrow.png")} />
             </TouchableOpacity>
-
-
-
             <TouchableOpacity>
               <Image source={require("../../assets/filter.png")} />
             </TouchableOpacity>
           </View> */}
           {children}
         </View>
-
       </ImageBackground>
     )
   }
@@ -568,7 +500,6 @@ const Item = ({ route }) => {
           </View>
           {reviews && reviews.map(ReviewItem)}
           {reviews.length == 0 && <Text style={styles.no_reviews}>No Reviews Available</Text>}
-
         </View>
         {/* </TabView.Item>
           <TabView.Item style={{ width: '100%' }}>
@@ -577,7 +508,6 @@ const Item = ({ route }) => {
       </>
     )
   }
-
   if (loading) {
     return <View style={[styles.container, styles.horizontal]}><ActivityIndicator size="large" color={primaryColorShaded} /></View>;
   }
@@ -613,7 +543,6 @@ const Item = ({ route }) => {
                 <Icon color={item.rating >= 3 ? "#FEC007" : '#d3d3d3'} name='star' type='font-awesome' size={18} />
                 <Icon color={item.rating >= 4 ? "#FEC007" : '#d3d3d3'} name='star' type='font-awesome' size={18} />
                 <Icon color={item.rating == 5 ? "#FEC007" : '#d3d3d3'} name='star' type='font-awesome' size={18} />
-
               </Text>
               <Text>
                 <Text style={{ color: primaryColor, fontSize: 16, fontWeight: '700' }}>
@@ -622,18 +551,13 @@ const Item = ({ route }) => {
                 <Text style={{ color: "grey", fontSize: 14, fontWeight: '400', marginLeft: 20 }}>
                   ({reviews?.length} reviews)
                 </Text>
-
               </Text>
-
               <Text style={styles.price}>PKR {item.price}</Text>
             </View>
             <Divider style={{ borderBottomColor: borderColor, borderBottomWidth: 1, marginVertical: 10 }} />
-
             <TabRating />
-
           </View>
           {/* </ScrollView> */}
-
           <View style={styles.card_footer}>
             <TouchableOpacity style={styles.wishlist_btn} onPress={() => addToWishlist()}>
               <Text style={styles.wishlist_btn_text}>{wishedList ? 'Added To Wishlist' : 'Add To Wishlist'}</Text>
@@ -642,10 +566,7 @@ const Item = ({ route }) => {
             <TouchableOpacity style={{ ...styles.cart_btn }} onPress={() => addToCart()}>
               <Text style={styles.cart_btn_text}>{addedCart ? 'Added To Cart' : 'Add To Cart'}</Text>
             </TouchableOpacity>
-
           </View>
-
-
         </View>
       </BottomSheet>
       {modalVisible && (

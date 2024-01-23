@@ -1,4 +1,4 @@
-import React, { Component, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -6,17 +6,16 @@ import {
   Text,
   ScrollView,
   ActivityIndicator,
-  RefreshControl,Dimensions
+  RefreshControl,
+  Dimensions,
+  ToastAndroid,
+  TouchableOpacity,
 } from 'react-native';
-
-import { ToastAndroid, Alert } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-
 import firestore from '@react-native-firebase/firestore';
 import { AuthContext } from '../../navigation/AuthProvider';
 import storage from '@react-native-firebase/storage';
 import { borderColor, inputBackgroundColor, primaryColor, primaryColorShaded, secondaryColor, secondaryColorShaded } from '../../utils/Colors';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+// import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCartArrowDown, faCross, faHeart, faMapMarked, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Divider } from 'react-native-elements';
 import { TextInput } from 'react-native-paper';
@@ -25,82 +24,146 @@ import { Item } from './ordersHistory';
 
 const WINDOWHEIGHT = Dimensions.get("screen").height
 const ViewOrder = ({ route, navigation }) => {
-
-  const { user } = useContext(AuthContext);
-
+  // console.log("view order")
+  // const { user } = useContext(AuthContext);
   const { order_id } = route.params;
   const [loading, setLoading] = useState(true);
   const [tableData, setTableData] = useState([]);
   const [itemData, setItemData] = useState([]);
   const [total, setTotal] = useState(0);
   const [orderStatus, setOrderStatus] = useState([]);
+
   useEffect(() => {
     loadOrder();
   }, []);
 
-  const loadOrder = () => {
-    setLoading(true);
-    firestore().collection('orders')
-      .doc(order_id)
-      .get()
-      .then((doc) => {
-        let status = '';
-        if (doc.data().status == 0) {
-          status = 'New Order';
-        }
-        else if (doc.data().status == 1) {
-          status = 'Pending';
-        }
-        else if (doc.data().status == 2) {
-          status = 'Confirmed';
-        }
-        else if (doc.data().status == 3) {
-          status = 'Cancelled By You';
-        }
-        else if (doc.data().status == 4) {
-          status = 'Cancelled By Vendor';
-        }
-        else if (doc.data().status == 5) {
-          status = 'Cancelled By Admin';
-        }
-        else if (doc.data().status == 6) {
-          status = 'Completed';
-        }
-        setOrderStatus(status);
-        setTableData(doc);
+  // const loadOrder = async () => {
+  //   setLoading(true);
+  //   const orderDoc = await firestore().collection('orders')
+  //     .doc(order_id)
+  //     .get()
+  //   // .then((doc) => {
+  //   let status = '';
+  //   if (orderDoc.data().status == 0) {
+  //     status = 'New Order';
+  //   }
+  //   else if (orderDoc.data().status == 1) {
+  //     status = 'Pending';
+  //   }
+  //   else if (orderDoc.data().status == 2) {
+  //     status = 'Confirmed';
+  //   }
+  //   else if (orderDoc.data().status == 3) {
+  //     status = 'Cancelled By You';
+  //   }
+  //   else if (orderDoc.data().status == 4) {
+  //     status = 'Cancelled By Vendor';
+  //   }
+  //   else if (orderDoc.data().status == 5) {
+  //     status = 'Cancelled By Admin';
+  //   }
+  //   else if (orderDoc.data().status == 6) {
+  //     status = 'Completed';
+  //   }
+  //   setOrderStatus(status);
+  //   setTableData(orderDoc);
 
-        let orderTotal = 0;
-        let tableRow = [];
-        for (let i in doc.data().items) {
-          // alert(doc.data().items[i]);
-          firestore().collection("listings")
-            .doc(doc.data().items[i])
-            .get()
-            .then((item) => {
-              // alert(item.id);
-              let vendorStatus = 'Pending';
-              if (doc.data().vendorStatuses) {
-                vendorStatus = doc.data().vendorStatuses[i]
-              }
+  //   let orderTotal = 0;
+  //   let tableRow = [];
+  //   for (let i in orderDoc.data().items) {
+  //     // alert(orderDoc.data().items[i]);
+  //     firestore().collection("listings")
+  //       .doc(orderDoc.data().items[i])
+  //       .get()
+  //       .then((item) => {
+  //         // alert(item.id);
+  //         let vendorStatus = 'Pending';
+  //         if (orderDoc.data().vendorStatuses) {
+  //           vendorStatus = orderDoc.data().vendorStatuses[i]
+  //         }
+  //         tableRow.push({
+  //           name: item.data().name, price: item.data().price, vendorStatus: vendorStatus
+  //         });
+  //         orderTotal += parseInt(item.data().price.replace(',', ''));
+  //       });
+  //   }
+  //   setTimeout(() => {
+  //     setItemData(tableRow);
+  //     setTotal(orderTotal);
 
-              tableRow.push({
-                name: item.data().name, price: item.data().price, vendorStatus: vendorStatus
-              });
+  //     setLoading(false);
+  //   }, 2000);
 
-              orderTotal += parseInt(item.data().price.replace(',', ''));
+  //     // }
+  //     // );
+  // }
 
-
-            });
-        }
-        setTimeout(() => {
-          setItemData(tableRow);
-          setTotal(orderTotal);
-
-          setLoading(false);
-        }, 2000);
-
-      });
+  const getStatusText = (statusNumber) => {
+    // Map status numbers to text descriptions
+    switch (statusNumber) {
+      case 0:
+        return 'New Order';
+      case 1:
+        return 'Pending';
+      case 3:
+        return 'Cancelled By You';
+      case 4:
+        return 'Cancelled By Vendor';
+      case 5:
+        return 'Cancelled By Admin';
+      case 6:
+        return 'Completed';
+      default:
+        return 'Unknown Status';
+    }
   }
+
+  const loadOrder = async () => {
+    try {
+      setLoading(true);
+
+      alert('Order Id : ' + order_id);
+      console.log('Order Id', order_id);
+      const orderDoc = await firestore().collection('orders').doc(order_id).get();
+      const status = await getStatusText(orderDoc.data().status); // Use a function for status mapping
+      setOrderStatus(status);
+      setTableData(orderDoc);
+
+      const itemPromises = [];
+      let orderTotal = 0;
+
+      for (const itemId of orderDoc.data().items) {
+        const itemPromise = firestore().collection("listings").doc(itemId).get()
+        // itemPromises.push(itemPromise);
+
+        const items = await itemPromise.then((item) => {
+          const vendorStatus = orderDoc.data().vendorStatuses?.[i] ?? 'Pending'; // Default to pending
+          orderTotal += parseInt(item.data().price.replace(',', ''));
+        
+          return {
+            name: item.data().name,
+            price: item.data().price,
+            vendorStatus
+          };
+        });
+
+        console.log(items)
+        itemPromises.push(items)
+      }
+
+
+      console.log("Items promises", await itemPromises)
+      const tableRow = await Promise.all(itemPromises);
+      console.log("Order Raw", tableRow)
+      setItemData(tableRow);
+      setTotal(orderTotal);
+    } catch (error) {
+      console.error('Error loading order:', error);
+      // Handle error appropriately (e.g., display user-friendly message)
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const cancelOrder = (id) => {
     firestore().collection("orders").doc(id)
@@ -131,7 +194,7 @@ const ViewOrder = ({ route, navigation }) => {
 
 
 
-          <View style={{ paddingHorizontal: 20, marginVertical: 20, marginBottom: WINDOWHEIGHT/10 }} >
+          <View style={{ paddingHorizontal: 20, marginVertical: 20, marginBottom: WINDOWHEIGHT / 10 }} >
             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
               <View style={{ flexDirection: "column" }}>
                 <Text style={styles.item_name}>Total</Text>
@@ -139,12 +202,12 @@ const ViewOrder = ({ route, navigation }) => {
               </View>
 
               <View style={styles.card_footer}>
-                  <TouchableOpacity style={styles.wishlist_btn} onPress={() => cancelOrder(tableData.id)}>
-                    <FontAwesomeIcon icon={faTimes} color='#fff' size={18} />
-                    <Text style={styles.wishlist_btn_text}>Cancel Booking</Text>
-                  </TouchableOpacity>
+                <TouchableOpacity style={styles.wishlist_btn} onPress={() => cancelOrder(tableData.id)}>
+                  {/* <FontAwesomeIcon icon={faTimes} color='#fff' size={18} /> */}
+                  <Text style={styles.wishlist_btn_text}>Cancel Booking</Text>
+                </TouchableOpacity>
 
-                </View>
+              </View>
             </View>
             <TextInput
               label="Full Name"

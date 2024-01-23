@@ -2,10 +2,11 @@ import React, { useContext, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Logo } from '../utils/Logos';
 import { AuthContext } from '../navigation/AuthProvider';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import LinearGradient from 'react-native-linear-gradient';
+import { useFocusEffect } from '@react-navigation/native';
 
-const SplashScreen: () => React$Node = ({ navigation }) => {
+const SplashScreen = ({ navigation }) => {
   const { walkthrough, getWalkthrough, user } = useContext(AuthContext)
 
   useEffect(() => {
@@ -32,6 +33,25 @@ const SplashScreen: () => React$Node = ({ navigation }) => {
         navigation.navigate("BottomTab")
     }, 1000);
   }, [user])
+
+  useFocusEffect(
+    React.useCallback(() => {
+
+      setTimeout(() => {
+        if (user)
+          navigation.navigate("BottomTab")
+      }, 1000);
+
+      // Clean-up function can be returned for cleaning up the effect
+      return () => {
+        setTimeout(() => {
+          if (user)
+            navigation.navigate("BottomTab")
+        }, 1000);
+      };
+    }, [user])
+  );
+
   return (
     <LinearGradient colors={["#4dca63", "#239337"]} style={[styles.splash,]}>
       <View style={styles.logoDiv}>

@@ -8,7 +8,7 @@ import { AuthContext } from './AuthProvider';
 import SplashScreen from '../screens/SplashScreen';
 const Stack = createStackNavigator();
 
-const AuthStack: () => React$Node = ({  }) => {
+const AuthStack = ({  }) => {
   
   const { getWalkthrough,isLoading } = useContext(AuthContext)
 

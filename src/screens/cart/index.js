@@ -7,24 +7,27 @@ import {
   ScrollView,
   ActivityIndicator,
   RefreshControl,
-  TouchableOpacity, ImageBackground,Dimensions
+  TouchableOpacity, ImageBackground, Dimensions, Pressable
 } from 'react-native';
 import Header from '../../components/Header';
-import {TouchableNativeFeedback} from 'react-native-gesture-handler';
+import { TouchableNativeFeedback } from 'react-native-gesture-handler';
 
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-import { primaryColor, secondaryColor } from '../../utils/Colors';
+import { background, borderColor, greyColorShaded, inputBackgroundColor, primaryColor, secondaryColor, textColor } from '../../utils/Colors';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faMapMarked } from '@fortawesome/free-solid-svg-icons';
 import { useIsFocused } from '@react-navigation/native';
 import { AuthContext } from '../../navigation/AuthProvider';
-import { PoppinsBlack, PoppinsRegular } from '../../utils/fonts';
+import { PoppinsBlack, PoppinsRegular, RalewayRegular } from '../../utils/fonts';
 import { Icon, Divider } from 'react-native-elements';
+import { color } from 'react-native-reanimated';
+
+const { width, height } = Dimensions.get("window")
 
 const Cart = ({ route, navigation }) => {
-
+  const [quantity, setQuantity] = useState(1)
   const [img, setImg] = useState('');
   const [loading, setLoading] = useState(true);
 
@@ -32,62 +35,68 @@ const Cart = ({ route, navigation }) => {
   const isFocused = useIsFocused();
 
   useEffect(() => {
+    if (listings.length <= 0) {
+      getData()
+    }
+  }, [isFocused]);
 
+  const getData = () => {
     firestore()
       .collection('carts')
       .where('user', '==', auth().currentUser.uid)
       .get()
       .then((querySnapshot) => {
-        console.log(listings);
         const listingsArray = [];
         querySnapshot.forEach(function (doc) {
           firestore().collection('listings').doc(doc.data().item).get().then((response) => {
-       
             listingsArray.push({
               ...response.data(),
               key: response.id,
+              quantity
             });
           });
-
         });
         setTimeout(() => {
+
           setListings(listingsArray);
         }, 1000);
 
         setLoading(false);
 
       });
-
-  }, [isFocused]);
+  }
 
   if (loading) {
     return <ActivityIndicator />;
   }
   const viewItem = (item_id, item_name) => {
     navigation.navigate('ViewItem', { item_id: item_id, name: item_name });
+  };
+
+  const addQuantity=(index)=>{
+    setQuantity(quantity + 1);
+    // setListings(listings=>[...listings, listings[index]= {...listings[index], quantity} ]);
   }
 
-  const ListItem = (item, key) => {
+  const ListItem = (item, index) => {
+    console.log("index", index);
     return (
       // Flat List Item
-      <TouchableNativeFeedback style={styles.listing_card} onPress={() => viewItem(item.key, item.name)}>
-        <View >
+      <TouchableNativeFeedback style={styles.listing_card}>
+        <View style={{ flexDirection: 'row', width: '100%' }}>
           <View style={styles.card_img_view}>
-            <ImageBackground
+            <Image
               style={styles.card_img}
-              imageStyle={{borderRadius: 15,}}
+              // imageStyle={{ borderRadius: 20, }}
               source={{
-                uri: `https://firebasestorage.googleapis.com/v0/b/davat-ceb73.appspot.com/o/${item.images[0]}?alt=media`,
+                uri: `https://firebasestorage.googleapis.com/v0/b/davat-ceb73.appspot.com/o/${item.image[0]}?alt=media`,
               }}
-            >
-          
-              <View style={{ flex: 1, width: "100%", justifyContent: "flex-end", alignItems: "flex-end", flexDirection: "row-reverse" }}>
-                <Text style={styles.heading}>{item.name}</Text>
-              </View>
-
-            </ImageBackground>
+            />
           </View>
-          <ScrollView>
+          {/* <View style={{ flex: 1, width: "100%", justifyContent: "flex-end", alignItems: "flex-end", flexDirection: "row-reverse" }}>
+            <Text style={styles.heading}>{item.name}</Text>
+          </View> */}
+          {/* <ScrollView>
             <View style={styles.card_details} >
               <View style={styles.details_bottom}>
                 <Icon name="map-pin" size={15} color="#900" type='feather' />
@@ -97,7 +106,32 @@ const Cart = ({ route, navigation }) => {
               </View>
               <Text style={styles.price}>PKR {item.price}</Text>
             </View>
-          </ScrollView>
+          </ScrollView> */}
+          <View style={{ justifyContent: "center", paddingLeft: 10, width: '70%' }}>
+            <Text style={styles.heading}>{item.name}</Text>
+            <Text style={styles.quantityheading}>{item?.quantity + " " + item?.quantity_type}</Text>
+            <View style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              borderTopWidth: 0.5,
+              borderColor: borderColor,
+              paddingTop: 8
+            }}>
+              <View style={{ flexDirection: 'row', alignItems: 'flex-end', }}>
+                <Text style={styles.currentPrice}>Rs.{item.price}</Text>
+                <Text style={styles.origanalPrice}>Rs.{item.price}</Text>
+              </View>
+              <View style={{ flexDirection: "row", }}>
+                <Pressable style={{ backgroundColor: "#f6f6f6", borderRadius: 4 }} disabled={quantity <= 1 ? true : false} onPress={() => setQuantity(quantity - 1)}>
+                  <Icon name="remove" color="#CCCCCC" />
+                </Pressable>
+                <Text style={{ color: "#000", fontSize: 18, paddingHorizontal: 8, }}>{quantity}</Text>
+                <Pressable style={{ backgroundColor: primaryColor, borderRadius: 4 }} onPressIn={()=>addQuantity(index)}>
+                  <Icon name="add" color="#fff" />
+                </Pressable>
+              </View>
+            </View>
+          </View>
         </View>
       </TouchableNativeFeedback >
 
@@ -108,15 +142,17 @@ const Cart = ({ route, navigation }) => {
     <>
       <View style={styles.container}>
         <ScrollView style={styles.scrollView}>
+          {/* <View style={{ height: height}}> */}
           {listings && listings.map(ListItem)}
-          {(listings && listings.length > 0) ? (
-            <TouchableOpacity style={styles.checkout_btn} onPress={() => navigation.navigate('Checkout')}>
-              <Text style={styles.checkout_btn_text}>CHECKOUT</Text>
-            </TouchableOpacity>
-          ) : (
-            <View><Text>Cart is empty</Text></View>
-          )}
+          {/* </View> */}
         </ScrollView>
+        {(listings && listings.length > 0) ? (
+          <TouchableOpacity style={styles.checkout_btn} onPress={() => navigation.navigate('Checkout')}>
+            <Text style={styles.checkout_btn_text}>CHECKOUT</Text>
+          </TouchableOpacity>
+        ) : (
+          <View><Text>Cart is empty</Text></View>
+        )}
       </View>
     </>
   );
@@ -125,23 +161,25 @@ const Cart = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: '100%',
+    height: height / 1,
     paddingTop: 20,
     zIndex: 1,
     flex: 1,
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    backgroundColor: 'white',
-    borderTopColor: "#E6E6E6",
-    borderTopWidth: 1
+    backgroundColor: background,
+    // borderTopColor: "#E6E6E6",
+    // borderTopWidth: 1
   },
   scrollView: {
     width: '100%',
+    // backgroundColor: 'red',
   },
   listing_card: {
     width: '100%',
     maxHeight: 250,
     paddingHorizontal: 20,
+    marginVertical: 10,
   },
   headerIcons: {
     backgroundColor: '#fff',
@@ -160,23 +198,23 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     backgroundColor: 'white',
-
     borderRadius: 15,
   },
   card_img_view: {
-    width: '100%',
-    minHeight: 184,
-    maxHeight: 200,
-    borderRadius: 20
+    width: 100,
+    minHeight: 100,
+    maxHeight: 150,
+    borderRadius: 10,
   },
   card_img: {
-    width: '100%',
-    height: "100%",
-    resizeMode: 'cover',
+    width: 100,
+    height: 100,
+    resizeMode: 'contain',
+    backgroundColor: "#E3F4ED",
     // display: "flex",
     // flexDirection: "column",
     // justifyContent: "flex-end",
-    borderRadius: 20
+    borderRadius: 10
   },
   card_details: {
     width: '100%',
@@ -193,17 +231,33 @@ const styles = StyleSheet.create({
     // height: 50,
   },
   heading: {
-    color: "#FFFFFF",
-    fontSize: 20,
-    fontWeight: '700',
-    flex: 1, marginLeft: 10, marginBottom: 10, fontFamily: PoppinsBlack
+    color: textColor,
+    fontSize: 18,
+    fontFamily: RalewayRegular,
+    fontWeight: '500',
+    letterSpacing: 1,
+    marginBottom: 4,
     // textAlign:"right"
   },
-  price: {
-    color: '#000',
-    fontSize: 16,
-    fontWeight: '900',
-    marginLeft: 10
+  quantityheading: {
+    color: greyColorShaded,
+    fontSize: 12,
+    // fontFamily: RalewayRegular,
+    fontWeight: '400',
+    marginBottom: 8
+    // textAlign:"right"
+  },
+  currentPrice: {
+    color: primaryColor,
+    fontSize: 18,
+    fontWeight: '400',
+  },
+  origanalPrice: {
+    color: greyColorShaded,
+    fontSize: 14,
+    fontWeight: '400',
+    paddingLeft: 4,
+    textDecorationLine: 'line-through',
   },
 
   details_bottom: {
@@ -223,18 +277,19 @@ const styles = StyleSheet.create({
   checkout_btn: {
     width: '90%',
     padding: 10,
-    backgroundColor: "#000000",
+    backgroundColor: "#30A444",
     textAlign: 'center',
     marginHorizontal: '5%',
     borderRadius: 10,
     marginBottom: 20,
     marginTop: 20,
-    marginBottom: Dimensions.get("screen").height/8
+    // marginBottom: Dimensions.get("screen").height / 8
   },
   checkout_btn_text: {
     color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 14,
+    fontFamily: RalewayRegular,
+    fontWeight: '600',
     textAlign: 'center'
   }
 });

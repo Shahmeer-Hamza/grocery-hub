@@ -13,19 +13,23 @@ import {
     SafeAreaView, StatusBar,
     ImageBackground,
     FlatList,
+    ToastAndroid,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import { primaryColor, secondaryColorShaded, secondaryColor, primaryColorShaded, greyColorShaded, textColor } from '../../utils/Colors';
+import { primaryColor, secondaryColorShaded, secondaryColor, primaryColorShaded, greyColorShaded, textColor, borderColor } from '../../utils/Colors';
 import { Avatar } from 'react-native-elements';
 import { AuthContext } from '../../navigation/AuthProvider';
-import { PoppinsBlack, PoppinsRegular, fontFamily } from '../../utils/fonts';
-import AsyncStorage from '@react-native-community/async-storage';
+import { PoppinsBlack, PoppinsRegular, RalewayRegular, fontFamily } from '../../utils/fonts';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+// import {AsyncStorage} from 'react-native';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import { firebaseStorageUrl } from '../../utils/storage';
 import { ActivityIndicator, Card } from 'react-native-paper';
 import { windowWidth } from '../../utils/WindowDimensions';
 import { ImageSlider } from 'react-native-image-slider-banner';
 import { InputField } from '../../components/InputField';
 import DrawerNav from '../../components/BottomTab';
+import firestore from '@react-native-firebase/firestore';
 // import {} from 'react-native-gesture-handler';
 
 const banners = [
@@ -46,17 +50,47 @@ const banners = [
 const Home = ({ navigation, route }) => {
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0)
     const ref = useRef(null)
-    const { user, getUser, setName, name } = React.useContext(AuthContext)
+    const { user, getUser, setName, name, setContextCartCount, contextCartCount } = React.useContext(AuthContext)
     const WINDOWWIDTH = Dimensions.get("screen").width
     const WINDOWHEIGHT = Dimensions.get("screen").height;
-
     const [isLoading, setLoading] = useState(true)
+    const [popularItems, setPopularItems] = useState([])
 
     const navigateTo = (name) => navigation.navigate('Listing', { name: `${name}s`, listType: name })
 
+    const getPopularItems = async () => {
+        try {
+            setLoading(true)
+            const list_ref = await firestore().collection('listings').where('type', '==', 'Fruit');
+            list_ref.onSnapshot(
+                (querySnapshot) => {
+                    const listingsArray = [];
+                    if (querySnapshot != null && querySnapshot !== undefined) {
+
+                        // console.log('Snapshot', querySnapshot.size)
+                        querySnapshot?.forEach(
+                            (documentSnapshot) => {
+                                // console.log('Snapshot', documentSnapshot)
+                                listingsArray.push({
+                                    ...documentSnapshot.data(),
+                                    key: documentSnapshot.id,
+                                });
+                            })
+                    }
+                    setPopularItems(listingsArray)
+                    // console.log('listings', listingsArray)
+                })
+        } catch (err) {
+            console.error(err)
+        } finally {
+            setLoading(true)
+        }
+    }
     useEffect(() => {
         AsyncStorage.getItem("username").then((name) => setName(name))
+        getPopularItems()
     }, [])
+
 
     const Slide = ({ item }) => {
         return (
@@ -68,11 +102,78 @@ const Home = ({ navigation, route }) => {
             </View>
         )
     }
+
     const updateCurrentSlide = (slide) => {
         const contentOffsetX = slide.nativeEvent.contentOffset.x;
         const currentIndex = Math.round(contentOffsetX / WINDOWWIDTH)
         setCurrentSlideIndex(currentIndex)
     }
+
+    const addToCart = (item_id) => {
+        // console.log(item_id)
+        // if (addedCart) {
+        // var cart_query = firestore()
+        //     .collection('carts')
+        //     .where('user', '==', user.uid)
+        //     .where('item', '==', item_id)
+        //     .get()
+        //     .then(function (querySnapshot) {
+        //         querySnapshot.forEach(function (doc) {
+        //             doc.ref.delete();
+        //             // setAddedCart(false);
+        //             // setContextCartCount(1 - contextCartCount);
+        //             ToastAndroid.show('Item Removed From The Cart', ToastAndroid.SHORT);
+        //         });
+        //     });
+        // }
+        // else {
+        firestore().collection("carts").add({
+            user: user.uid,
+            item: item_id
+        })
+            .then((docRef) => {
+                ToastAndroid.show('Item Added To The Cart', ToastAndroid.SHORT);
+                // setAddedCart(true);
+                // setContextCartCount(1 + contextCartCount);
+            })
+            .catch((error) => {
+                console.error("Error adding document: ", error);
+            });
+        // }
+    };
+
+    const ItemCard = ({ item }) => {
+        // console.log("Popural Item", item);
+        return (
+            <Card style={[styles.shadow, styles.card]}>
+                <View style={[styles.cardImage]}>
+                    <Image source={
+                        // require("../../assets/fruits/banana-icon.png")
+                        {
+                            uri: `${firebaseStorageUrl}${item?.image[0]}?alt=media`,
+                        }
+                    } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
+                </View>
+                <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
+                    {item?.name}
+                </Text>
+                <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
+                    1 {item?.quantity_type}
+                </Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
+                    <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>
+                        RS.{item?.price}
+                    </Text>
+                    <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.190</Text>
+                    <TouchableOpacity style={[styles.addCartButton]} onPress={() => addToCart(item?.key)}>
+                        <Icon name="add" size={18} color="#fff" />
+                    </TouchableOpacity>
+                </View>
+            </Card>
+        )
+    }
+
+    // console.log('Popular Item', popularItems)
 
     return (
         <DrawerNav children={
@@ -138,62 +239,59 @@ const Home = ({ navigation, route }) => {
                         </View>
                         <View style={{ marginTop: WINDOWHEIGHT / 40, paddingHorizontal: 20, }}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 20, fontWeight: '600', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: WINDOWHEIGHT / 50 }}>
+                                <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '600', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: WINDOWHEIGHT / 50 }}>
                                     Categories
                                 </Text>
-                                <Text style={{ fontFamily: 'Raleway', fontSize: 14, fontWeight: '500', color: primaryColor, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: WINDOWHEIGHT / 50, lineHeight: 22, }}>
+                                <Text style={{ fontFamily: RalewayRegular, fontSize: 14, fontWeight: '500', color: primaryColor, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: WINDOWHEIGHT / 50, lineHeight: 22, }} onPress={() => navigation.navigate('Categories')}>
                                     View All
                                 </Text>
                             </View>
-                            <ScrollView horizontal contentContainerStyle={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: 'center', marginHorizontal: 10, }} >
-                                <TouchableOpacity onPress={() => navigateTo("Venue")} style={{ borderRadius: 20, marginHorizontal: 5 }}>
+                            <ScrollView showsHorizontalScrollIndicator={false} horizontal contentContainerStyle={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: 'center', marginHorizontal: 10, }} >
+                                <TouchableOpacity onPress={() => navigateTo("Vegetable")} style={{ borderRadius: 20, marginHorizontal: 5 }}>
                                     <Image source={
                                         require("../../assets/vegetables-icon.png")
                                         //     {
                                         //     uri: `${firebaseStorageUrl}Home%2Fvenue.png?alt=media`,
                                         // }
                                     } style={{
-                                        width: WINDOWWIDTH / 3.9, height: 120, borderRadius: 20
+                                        width: WINDOWWIDTH * 0.24, height: WINDOWWIDTH * 0.30, borderRadius: 20
                                     }} />
                                 </TouchableOpacity>
-                                <TouchableOpacity style={{ borderRadius: 20, marginHorizontal: 5 }} onPress={() => navigateTo("Caterer")}  >
+                                <TouchableOpacity style={{ borderRadius: 20, marginHorizontal: 5 }} onPress={() => navigateTo("Fruit")}  >
                                     <Image onLoadEnd={() => setLoading(false)} source={
                                         require("../../assets/fruits-icon.png")
                                         //     {
                                         //     uri: `${firebaseStorageUrl}Home%2Fcaterers2.png?alt=media`,
                                         // }
                                     } style={{
-                                        width: WINDOWWIDTH / 3.9, height: 120, borderRadius: 20, display: !isLoading ? "flex" : "none"
+                                        width: WINDOWWIDTH * 0.24, height: WINDOWWIDTH * 0.30, borderRadius: 20, display: !isLoading ? "flex" : "none"
                                     }} />
                                 </TouchableOpacity>
-                                <TouchableOpacity style={{ borderRadius: 20, marginHorizontal: 5 }} onPress={() => navigateTo("Decorator")} >
+                                <TouchableOpacity style={{ borderRadius: 20, marginHorizontal: 5 }} onPress={() => navigateTo("Dairy")} >
                                     <Image source={
                                         require("../../assets/dairy-icon.png")
                                         //     {
                                         //     uri: `${firebaseStorageUrl}Home%2Fdecorate.png?alt=media`,
                                         // }
-                                    } style={{ width: WINDOWWIDTH / 3.9, height: 120, borderRadius: 20 }} />
+                                    } style={{ width: WINDOWWIDTH * 0.24, height: WINDOWWIDTH * 0.30, borderRadius: 20 }} />
                                 </TouchableOpacity>
-                                <TouchableOpacity style={{ borderRadius: 20, marginHorizontal: 5 }} onPress={() => navigateTo("Decorator")} >
+                                <TouchableOpacity style={{ borderRadius: 20, marginHorizontal: 5 }} onPress={() => navigateTo("Sweets")} >
                                     <Image source={
                                         require("../../assets/sweets-icon.png")
-                                        //     {
-                                        //     uri: `${firebaseStorageUrl}Home%2Fdecorate.png?alt=media`,
-                                        // }
-                                    } style={{ width: WINDOWWIDTH / 3.9, height: 120, borderRadius: 20 }} />
+                                    } style={{ width: WINDOWWIDTH * 0.24, height: WINDOWWIDTH * 0.30, borderRadius: 20 }} />
                                 </TouchableOpacity>
                             </ScrollView>
                         </View>
                         <View style={{ marginTop: WINDOWHEIGHT / 40, paddingHorizontal: 20, }}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 20, fontWeight: '600', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: WINDOWHEIGHT / 50 }}>
+                                <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '600', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: WINDOWHEIGHT / 50 }}>
                                     Popular Products
                                 </Text>
-                                <Text style={{ fontFamily: 'Raleway', fontSize: 14, fontWeight: '500', color: primaryColor, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: WINDOWHEIGHT / 50, lineHeight: 22, }}>
+                                <Text style={{ fontFamily: RalewayRegular, fontSize: 14, fontWeight: '500', color: primaryColor, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: WINDOWHEIGHT / 50, lineHeight: 22, }}>
                                     View All
                                 </Text>
                             </View>
-                            <ScrollView horizontal contentContainerStyle={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }} >
+                            {/* <ScrollView showsHorizontalScrollIndicator={false} horizontal contentContainerStyle={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }} >
                                 <Card style={[styles.shadow, styles.card]}>
                                     <View style={[styles.cardImage]}>
                                         <Image source={
@@ -203,16 +301,16 @@ const Home = ({ navigation, route }) => {
                                             // }
                                         } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
                                     </View>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
                                         Banana
                                     </Text>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
                                         1 Dozen
                                     </Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS. 150</Text>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS. 190</Text>
-                                        <TouchableOpacity style={[styles.addCartButton]}>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS.150</Text>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.190</Text>
+                                        <TouchableOpacity style={[styles.addCartButton]} onPress={() => addToCart("DdydDmJz4xwtLAOq5zJs")}>
                                             <Icon name="add" size={18} color="#fff" />
                                         </TouchableOpacity>
                                     </View>
@@ -226,16 +324,16 @@ const Home = ({ navigation, route }) => {
                                             // }
                                         } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
                                     </View>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
                                         Apple
                                     </Text>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
                                         1 Kilogram
                                     </Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS. 120</Text>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS. 190</Text>
-                                        <TouchableOpacity style={[styles.addCartButton]}>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS.120</Text>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.190</Text>
+                                        <TouchableOpacity style={[styles.addCartButton]} onPress={() => addToCart()}>
                                             <Icon name="add" size={18} color="#fff" />
                                         </TouchableOpacity>
                                     </View>
@@ -250,16 +348,16 @@ const Home = ({ navigation, route }) => {
                                             // }
                                         } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
                                     </View>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
                                         strawberries
                                     </Text>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
                                         1 Kilogram
                                     </Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS. 200</Text>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS. 290</Text>
-                                        <TouchableOpacity style={[styles.addCartButton]}>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS.200</Text>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.290</Text>
+                                        <TouchableOpacity style={[styles.addCartButton]} onPress={() => addToCart()}>
                                             <Icon name="add" size={18} color="#fff" />
                                         </TouchableOpacity>
                                     </View>
@@ -273,16 +371,16 @@ const Home = ({ navigation, route }) => {
                                             // }
                                         } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
                                     </View>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
                                         Watermelon
                                     </Text>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
                                         1 kilogram
                                     </Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS. 200</Text>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS. 290</Text>
-                                        <TouchableOpacity style={[styles.addCartButton]}>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS.200</Text>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.290</Text>
+                                        <TouchableOpacity style={[styles.addCartButton]} onPress={() => addToCart()}>
                                             <Icon name="add" size={18} color="#fff" />
                                         </TouchableOpacity>
                                     </View>
@@ -296,16 +394,16 @@ const Home = ({ navigation, route }) => {
                                             // }
                                         } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
                                     </View>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
                                         Pomegranate
                                     </Text>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
                                         1 Kilogram
                                     </Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS. 200</Text>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS. 290</Text>
-                                        <TouchableOpacity style={[styles.addCartButton]}>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS.200</Text>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.290</Text>
+                                        <TouchableOpacity style={[styles.addCartButton]} onPress={() => addToCart()}>
                                             <Icon name="add" size={18} color="#fff" />
                                         </TouchableOpacity>
                                     </View>
@@ -319,16 +417,16 @@ const Home = ({ navigation, route }) => {
                                             // }
                                         } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
                                     </View>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
                                         Avacardo
                                     </Text>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
                                         1 kilogram
                                     </Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS. 200</Text>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS. 290</Text>
-                                        <TouchableOpacity style={[styles.addCartButton]}>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS.200</Text>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.290</Text>
+                                        <TouchableOpacity style={[styles.addCartButton]} onPress={() => addToCart()}>
                                             <Icon name="add" size={18} color="#fff" />
                                         </TouchableOpacity>
                                     </View>
@@ -342,16 +440,16 @@ const Home = ({ navigation, route }) => {
                                             // }
                                         } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
                                     </View>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
                                         Grapes
                                     </Text>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
                                         1 Kilogram
                                     </Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS. 200</Text>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS. 290</Text>
-                                        <TouchableOpacity style={[styles.addCartButton]}>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS.200</Text>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.290</Text>
+                                        <TouchableOpacity style={[styles.addCartButton]} onPress={() => addToCart()}>
                                             <Icon name="add" size={18} color="#fff" />
                                         </TouchableOpacity>
                                     </View>
@@ -365,21 +463,33 @@ const Home = ({ navigation, route }) => {
                                             // }
                                         } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
                                     </View>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
                                         Oranges
                                     </Text>
-                                    <Text style={{ fontFamily: 'Raleway', fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
+                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
                                         1 Dozen
                                     </Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS. 200</Text>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS. 290</Text>
-                                        <TouchableOpacity style={[styles.addCartButton]}>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS.200</Text>
+                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.290</Text>
+                                        <TouchableOpacity style={[styles.addCartButton]} onPress={() => addToCart()}>
                                             <Icon name="add" size={18} color="#fff" />
                                         </TouchableOpacity>
                                     </View>
                                 </Card>
-                            </ScrollView>
+                            </ScrollView> */}
+                            {
+                                popularItems && <FlatList
+                                    data={popularItems}
+                                    renderItem={ItemCard}
+                                    // ListEmptyComponent={}
+                                    horizontal
+                                    keyExtractor={item => item.key}
+                                    showsHorizontalScrollIndicator={false}
+                                    initialNumToRender={3}
+                                    maxToRenderPerBatch={3}
+                                />
+                            }
                         </View>
                     </ScrollView>
                 </View>
@@ -414,14 +524,15 @@ const styles = StyleSheet.create({
         // paddingTop: StatusBar.currentHeight,
         // paddingHorizontal: 20,
         backgroundColor: "#FFFFFF",
+        // borderWidth: 1,
     },
     header: {
         width: '100%',
-        height: 100,
+        height: 70,
     },
     deliverText: {
         color: '#3A3A3A',
-        fontFamily: 'Raleway',
+        fontFamily: RalewayRegular,
         fontSize: 12,
         fontWeight: 400,
         // lineHeight: 26.154,
@@ -431,14 +542,14 @@ const styles = StyleSheet.create({
         fontWeight: 500,
         // lineHeight: 26.154,
         letterSpacing: 1.189,
-        fontFamily: 'Raleway',
+        fontFamily: RalewayRegular,
         fontSize: 14,
     },
     searchInputContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#F6F6F7',
+        backgroundColor: '#F6F6F6',
         borderRadius: 8,
         paddingHorizontal: 10,
     },
@@ -472,7 +583,7 @@ const styles = StyleSheet.create({
     },
     cardImage: {
         paddingHorizontal: 5,
-        borderBottomColor: '#C9C9C9',
+        borderBottomColor: borderColor,
         borderBottomWidth: 1,
         justifyContent: 'center',
         alignItems: 'center',
@@ -484,13 +595,13 @@ const styles = StyleSheet.create({
     addCartButton: {
         width: 22,
         height: 22,
-        backgroundColor: '#2DA041',
+        backgroundColor: primaryColor,
         borderRadius: 4,
         justifyContent: 'center',
         alignItems: 'center'
     },
     profilename: {
-        fontFamily: 'Raleway',
+        fontFamily: RalewayRegular,
         color: "#000",
         fontSize: 19,
         fontWeight: '800',

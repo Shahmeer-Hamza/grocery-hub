@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 import { greyishBlackColorShaded, primaryColor } from '../utils/Colors';
+import { RalewayRegular } from '../utils/fonts';
 
 export const PrimaryButton = ({ buttonText, ...rest }) => {
   return (
@@ -30,7 +31,7 @@ export const AuthButton = ({ buttonText, ...rest }) => {
       <Text style={{
         color: '#fff',
         textAlign: 'center',
-        fontFamily: 'Raleway',
+        fontFamily: RalewayRegular,
         fontSize: 14,
         fontWeight: 600,
         lineHeight: 22,

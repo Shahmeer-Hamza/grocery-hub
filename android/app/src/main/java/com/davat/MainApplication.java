@@ -1,4 +1,4 @@
-package com.davat;
+package com.groceryhub;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

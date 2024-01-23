@@ -1,65 +1,79 @@
 import { StyleSheet, Dimensions } from "react-native";
-import { primaryColor, secondaryColor } from "../../utils/Colors";
+import { background, greyishBlackColorShaded, primaryColor, secondaryColor, textColor } from "../../utils/Colors";
+import { RalewayRegular } from "../../utils/fonts";
+import { windowHeight } from "../../utils/WindowDimensions";
 const WINDOWHEIGHT = Dimensions.get("screen").height
 export const styles = StyleSheet.create({
     container: {
-        backgroundColor: secondaryColor,
+        backgroundColor: background,
         height: "100%",
-        paddingBottom: 30
-
+        // flex: 1
+        // paddingBottom: 30
     },
     topContainer: {
         backgroundColor: "#fff",
         borderBottomLeftRadius: 30,
         borderBottomRightRadius: 30,
-        height: (WINDOWHEIGHT>700) ? WINDOWHEIGHT/6:WINDOWHEIGHT/8
+        height: (WINDOWHEIGHT > 700) ? WINDOWHEIGHT / 6 : WINDOWHEIGHT / 8
     },
     bottomContainer: {
-        // marginTop: 40,
-        height: "90%",
-        backgroundColor: secondaryColor,
+        // height: "100%",
+        backgroundColor: background,
+        // height: WINDOWHEIGHT * .6,
         // alignItems: "center"
+    },
+    messageContainer: {
+        paddingBottom: WINDOWHEIGHT * 0.045,
+        paddingHorizontal: 20,
+    },
+    inputContainer: {
+        gap: WINDOWHEIGHT * 0.032
+    },
+    forgotButtonContainer: {
+        paddingVertical: WINDOWHEIGHT * 0.020,
     },
     formContainer: {
         // flex: 1,
         width: "90%",
-        paddingTop: WINDOWHEIGHT/15,
-        paddingHorizontal: 20,
-        marginTop: 30,
+        paddingTop: WINDOWHEIGHT / 30,
+        // paddingHorizontal: 20,
+        // marginTop: 30,
         alignSelf: "center",
     },
     scrollView: {
-        paddingBottom: 20
+        // paddingBottom: 20,
+        // backgroundColor: "red"
     },
     marginTop: {
-        marginTop: WINDOWHEIGHT/100
+        marginTop: WINDOWHEIGHT / 100
     },
     logo: {
         fontWeight: 'bold',
         color: primaryColor,
-
         // marginBottom: 20,
     },
     heading: {
+        color: textColor,
+        fontFamily: RalewayRegular,
+        fontSize: 28,
         fontWeight: '600',
-        fontFamily: "PublicSans",
-        fontSize: 18,
-        letterSpacing: 1,
-        color: '#fff',
         textAlign: 'center',
+        letterSpacing: 1,
+        paddingBottom: WINDOWHEIGHT * .015
     },
     forecolor: {
+        color: '#313131',
+        fontFamily: RalewayRegular,
+        fontSize: 12,
         marginBottom: 5,
-        color: '#fff',
-        fontFamily: "PublicSans",
-
         fontSize: 12
     },
     forgot: {
-        color: 'white',
+        // maxWidth: 
+        color: greyishBlackColorShaded,
+        fontFamily: RalewayRegular,
         fontSize: 10,
-        alignSelf: "flex-end",
-        fontFamily: "PublicSans",
+        lineHeight: 22,
     },
     loginText: {
         color: 'white',

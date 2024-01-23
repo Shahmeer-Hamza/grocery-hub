@@ -12,8 +12,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { View, Text, Button } from 'react-native';
 import { Header } from './CartStack';
+import ScreenHeader from '../components/ScreenHeader';
 const AccountStack = createStackNavigator();
-const AccountStackScreen: () => React$Node = ({ navigation }) => {
+const AccountStackScreen = ({ navigation }) => {
   return (
     <>
       <AccountStack.Navigator initialRouteName='AccountScreen'  >
@@ -21,7 +22,7 @@ const AccountStackScreen: () => React$Node = ({ navigation }) => {
           name="AccountScreen"
           component={Account}
           options={({ route, navigation }) => ({
-            header: () => <Header navigation={navigation} name="ACCOUNT" notificationIcon={false} />
+            header: () => <ScreenHeader navigation={navigation} name="ACCOUNT" notificationIcon={false} />
           })}
         />
         <AccountStack.Screen
