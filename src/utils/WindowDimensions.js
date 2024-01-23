@@ -1,4 +1,4 @@
-import {useWindowDimensions} from 'react-native';
+import {Dimensions, useWindowDimensions} from 'react-native';
 
-export const windowWidth = useWindowDimensions().width;
-export const windowHeight = useWindowDimensions().height;
+export const windowWidth = Dimensions.get("screen").width;
+export const windowHeight = Dimensions.get("screen").height;

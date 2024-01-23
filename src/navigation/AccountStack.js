@@ -2,15 +2,7 @@ import React from 'react';
 import Account from '../screens/account';
 import OrderHistory from '../screens/account/ordersHistory';
 import ViewOrder from '../screens/account/viewOrder';
-// import Listing from '../screens/listing';
-// import Search from '../screens/search';
-import ViewItem from '../screens/item';
-
 import { createStackNavigator } from '@react-navigation/stack';
-
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { View, Text, Button } from 'react-native';
 import { Header } from './CartStack';
 import ScreenHeader from '../components/ScreenHeader';
 const AccountStack = createStackNavigator();
@@ -30,7 +22,7 @@ const AccountStackScreen = ({ navigation }) => {
           component={OrderHistory}
           options={({ route, navigation }) => ({
             headerTitle: '',
-            header: () => <Header navigation={navigation} name="Order History" notificationIcon={false} />
+            header: () => <ScreenHeader navigation={navigation} name="Order History" notificationIcon={false} />
           })}
         />
         <AccountStack.Screen
@@ -38,7 +30,7 @@ const AccountStackScreen = ({ navigation }) => {
           component={ViewOrder}
           options={({ route, navigation }) => ({
             headerTitle: '',
-            header: () => <Header navigation={navigation} name={"Order: " + " " + route?.params?.order_id} notificationIcon={false} />
+            header: () => <ScreenHeader navigation={navigation} name={"Order: " + " " + route?.params?.order_id} notificationIcon={false} />
           })}
         />
 

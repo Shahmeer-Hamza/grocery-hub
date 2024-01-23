@@ -14,8 +14,6 @@ import { Icon } from 'react-native-elements';
 import { PoppinsBlack, PoppinsRegular } from '../utils/fonts';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
-import { Header } from './CartStack';
-import { useFocusEffect } from '@react-navigation/native';
 import Categories from '../screens/categories';
 import { primaryColor } from '../utils/Colors';
 import OrderHistory from '../screens/account/ordersHistory';
@@ -76,7 +74,7 @@ const HomeStackScreen = ({ route }) => {
           options={
             ({ route, navigation }) => ({
               headerShown: true,
-              header: () => <Header navigation={navigation} name={route.params?.name} notificationIcon={false} />,
+              header: () => <ScreenHeader navigation={navigation} name={route.params?.name} notificationIcon={false} />,
             })
           }
         />
@@ -86,7 +84,7 @@ const HomeStackScreen = ({ route }) => {
           options={
             ({ route, navigation }) => ({
               headerShown: true,
-              header: () => <Header navigation={navigation} name={route?.name} notificationIcon={false} />,
+              header: () => <ScreenHeader navigation={navigation} name={route?.name} notificationIcon={false} />,
             })
           }
         />
