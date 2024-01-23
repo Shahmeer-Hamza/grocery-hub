@@ -8,7 +8,8 @@ import {
   StyleSheet,
   ScrollView,
   Dimensions,
-  Image
+  Image,
+  ToastAndroid
 } from 'react-native';
 
 import { AuthContext } from '../../navigation/AuthProvider';
