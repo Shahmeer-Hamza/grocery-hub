@@ -10,6 +10,7 @@ import {
   ImageBackground,
   ProgressBarAndroid,
   Pressable,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 import {
@@ -70,77 +71,82 @@ const Login = ({ navigation }) => {
         <View style={{ height: height * .18, position: 'relative', top: 0, left: 0 }}>
           <Image resizeMode='stretch' source={require('../../assets/auth-header.png')} style={{ width: width + 1, height: height * .18 }} />
         </View>
-        <ScrollView style={styles?.scrollView}>
-          <View style={[styles.bottomContainer, {  }]}>
-            <View style={styles?.formContainer}>
-              <View style={styles.messageContainer}>
-                {/* <Text>{height * .6}</Text> */}
-                <Text style={styles.heading}>Welcome Back!</Text>
-                <Text style={{ ...styles.forecolor, textAlign: "center", }}>Enter your details to Log In</Text>
-              </View>
-              {successMessage && (
-                <Text style={styles.successMessage}>{successMessage}</Text>
-              )}
-              {errorMessage && (
-                <Text style={styles.errorMessage}>{errorMessage}</Text>
-              )}
-              <View style={[styles.inputContainer]}>
-                <View>
-                  {/* <Text style={styles.forecolor}>Email: </Text> */}
-                  <InputFieldIcon
-                    placeholder="Enter your email"
-                    placeholderTextColor={greyishBlackColorShaded}
-                    onChangeText={(text) => setEmail(text)}
-                    rightIcon={<Icon size={20} name="user" type="feather" />}
-                  />
+        {/* <KeyboardAvoidingView behavior=''> */}
+        <View style={{ flex: 1 }}>
+          <ScrollView style={styles?.scrollView}>
+            <View style={[styles.bottomContainer, {}]}>
+              <View style={styles?.formContainer}>
+                <View style={styles.messageContainer}>
+                  {/* <Text>{height * .6}</Text> */}
+                  <Text style={styles.heading}>Welcome Back!</Text>
+                  <Text style={{ ...styles.forecolor, textAlign: "center", }}>Enter your details to Log In</Text>
                 </View>
-                <View style={styles?.marginTop} >
-                  {/* <Text style={styles.forecolor}>Password:</Text> */}
-                  <InputFieldIcon
-                    secureTextEntry={!showPassword}
-                    placeholder="Enter your password"
-                    placeholderTextColor={greyishBlackColorShaded}
-                    onChangeText={(text) => setPassword(text)}
-                    rightIcon={<Icon size={20} name={showPassword ? "eye-off" : "eye"} type="feather" onPress={() => setShowPassword(!showPassword)} />}
-                  />
+                {successMessage && (
+                  <Text style={styles.successMessage}>{successMessage}</Text>
+                )}
+                {errorMessage && (
+                  <Text style={styles.errorMessage}>{errorMessage}</Text>
+                )}
+                <View style={[styles.inputContainer]}>
+                  <View>
+                    {/* <Text style={styles.forecolor}>Email: </Text> */}
+                    <InputFieldIcon
+                      placeholder="Enter your email"
+                      placeholderTextColor={greyishBlackColorShaded}
+                      onChangeText={(text) => setEmail(text)}
+                      rightIcon={<Icon size={20} name="user" type="feather" />}
+                    />
+                  </View>
+                  <View style={styles?.marginTop} >
+                    {/* <Text style={styles.forecolor}>Password:</Text> */}
+                    <InputFieldIcon
+                      secureTextEntry={!showPassword}
+                      placeholder="Enter your password"
+                      placeholderTextColor={greyishBlackColorShaded}
+                      onChangeText={(text) => setPassword(text)}
+                      rightIcon={<Icon size={20} name={showPassword ? "eye-off" : "eye"} type="feather" onPress={() => setShowPassword(!showPassword)} />}
+                    />
+                  </View>
                 </View>
-              </View>
-              <View style={styles.forgotButtonContainer}>
-                <View>
-                  <Pressable style={{ alignSelf: "flex-end" }} onPress={() => navigation.navigate('ForgotPassword')}>
-                    <Text style={styles.forgot}>Forget your password?</Text>
-                  </Pressable>
+                <View style={styles.forgotButtonContainer}>
+                  <View>
+                    <Pressable style={{ alignSelf: "flex-end" }} onPress={() => navigation.navigate('ForgotPassword')}>
+                      <Text style={styles.forgot}>Forget your password?</Text>
+                    </Pressable>
+                  </View>
                 </View>
-              </View>
-              <View style={{ paddingBottom: 10, }}>
-                <View style={[]} >
-                  {/* <SecondaryButton buttonText={isLoading ? <ProgressBarAndroid styleAttr="Small" color={secondaryColor} shouldRasterizeIOS /> : "Login"} onPress={() => doLogin()} /> */}
-                  <AuthButton buttonText={isLoading ? <ProgressBarAndroid styleAttr="Small" color={whitecolor} shouldRasterizeIOS /> : "LOGIN"} onPress={() => doLogin()} />
+                <View style={{ paddingBottom: 10, }}>
+                  <View style={[]} >
+                    {/* <SecondaryButton buttonText={isLoading ? <ProgressBarAndroid styleAttr="Small" color={secondaryColor} shouldRasterizeIOS /> : "Login"} onPress={() => doLogin()} /> */}
+                    <AuthButton buttonText={isLoading ? <ProgressBarAndroid styleAttr="Small" color={whitecolor} shouldRasterizeIOS /> : "LOGIN"} onPress={() => doLogin()} />
+                  </View>
+                  <View style={{ flexDirection: 'row', paddingVertical: 1, alignItems: 'center' }}>
+                    {/* <Divider inset={true} width={1} color='#000' insetType='left' /> */}
+                    <View style={{ borderTopWidth: 0.5, width: '40%', height: 0, borderColor: borderColor }}></View>
+                    <Text style={{ width: '20%', textAlign: 'center', color: greyishBlackColorShaded, fontFamily: RalewayRegular, fontSize: 12, fontWeight: 500, letterSpacing: 1, paddingVertical: height * 0.020, lineHeight: 22 }}> Or </Text>
+                    <View style={{ borderTopWidth: 0.5, width: '40%', height: 0, borderColor: borderColor }}></View>
+                    {/* <Divider inset={true} width={1} color='#000' insetType='right' /> */}
+                  </View>
+                  <View>
+                    <PrimaryButton buttonText={<><Image resizeMode='contain' style={{ width: 15, height: 15 }} source={require("../../assets/google-icon.png")} /> <Text style={{ fontSize: 12 }}>Login with Google</Text></>} />
+                  </View>
                 </View>
-                <View style={{ flexDirection: 'row', paddingVertical: 1, alignItems: 'center' }}>
-                  {/* <Divider inset={true} width={1} color='#000' insetType='left' /> */}
-                  <View style={{ borderTopWidth: 0.5, width: '40%', height: 0, borderColor: borderColor }}></View>
-                  <Text style={{ width: '20%', textAlign: 'center', color: greyishBlackColorShaded, fontFamily: RalewayRegular, fontSize: 12, fontWeight: 500, letterSpacing: 1, paddingVertical: height * 0.020, lineHeight: 22 }}> Or </Text>
-                  <View style={{ borderTopWidth: 0.5, width: '40%', height: 0, borderColor: borderColor }}></View>
-                  {/* <Divider inset={true} width={1} color='#000' insetType='right' /> */}
-                </View>
-                <View>
-                  <PrimaryButton buttonText={<><Image resizeMode='contain' style={{ width: 15, height: 15 }} source={require("../../assets/google-icon.png")} /> <Text style={{ fontSize: 12 }}>Login with Google</Text></>} />
-                </View>
-              </View>
 
-              {/* <View style={{ ...styles?.viewSignup, marginTop: WINDOWHEIGHT / 200 }}>
+                {/* <View style={{ ...styles?.viewSignup, marginTop: WINDOWHEIGHT / 200 }}>
               <Text style={styles.loginText}>
                 Don't have an account? </Text>
               <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
                 <Text style={{ ...styles.loginText, fontWeight: "700" }}>Sign Up</Text>
               </TouchableOpacity>
             </View> */}
+              </View>
+              {/* <View></View> */}
             </View>
-            {/* <View></View> */}
-          </View>
-        </ScrollView>
-        <View style={{ width: width, height: height * .16, position: 'relative', bottom: 0, left: 0, }}>
+          </ScrollView>
+        </View>
+        {/* </KeyboardAvoidingView> */}
+      </SafeAreaView>
+        <View style={{ width: width, height: height * .16, position: 'absolute', bottom: 0, left: 0, }}>
           <ImageBackground resizeMode='stretch' style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', width: width + 1, height: height * .2, alignItems: "flex-end" }} source={require('../../assets/auth-footer.png')}>
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingBottom: height * .02 }}>
               <Text style={styles.loginText}>Don’t have an account? </Text>
@@ -150,7 +156,6 @@ const Login = ({ navigation }) => {
             </View>
           </ImageBackground>
         </View>
-      </SafeAreaView>
     </>
   );
 };

@@ -63,7 +63,7 @@ const Signup = ({ navigation }) => {
     <>
       <StatusBar barStyle="light-content" translucent={true} backgroundColor={"transparent"} />
       <SafeAreaView style={styles.container}>
-        <View style={{ height: height * .18, position: 'relative', top: 0, left: 0, zIndex: -99999, }}>
+        <View style={{ height: height * .18, position: 'relative', top: 0, left: 0, }}>
           <Image resizeMode='stretch' source={require('../../assets/auth-header.png')} style={{ width: width + 1, height: height * .16 }} />
         </View>
         {/* <View style={{ ...styles.topContainer }}>
