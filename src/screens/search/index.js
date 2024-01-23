@@ -1,42 +1,50 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { Component, useState, useEffect, useRef } from 'react';
 import {
   View,
   StyleSheet,
   Image,
   Text,
   ScrollView,
-  ActivityIndicator,
-  RefreshControl,
+  TextInput,
+  Dimensions,
 } from 'react-native';
 
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faMapMarked } from '@fortawesome/free-solid-svg-icons';
 
-import { SearchBar } from 'react-native-elements';
+import { Icon, SearchBar } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { primaryColor, secondaryColor } from '../../utils/Colors';
+import { borderColor, greyColorShaded, inputBackgroundColor, inputPlaceholderColor, primaryColor, secondaryColor, textColor, whitecolor } from '../../utils/Colors';
 
 import firestore from '@react-native-firebase/firestore';
+import { PoppinsRegular, RalewayRegular } from '../../utils/fonts';
+import { useNavigation } from '@react-navigation/native';
+import { itemTypes } from '../../utils/itemTypes';
+import { Card } from 'react-native-paper';
+import { styles } from '../../assets/styles/listingStyles';
 // import {} from 'react-native-gesture-handler';
-const Search = ({ navigation }) => {
+const { width, height } = Dimensions.get('screen')
+
+const Search = ({ listType, placeholderText, setSearchItems, main, searchText }) => {
+  const navigation = useNavigation()
   const [search, setSearch] = useState('');
 
   const [listings, setListings] = useState([]);
   const [filteredListings, setFilteredListings] = useState([]);
   const [showListing, setShowListing] = useState(false);
 
+
   useEffect(() => {
     const subscriber = firestore()
       .collection('listings')
       .onSnapshot((querySnapshot) => {
         const listingsArray = [];
-
-        querySnapshot.forEach((documentSnapshot) => {
-          listingsArray.push({
-            ...documentSnapshot.data(),
-            key: documentSnapshot.id,
+        if (querySnapshot)
+          querySnapshot.forEach((documentSnapshot) => {
+            listingsArray.push({
+              ...documentSnapshot.data(),
+              key: documentSnapshot.id,
+            });
           });
-        });
 
         setListings(listingsArray);
         //   setLoading(false);
@@ -46,170 +54,181 @@ const Search = ({ navigation }) => {
     return () => subscriber();
   }, []);
 
+
   const updateSearch = (text) => {
-    setFilteredListings(
-      listings.filter(function (str) {
+    const filtered = listings.filter(function (str) {
+      if (listType.includes(str.type))
         return str.name.toLowerCase().includes(text.toLowerCase());
-      }),
-    );
+    })
+    setSearchItems && setSearchItems(filtered)
+    setFilteredListings(filtered);
     setSearch(text);
     if (text != '') {
       setShowListing(true);
     } else {
       setShowListing(false);
+      setSearchItems && setSearchItems([])
+      setFilteredListings([]);
     }
   };
 
-  const ListItem = (item, key) => {
+
+  const searchRef = useRef(null);
+  useEffect(() => {
+    searchText ? searchRef.current.focus() : searchRef.current.blur()
+  }, [searchText])
+
+  const ListItem = ({ item, key }) => {
     return (
       // Flat List Item
+      // <TouchableNativeFeedback style={styles.listing_card} onPress={() => viewItem(item.key, item.name)}>
       <View style={styles.listing_card}>
-        <TouchableOpacity style={styles.listing_card_body}>
-          <View style={styles.card_img_view}>
-            <Text style={styles.type_tag}>{item.type}</Text>
-            <Image
+        <Card style={styles.card}>
+          <View style={{ paddingHorizontal: 15, paddingVertical: 10, }}>
+            <View style={{ width: 130 }}>
+
+              <View style={styles.card_img_view}>
+                {console.log(item)}
+                {item?.image?.length > 0 && <Image source={{
+                  uri: `https://firebasestorage.googleapis.com/v0/b/davat-ceb73.appspot.com/o/${item?.image[0]}?alt=media`,
+                }} resizeMode='contain' style={{ width: 100, height: 80 }} />}
+
+                {/* <ImageBackground
               style={styles.card_img}
+              imageStyle={{ borderRadius: 15, }}
               source={{
                 uri: `https://firebasestorage.googleapis.com/v0/b/groceryhub-ceb73.appspot.com/o/${item.images[0]}?alt=media`,
               }}
-            />
-          </View>
-          <View style={styles.card_details}>
-            <View style={styles.details_top}>
-              <Text style={styles.heading}>{item.name}</Text>
-              <Text style={styles.price}>PKR {item.price}</Text>
+              >
+              <View style={{ height: "100%", width: "100%", justifyContent: "flex-end", alignItems: "flex-end", flexDirection: "row-reverse" }}>
+                <Text style={styles.heading}>{item.name}</Text>
+              </View>
+              
+            </ImageBackground> */}
+              </View>
+              <View style={{ marginBottom: 10 }}>
+                <Text style={{ fontFamily: RalewayRegular, fontSize: width * 0.04, fontWeight: '500', color: textColor, letterSpacing: width * 0.003, }}>{item?.name}</Text>
+                <Text style={{ fontFamily: RalewayRegular, fontSize: width * 0.026, fontWeight: '400', color: greyColorShaded, }}>{item?.quantity + " " + item?.quantity_type}</Text>
+              </View>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 5 }}>
+                  <Text style={{
+                    color: primaryColor,
+                    fontFamily: 'Play',
+                    fontSize: width * 0.04,
+                    fontWeight: 400,
+                    // paddingRight: 10,
+                  }}>Rs.{item?.price}</Text>
+                  <Text style={{
+                    color: "#6F6F6F",
+                    fontFamily: 'Play',
+                    fontSize: width * 0.030,
+                    fontWeight: 400,
+                    textDecorationLine: 'line-through',
+                  }}>Rs.{item?.price}</Text>
+                </View>
+                <TouchableOpacity style={[styles.addCartButton]} onPress={() => addToCart(item?.key)}>
+                  <Icon name="add" size={18} color="#fff" />
+                </TouchableOpacity>
+              </View>
             </View>
-            <View style={styles.details_bottom}>
-              <FontAwesomeIcon icon={faMapMarked} color="gray" size={18} />
-              <Text numberOfLines={1} style={styles.address}>
-                {item.address}
-              </Text>
-            </View>
+            {/* <ScrollView>
+            <View style={styles.card_details}  >
+              <View style={styles.details_bottom}>
+                <Icon name="map-pin" size={15} color="#900" type='feather' />
+                <Text numberOfLines={2} style={styles.address}>
+                  {item.address}
+                </Text>
+                </View>
+                <Text style={styles.price}>PKR {item.price}</Text>
+                </View>
+          </ScrollView> */}
           </View>
-        </TouchableOpacity>
+        </Card>
       </View>
+      // </TouchableNativeFeedback>
     );
   };
 
   return (
-    <>
+    <View style={{ justifyContent: "center", width: "90%", alignItems: "center", alignSelf: "center", }}>
       <SearchBar
         lightTheme={true}
-        placeholderTextColor="gray"
-        searchIcon={<FontAwesomeIcon icon={faSearch} color="#000" size={18} />}
-        placeholder="Search Here..."
+        placeholderTextColor={inputPlaceholderColor}
+
+        searchIcon={<Icon name='search' color={inputPlaceholderColor} size={24} style={{ marginRight: 0 }} />} placeholder="What are you looking for?"
         clearIcon={null}
-        value={search}
-        onChangeText={(text) => updateSearch(text)}
-        style={{ color: '#000' }}
+        ref={searchRef}
+        value={searchText ?? search}
+        onChangeText={(text) => {
+
+          main ? navigation.navigate('Listing', { search: text, listType: itemTypes })
+            : navigation.setParams({ search: undefined })
+
+
+          updateSearch(text);
+        }}
+        style={{ color: '#000', }}
+
+        inputStyle={{
+          minHeight: 20,
+          fontSize: 14,
+          fontFamily: PoppinsRegular
+
+        }}
+        inputContainerStyle={{
+          backgroundColor: inputBackgroundColor,
+          flexDirection: "row-reverse",
+          // borderWidth: 1,
+          // borderColor: borderColor,
+          // borderTopWidth: 0,
+          // borderBottomWidth: 0,
+          // elevation: 0.5,
+          // shadowColor: "#9D9D9D",
+          // shadowOffset: {
+          //   width: 0,
+          //   height: -13,
+          // },
+
+          // shadowOpacity: 20.19,
+          // shadowRadius: 1.65,
+        }}
+        containerStyle={{
+          backgroundColor: 'rgba(255, 255, 255)',
+          borderRadius: 20,
+          borderTopWidth: 0,
+          borderTopWidth: 0,
+          borderBottomWidth: 0,
+          flexDirection: "row-reverse",
+          padding: 0
+        }}
       />
 
-      <View style={styles.container}>
-        <ScrollView style={styles.scrollView}>
-          {showListing && filteredListings && filteredListings.map(ListItem)}
-          {(filteredListings.length == 0 || !showListing) && (
-            <Text style={{ padding: 15 }}>No results found</Text>
-          )}
-          {/* {filteredListings.length == 0 && (
+      {(filteredListings.length == 0 && !main) ? (
+        <></>
+        // <Text style={{ padding: 15, color: "#fff" }}>No results found</Text>
+      )
+        :
+        <View style={{
+          flexDirection: "row",
+          width: '100%',
+          zIndex: 1,
+          // flex: 1,
+          alignItems: 'flex-start',
+          justifyContent: 'flex-start',
+          backgroundColor: whitecolor
+        }}>
+
+          <ScrollView contentContainerStyle={[styles.scrollView, { marginTop: 20 }]} showsVerticalScrollIndicator={false}>
+            {showListing && filteredListings.length > 0 && filteredListings?.map((item, i) => <ListItem item={item} key={i} />)}
+            {/* {filteredListings.length == 0 && (
             <Text style={{padding: 15}}>No results found</Text>
           )} */}
-        </ScrollView>
-      </View>
-    </>
+          </ScrollView>
+        </View>
+      }
+    </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    height: '100%',
-    zIndex: 1,
-    flex: 1,
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-  },
-  scrollView: {
-    width: '100%',
-  },
-  listing_card: {
-    width: '100%',
-    maxHeight: 270,
-    padding: 10,
-  },
-  listing_card_body: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'white',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-
-    elevation: 3,
-    borderRadius: 5,
-  },
-  card_img_view: {
-    width: '100%',
-    height: 150,
-  },
-  card_img: {
-    width: '100%',
-    height: 200,
-    resizeMode: 'cover',
-  },
-  card_details: {
-    width: '100%',
-    height: 100,
-    backgroundColor: 'white',
-    padding: 10,
-    alignItems: 'center',
-    alignContent: 'center',
-    justifyContent: 'center',
-  },
-  details_top: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    // height: 50,
-  },
-  heading: {
-    color: secondaryColor,
-    fontSize: 20,
-    fontWeight: '700',
-    flex: 1,
-  },
-  price: {
-    color: '#000',
-    fontSize: 16,
-    fontWeight: '900',
-  },
-  details_bottom: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingTop: 10,
-    paddingHorizontal: 5,
-    // height: 50,
-  },
-  address: {
-    color: 'gray',
-    marginLeft: 10,
-    fontSize: 16,
-    paddingRight: 15,
-  },
-  type_tag: {
-    position: 'absolute',
-    zIndex: 11,
-    backgroundColor: secondaryColor,
-    color: 'white',
-    top: 10,
-    left: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    fontWeight: 'bold',
-    borderRadius: 20,
-  },
-});
 export default Search;

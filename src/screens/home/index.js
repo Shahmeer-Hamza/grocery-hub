@@ -30,6 +30,7 @@ import { ImageSlider } from 'react-native-image-slider-banner';
 import { InputField } from '../../components/InputField';
 import DrawerNav from '../../components/BottomTab';
 import firestore from '@react-native-firebase/firestore';
+import Search from '../search';
 // import {} from 'react-native-gesture-handler';
 
 const banners = [
@@ -193,9 +194,11 @@ const Home = ({ navigation, route }) => {
                     </View>
                     <View style={{ paddingHorizontal: 30, paddingVertical: WINDOWHEIGHT / 50 }}>
                         <View style={styles.searchInputContainer}>
-                            <TextInput style={[styles.searchInput]} placeholder='What are you looking for?' placeholderTextColor={'#454545'} />
-                            <Icon name='search' size={24} color={'#454545'} />
+                            {/* <TextInput style={[styles.searchInput]} placeholder='What are you looking for?' placeholderTextColor={'#454545'} />
+                            <Icon name='search' size={24} color={'#454545'} /> */}
+                   
                         </View>
+                            <Search listType={[]} placeholderText={`Search ... `} main={true} />
                         {/* <InputField
                         placeholder="Enter your password"
                         placeholderTextColor={primaryColorShaded}

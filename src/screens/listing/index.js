@@ -14,7 +14,7 @@ import { TouchableHighlight, TouchableOpacity, TouchableNativeFeedback } from 'r
 
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-import { background, greyColorShaded, primaryColor, primaryColorShaded, secondaryColor, textColor } from '../../utils/Colors';
+import { background, greyColorShaded, primaryColor, primaryColorShaded, secondaryColor, textColor, whitecolor } from '../../utils/Colors';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faFilter, faMapMarked, faTimes } from '@fortawesome/free-solid-svg-icons';
 import Modal from '../../components/Modal';
@@ -25,6 +25,8 @@ import { AuthContext } from '../../navigation/AuthProvider';
 import { firebaseStorageUrl } from '../../utils/storage';
 import { Card } from 'react-native-paper';
 import ScreenHeader from '../../components/ScreenHeader';
+import Search from '../search';
+import { itemTypes } from '../../utils/itemTypes';
 
 const { width, height } = Dimensions.get('screen')
 const Home = ({ route, navigation }) => {
@@ -39,6 +41,10 @@ const Home = ({ route, navigation }) => {
   const [wishedList, setWishedList] = useState([]);
   const [addedCart, setAddedCart] = useState(false);
   const { user, contextCartCount, setContextCartCount, contextWishedCount, setContextWishedCount, } = useContext(AuthContext);
+  const [searchItems, setSearchItems] = useState([])
+
+
+
 
   const getListing = (force = 0) => {
     setLoading(true);
@@ -77,12 +83,12 @@ const Home = ({ route, navigation }) => {
         // console.log('Snapshot', querySnapshot)
         querySnapshot.forEach(
           (documentSnapshot) => {
-          // console.log('Document Snapshot', documentSnapshot)
-          listingsArray.push({
-            ...documentSnapshot.data(),
-            key: documentSnapshot.id,
+            // console.log('Document Snapshot', documentSnapshot)
+            listingsArray.push({
+              ...documentSnapshot.data(),
+              key: documentSnapshot.id,
+            });
           });
-        });
 
       }
 
@@ -259,6 +265,7 @@ const Home = ({ route, navigation }) => {
                 <Image source={{
                   uri: `https://firebasestorage.googleapis.com/v0/b/davat-ceb73.appspot.com/o/${item?.image[0]}?alt=media`,
                 }} resizeMode='contain' style={{ width: 100, height: 80 }} />
+
                 {/* <ImageBackground
               style={styles.card_img}
               imageStyle={{ borderRadius: 15, }}
@@ -320,16 +327,17 @@ const Home = ({ route, navigation }) => {
     <>
       {/* {route?.params && <Header />}
       {route?.params && <ScreenHeader name="VEGETABLES" type="Categories" />} */}
-      {
+      <View style={{ 
+          height: height-100, width: "100%", backgroundColor: whitecolor }}>
+        <Search searchText={route?.params?.search} listType={listType} setSearchItems={setSearchItems} placeholderText={`Search by name... `} setModalVisible={setModalVisible} />
+      </View>
+
+      {searchItems?.length == 0 ?
         loading ? <View style={[styles.container, styles.horizontal]}><ActivityIndicator size="large" color={primaryColorShaded} /></View> :
           <>
+
             <View style={styles.container}>
-              {/* <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 10, paddingHorizontal: 10 }}>
-          <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => setModalVisible(true)}>
-            <FontAwesomeIcon icon={faFilter} color={secondaryColor} size={22} />
-            <Text style={{ fontSize: 16, fontWeight: '700', marginLeft: 5 }}>Search Filters</Text>
-          </TouchableOpacity>
-        </View> */}
+
               <ScrollView contentContainerStyle={styles.scrollView}>
                 {listings && listings.map((item, index) => {
                   let temp_arr = []
@@ -429,6 +437,7 @@ const Home = ({ route, navigation }) => {
               } />
             )}
           </>
+        : <></>
       }
     </>
   );
