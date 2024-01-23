@@ -106,23 +106,6 @@ const Home = ({ route, navigation }) => {
   }
 
   const addToCart = (item_id) => {
-    console.log(item_id)
-    // if (addedCart) {
-    // var cart_query = firestore()
-    //   .collection('carts')
-    //   .where('user', '==', user.uid)
-    //   .where('item', '==', item_id)
-    //   .get()
-    //   .then(function (querySnapshot) {
-    //     querySnapshot.forEach(function (doc) {
-    //       doc.ref.delete();
-    //       // setAddedCart(false);
-    //       // setContextCartCount(1 - contextCartCount);
-    //       ToastAndroid.show('Item Removed From The Cart', ToastAndroid.SHORT);
-    //     });
-    //   });
-    // }
-    // else {
     firestore().collection("carts").add({
       user: user.uid,
       item: item_id

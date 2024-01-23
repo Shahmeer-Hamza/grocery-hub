@@ -92,18 +92,14 @@ const Cart = ({ route, navigation }) => {
 
   }
 
-
-  if (!loading) {
-    return <SafeAreaView style={{backgroundColor: whitecolor, height}}><View style={[{ justifyContent: "center", alignItems: "center", height: height-250,  }]} ><ActivityIndicator size={40}  color={primaryColor}/></View></SafeAreaView>
+  if (loading) {
+    return <SafeAreaView style={{ backgroundColor: whitecolor, height }}><View style={[{ justifyContent: "center", alignItems: "center", height: height - 250, }]} ><ActivityIndicator size={40} color={primaryColor} /></View></SafeAreaView>
   }
   const viewItem = (item_id, item_name) => {
     navigation.navigate('ViewItem', { item_id: item_id, name: item_name });
   };
 
-  const addQuantity = (index) => {
-    setQuantity(quantity + 1);
-    // setListings(listings=>[...listings, listings[index]= {...listings[index], quantity} ]);
-  }
+  const addQuantity = (index) => setQuantity(quantity + 1);
 
   const ListItem = (item, index) => {
     console.log("index", item.image);
@@ -168,10 +164,6 @@ const Cart = ({ route, navigation }) => {
   return (
     <>
       <SafeAreaView style={styles.container}>
-      {loading?
-      <ActivityIndicator />
-      :
-      <>
         <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
           {/* <View style={{ height: height}}> */}
           {listings && listings.map(ListItem)}
@@ -182,15 +174,23 @@ const Cart = ({ route, navigation }) => {
             <Text style={styles.checkout_btn_text}>CHECKOUT</Text>
           </TouchableOpacity>
         ) : (
-          <View><Text>Cart is empty</Text></View>
+          <View style={styles.card_details} ><Text style={{ color: "#000", fontFamily: PoppinsRegular, fontSize: 20 }}>Cart is empty</Text></View>
         )}
-        </>}
       </SafeAreaView>
     </>
   );
 };
 
 const styles = StyleSheet.create({
+
+  card_details: {
+    width: '100%',
+    backgroundColor: backgroundColor,
+    alignItems: "center",
+    flexDirection: "column",
+    justifyContent: "center",
+    height: "100%"
+  },
   container: {
     width: '100%',
     height: height / 1,

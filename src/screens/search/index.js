@@ -7,6 +7,7 @@ import {
   ScrollView,
   TextInput,
   Dimensions,
+  ToastAndroid,
 } from 'react-native';
 
 import { faSearch, faMapMarked } from '@fortawesome/free-solid-svg-icons';
@@ -31,7 +32,9 @@ const Search = ({ listType, placeholderText, setSearchItems, main, searchText })
   const [listings, setListings] = useState([]);
   const [filteredListings, setFilteredListings] = useState([]);
   const [showListing, setShowListing] = useState(false);
+  const { user, contextCartCount, setContextCartCount, contextWishedCount, setContextWishedCount, } = useContext(AuthContext);
 
+  const searchRef = useRef(null);
 
   useEffect(() => {
     const subscriber = firestore()
@@ -73,10 +76,24 @@ const Search = ({ listType, placeholderText, setSearchItems, main, searchText })
   };
 
 
-  const searchRef = useRef(null);
   useEffect(() => {
     searchText ? searchRef.current.focus() : searchRef.current.blur()
   }, [searchText])
+  const addToCart = (item_id) => {
+    firestore().collection("carts").add({
+      user: user.uid,
+      item: item_id
+    })
+      .then((docRef) => {
+        ToastAndroid.show('Item Added To The Cart', ToastAndroid.SHORT);
+        setAddedCart(true);
+        setContextCartCount(1 + contextCartCount);
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
+    // }
+  };
 
   const ListItem = ({ item, key }) => {
     return (
