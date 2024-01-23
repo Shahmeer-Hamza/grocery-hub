@@ -7,7 +7,7 @@ import {
   ScrollView,
   ActivityIndicator,
   RefreshControl,
-  TouchableOpacity, ImageBackground, Dimensions, Pressable
+  TouchableOpacity, ImageBackground, Dimensions, Pressable, SafeAreaView
 } from 'react-native';
 import Header from '../../components/Header';
 import { TouchableNativeFeedback } from 'react-native-gesture-handler';
@@ -15,7 +15,7 @@ import { TouchableNativeFeedback } from 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-import { background, borderColor, greyColorShaded, inputBackgroundColor, primaryColor, secondaryColor, textColor } from '../../utils/Colors';
+import { background, borderColor, greyColorShaded, inputBackgroundColor, primaryColor, secondaryColor, textColor, whitecolor } from '../../utils/Colors';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faMapMarked } from '@fortawesome/free-solid-svg-icons';
 import { useIsFocused } from '@react-navigation/native';
@@ -23,6 +23,8 @@ import { AuthContext } from '../../navigation/AuthProvider';
 import { PoppinsBlack, PoppinsRegular, RalewayRegular } from '../../utils/fonts';
 import { Icon, Divider } from 'react-native-elements';
 import { color } from 'react-native-reanimated';
+import { itemTypes } from '../../utils/itemTypes';
+import { windowHeight } from '../../utils/WindowDimensions';
 
 const { width, height } = Dimensions.get("window")
 
@@ -32,66 +34,91 @@ const Cart = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
 
   const [listings, setListings] = useState([]);
+  const [refreshing, setrefreshing] = useState(false);
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    if (listings.length <= 0) {
-      getData()
-    }
+    // if (listings.length <= 0) {
+    getAllCarts()
+    // }
   }, [isFocused]);
 
-  const getData = () => {
+
+  const getAllCarts = async () => {
     firestore()
       .collection('carts')
       .where('user', '==', auth().currentUser.uid)
       .get()
       .then((querySnapshot) => {
-        const listingsArray = [];
-        querySnapshot.forEach(function (doc) {
-          firestore().collection('listings').doc(doc.data().item).get().then((response) => {
-            listingsArray.push({
-              ...response.data(),
-              key: response.id,
-              quantity
-            });
-          });
-        });
-        setTimeout(() => {
+        let listingsArray = [];
+        let notNeedItems = 0;
+        if (querySnapshot.size > 0) {
+          querySnapshot.forEach(function (doc) {
+            firestore().collection('listings')
+              .doc(doc.data().item)
+              .get()
+              .then((response) => {
+                if (itemTypes?.includes(response.data()?.type)) {
+                  listingsArray.push({
+                    ...response.data(),
+                    key: response.id,
+                  });
+                } else {
+                  notNeedItems++
+                }
+                if (listingsArray?.length == querySnapshot.size - notNeedItems) {
+                  setListings(listingsArray);
+                  setLoading(false);
+                  setrefreshing(false)
+                }
+              }).catch(() => {
+                setLoading(false);
+                setrefreshing(false)
 
-          setListings(listingsArray);
-        }, 1000);
+              })
 
+          })
+        }
+        else {
+          setListings([])
+          setLoading(false);
+          setrefreshing(false)
+        }
+      })
+      .catch(() => {
         setLoading(false);
+        setrefreshing(false)
+      })
 
-      });
   }
 
-  if (loading) {
-    return <ActivityIndicator />;
+
+  if (!loading) {
+    return <SafeAreaView style={{backgroundColor: whitecolor, height}}><View style={[{ justifyContent: "center", alignItems: "center", height: height-250,  }]} ><ActivityIndicator size={40}  color={primaryColor}/></View></SafeAreaView>
   }
   const viewItem = (item_id, item_name) => {
     navigation.navigate('ViewItem', { item_id: item_id, name: item_name });
   };
 
-  const addQuantity=(index)=>{
+  const addQuantity = (index) => {
     setQuantity(quantity + 1);
     // setListings(listings=>[...listings, listings[index]= {...listings[index], quantity} ]);
   }
 
   const ListItem = (item, index) => {
-    console.log("index", index);
+    console.log("index", item.image);
     return (
       // Flat List Item
       <TouchableNativeFeedback style={styles.listing_card}>
         <View style={{ flexDirection: 'row', width: '100%' }}>
           <View style={styles.card_img_view}>
-            <Image
+            {item?.image?.length && <Image
               style={styles.card_img}
               // imageStyle={{ borderRadius: 20, }}
               source={{
                 uri: `https://firebasestorage.googleapis.com/v0/b/davat-ceb73.appspot.com/o/${item.image[0]}?alt=media`,
               }}
-            />
+            />}
           </View>
           {/* <View style={{ flex: 1, width: "100%", justifyContent: "flex-end", alignItems: "flex-end", flexDirection: "row-reverse" }}>
             <Text style={styles.heading}>{item.name}</Text>
@@ -126,7 +153,7 @@ const Cart = ({ route, navigation }) => {
                   <Icon name="remove" color="#CCCCCC" />
                 </Pressable>
                 <Text style={{ color: "#000", fontSize: 18, paddingHorizontal: 8, }}>{quantity}</Text>
-                <Pressable style={{ backgroundColor: primaryColor, borderRadius: 4 }} onPressIn={()=>addQuantity(index)}>
+                <Pressable style={{ backgroundColor: primaryColor, borderRadius: 4 }} onPressIn={() => addQuantity(index)}>
                   <Icon name="add" color="#fff" />
                 </Pressable>
               </View>
@@ -140,8 +167,12 @@ const Cart = ({ route, navigation }) => {
 
   return (
     <>
-      <View style={styles.container}>
-        <ScrollView style={styles.scrollView}>
+      <SafeAreaView style={styles.container}>
+      {loading?
+      <ActivityIndicator />
+      :
+      <>
+        <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
           {/* <View style={{ height: height}}> */}
           {listings && listings.map(ListItem)}
           {/* </View> */}
@@ -153,7 +184,8 @@ const Cart = ({ route, navigation }) => {
         ) : (
           <View><Text>Cart is empty</Text></View>
         )}
-      </View>
+        </>}
+      </SafeAreaView>
     </>
   );
 };

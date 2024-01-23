@@ -11,24 +11,14 @@ import {
   Image
 } from 'react-native';
 
-import auth from '@react-native-firebase/auth';
 import { AuthContext } from '../../navigation/AuthProvider';
 
-import Header from '../../components/Header';
 
-import { ToastAndroid, Alert } from 'react-native';
-
-import { InputField, InputFieldBorder, InputFieldFull } from '../../components/InputField';
-import { PrimaryButton } from '../../components/Buttons';
+import {  InputFieldBorder } from '../../components/InputField';
 import { background, borderColor, greyishBlackColorShaded, primaryColor, primaryColorShaded, secondaryColor, textColor, whitecolor } from '../../utils/Colors';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import {
-  faChevronRight
-} from '@fortawesome/free-solid-svg-icons';
 
 import firestore from '@react-native-firebase/firestore';
 import { PoppinsRegular, RalewayRegular } from '../../utils/fonts';
-import { Icon } from 'react-native-elements';
 
 const Account = ({ navigation }) => {
   const { user, name } = useContext(AuthContext);
@@ -53,6 +43,61 @@ const Account = ({ navigation }) => {
     catch { }
   }, []);
 
+  const updateProfile = async () => {
+    setErrorMessage(null);
+    auth()
+      .currentUser.updateEmail(email)
+
+      .then((e) => {
+        ToastAndroid.show('Email Updated Successfully', ToastAndroid.SHORT);
+      })
+      .catch((e) => {
+        if (e.code === 'auth/email-already-in-use') {
+          setErrorMessage('That email address is already in use!');
+        } else if (e.code === 'auth/invalid-email') {
+          setErrorMessage('That email address is invalid!');
+        } else if (e.code === 'auth/wrong-password') {
+          setErrorMessage('That password is invalid!');
+        } else if (e.code === 'auth/weak-password') {
+          setErrorMessage('Password should be at least 6 characters');
+        } else if (e.code == 'auth/requires-recent-login') {
+          setErrorMessage('Session expired! Re-login and continue');
+        }
+        console.log(e);
+      });
+    if (password != '') {
+      auth()
+        .currentUser.updatePassword(password)
+        .then((e) => {
+          ToastAndroid.show(
+            'Password Updated Successfully',
+            ToastAndroid.SHORT,
+          );
+        })
+        .catch((e) => {
+          if (e.code === 'auth/email-already-in-use') {
+            setErrorMessage('That email address is already in use!');
+          } else if (e.code === 'auth/invalid-email') {
+            setErrorMessage('That email address is invalid!');
+          } else if (e.code === 'auth/wrong-password') {
+            setErrorMessage('That password is invalid!');
+          } else if (e.code === 'auth/weak-password') {
+            setErrorMessage('Password should be at least 6 characters');
+          }
+        });
+      // await auth().currentUser.updatePassword(password);
+    }
+    firestore()
+      .collection('users')
+      .doc(user.uid)
+      .update({
+        username: username,
+        email: email,
+      })
+      .then(() => {
+        ToastAndroid.show('Username Updated Successfully', ToastAndroid.SHORT);
+      });
+  };
   return (
     <>
 
@@ -62,7 +107,7 @@ const Account = ({ navigation }) => {
       </TouchableOpacity> */}
 
       <View style={styles.container}>
-        <ScrollView style={styles.scrollView} centerContent={true}>
+        <ScrollView style={styles.scrollView} contentContainerStyle={{paddingBottom: 20}} centerContent={true}>
           <View style={{ justifyContent: "center", alignItems: "center" }}>
             <View style={{ width: 105, height: 105, flexDirection: "row", alignItems: "flex-end", marginBottom: 30 }}>
               <View style={{ backgroundColor: primaryColor, width: 100, height: 100, justifyContent: "center", alignItems: "center", borderRadius: 50, overflow: "hidden" }}>

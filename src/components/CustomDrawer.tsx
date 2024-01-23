@@ -14,7 +14,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 function CustomDrawerContent({ setShowMenu, closeDrawwer }) {
-    const { logout } = useContext(AuthContext);
+    const { logout, user, name } = useContext(AuthContext);
     const navigation = useNavigation()
     const [active, setActive] = useState("")
 
@@ -24,7 +24,6 @@ function CustomDrawerContent({ setShowMenu, closeDrawwer }) {
         // setShowMenu(false)
         closeDrawwer()
     }
-
     return (
         // <LinearGradient colors={['#52D068', '#229236 ']} style={{ flex: 1, }} >
         <View style={{ ...styles.container, }}>
@@ -39,7 +38,7 @@ function CustomDrawerContent({ setShowMenu, closeDrawwer }) {
                         </View>
                         <View style={{ paddingLeft: 20, }}>
                             <Text style={{ color: whitecolor, fontFamily: RalewayRegular, fontSize: 12, fontWeight: '500' }}>Welcome</Text>
-                            <Text style={{ color: whitecolor, fontFamily: RalewayRegular, fontSize: 24, fontWeight: '600' }}>Sheheryar Noor</Text>
+                            <Text style={{ color: whitecolor, fontFamily: RalewayRegular, fontSize: 24, fontWeight: '600' }}>{name??user?.username??user?.displayName}</Text>
                         </View>
                     </View>
                 </View>
