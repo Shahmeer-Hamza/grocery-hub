@@ -108,7 +108,7 @@ const Account = ({ navigation }) => {
       </TouchableOpacity> */}
 
       <View style={styles.container}>
-        <ScrollView style={styles.scrollView} contentContainerStyle={{paddingBottom: 20}} centerContent={true}>
+        <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom: 20}} centerContent={true}>
           <View style={{ justifyContent: "center", alignItems: "center" }}>
             <View style={{ width: 105, height: 105, flexDirection: "row", alignItems: "flex-end", marginBottom: 30 }}>
               <View style={{ backgroundColor: primaryColor, width: 100, height: 100, justifyContent: "center", alignItems: "center", borderRadius: 50, overflow: "hidden" }}>
