@@ -14,7 +14,7 @@ import {
 
 import { AuthContext } from '../../navigation/AuthProvider';
 
-
+import auth from "@react-native-firebase/auth"
 import {  InputFieldBorder } from '../../components/InputField';
 import { background, borderColor, greyishBlackColorShaded, primaryColor, primaryColorShaded, secondaryColor, textColor, whitecolor } from '../../utils/Colors';
 

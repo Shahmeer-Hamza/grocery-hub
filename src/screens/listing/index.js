@@ -306,16 +306,17 @@ const Home = ({ route, navigation }) => {
     );
   };
 
+
   return (
     <>
       {/* {route?.params && <Header />}
       {route?.params && <ScreenHeader name="VEGETABLES" type="Categories" />} */}
-      <View style={{ 
+     {route?.params?.searchEnabled && <View style={{ 
           height: height-100, width: "100%", backgroundColor: whitecolor }}>
         <Search searchText={route?.params?.search} listType={listType} setSearchItems={setSearchItems} placeholderText={`Search by name... `} setModalVisible={setModalVisible} />
-      </View>
+      </View>}
 
-      {searchItems?.length == 0 ?
+      {(route?.params?.search || searchItems?.length == 0) ?
         loading ? <View style={[styles.container, styles.horizontal]}><ActivityIndicator size="large" color={primaryColorShaded} /></View> :
           <>
 

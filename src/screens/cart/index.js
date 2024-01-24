@@ -7,7 +7,7 @@ import {
   ScrollView,
   ActivityIndicator,
   RefreshControl,
-  TouchableOpacity, ImageBackground, Dimensions, Pressable, SafeAreaView
+  TouchableOpacity, ImageBackground, Dimensions, Pressable, SafeAreaView, ToastAndroid
 } from 'react-native';
 import Header from '../../components/Header';
 import { TouchableNativeFeedback } from 'react-native-gesture-handler';
@@ -15,7 +15,7 @@ import { TouchableNativeFeedback } from 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-import { background, borderColor, greyColorShaded, inputBackgroundColor, primaryColor, secondaryColor, textColor, whitecolor } from '../../utils/Colors';
+import { background, borderColor, greyColorShaded, inputBackgroundColor, primaryColor, secondaryColor, textColor } from '../../utils/Colors';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faMapMarked } from '@fortawesome/free-solid-svg-icons';
 import { useIsFocused } from '@react-navigation/native';
@@ -36,6 +36,7 @@ const Cart = ({ route, navigation }) => {
   const [listings, setListings] = useState([]);
   const [refreshing, setrefreshing] = useState(false);
   const isFocused = useIsFocused();
+  const { user } = useContext(AuthContext)
 
   useEffect(() => {
     // if (listings.length <= 0) {
@@ -93,7 +94,7 @@ const Cart = ({ route, navigation }) => {
   }
 
   if (loading) {
-    return <SafeAreaView style={{ backgroundColor: whitecolor, height }}><View style={[{ justifyContent: "center", alignItems: "center", height: height - 250, }]} ><ActivityIndicator size={40} color={primaryColor} /></View></SafeAreaView>
+    return <SafeAreaView style={{ backgroundColor: background, height }}><View style={[{ justifyContent: "center", alignItems: "center", height: height - 250, }]} ><ActivityIndicator size={40} color={primaryColor} /></View></SafeAreaView>
   }
   const viewItem = (item_id, item_name) => {
     navigation.navigate('ViewItem', { item_id: item_id, name: item_name });
@@ -101,11 +102,28 @@ const Cart = ({ route, navigation }) => {
 
   const addQuantity = (index) => setQuantity(quantity + 1);
 
+
+  const addToCart = (item_id, index) => {
+    var cart_query = firestore()
+      .collection('carts')
+      .where('user', '==', user.uid)
+      .where('item', '==', item_id)
+      .get()
+      .then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          doc.ref.delete();
+          setListings((listings) => listings.filter(lists => lists?.key != item_id))
+          // setAddedCart(false);
+          // setContextCartCount(1 - contextCartCount);
+          ToastAndroid.show('Item Removed From The Cart', ToastAndroid.SHORT);
+        });
+      });
+  }
+
   const ListItem = (item, index) => {
-    console.log("index", item.image);
     return (
       // Flat List Item
-      <TouchableNativeFeedback style={styles.listing_card}>
+      <View style={styles.listing_card}>
         <View style={{ flexDirection: 'row', width: '100%' }}>
           <View style={styles.card_img_view}>
             {item?.image?.length && <Image
@@ -116,20 +134,6 @@ const Cart = ({ route, navigation }) => {
               }}
             />}
           </View>
-          {/* <View style={{ flex: 1, width: "100%", justifyContent: "flex-end", alignItems: "flex-end", flexDirection: "row-reverse" }}>
-            <Text style={styles.heading}>{item.name}</Text>
-          </View> */}
-          {/* <ScrollView>
-            <View style={styles.card_details} >
-              <View style={styles.details_bottom}>
-                <Icon name="map-pin" size={15} color="#900" type='feather' />
-                <Text numberOfLines={2} style={styles.address}>
-                  {item.address}
-                </Text>
-              </View>
-              <Text style={styles.price}>PKR {item.price}</Text>
-            </View>
-          </ScrollView> */}
           <View style={{ justifyContent: "center", paddingLeft: 10, width: '70%' }}>
             <Text style={styles.heading}>{item.name}</Text>
             <Text style={styles.quantityheading}>{item?.quantity + " " + item?.quantity_type}</Text>
@@ -145,18 +149,23 @@ const Cart = ({ route, navigation }) => {
                 <Text style={styles.origanalPrice}>Rs.{item.price}</Text>
               </View>
               <View style={{ flexDirection: "row", }}>
-                <Pressable style={{ backgroundColor: "#f6f6f6", borderRadius: 4 }} disabled={quantity <= 1 ? true : false} onPress={() => setQuantity(quantity - 1)}>
+
+                <Pressable style={{ backgroundColor: "#f6f6f6", borderRadius: 4, paddingHorizontal: 10 }} onPress={() => addToCart(item?.key, index)}>
+                  <Text style={{ color: greyColorShaded }}> Remove</Text>
+                  {/* <Icon name="delete" color="red" /> */}
+                </Pressable>
+                {/*    {/* <Pressable style={{ backgroundColor: "#f6f6f6", borderRadius: 4 }} disabled={quantity <= 1 ? true : false} onPress={() => setQuantity(quantity - 1)}>
                   <Icon name="remove" color="#CCCCCC" />
                 </Pressable>
                 <Text style={{ color: "#000", fontSize: 18, paddingHorizontal: 8, }}>{quantity}</Text>
                 <Pressable style={{ backgroundColor: primaryColor, borderRadius: 4 }} onPressIn={() => addQuantity(index)}>
                   <Icon name="add" color="#fff" />
-                </Pressable>
+                </Pressable> */}
               </View>
             </View>
           </View>
         </View>
-      </TouchableNativeFeedback >
+      </View >
 
     );
   };
@@ -174,7 +183,12 @@ const Cart = ({ route, navigation }) => {
             <Text style={styles.checkout_btn_text}>CHECKOUT</Text>
           </TouchableOpacity>
         ) : (
-          <View style={styles.card_details} ><Text style={{ color: "#000", fontFamily: PoppinsRegular, fontSize: 20 }}>Cart is empty</Text></View>
+          <SafeAreaView style={{ backgroundColor: background, height, width: width}}>
+            <View style={{ justifyContent: "center", alignItems: "center", height: height - 250}} >
+              <Text style={{ color: "#000", fontFamily: PoppinsRegular, fontSize: 20 }}>Cart is empty
+              </Text>
+            </View>
+          </SafeAreaView>
         )}
       </SafeAreaView>
     </>
@@ -185,9 +199,8 @@ const styles = StyleSheet.create({
 
   card_details: {
     width: '100%',
-    backgroundColor:whitecolor,
+    backgroundColor: background,
     alignItems: "center",
-    flexDirection: "column",
     justifyContent: "center",
     height: "100%"
   },

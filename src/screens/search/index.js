@@ -14,7 +14,7 @@ import { faSearch, faMapMarked } from '@fortawesome/free-solid-svg-icons';
 
 import { Icon, SearchBar } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { borderColor, greyColorShaded, inputBackgroundColor, inputPlaceholderColor, primaryColor, secondaryColor, textColor, whitecolor } from '../../utils/Colors';
+import { background, borderColor, greyColorShaded, inputBackgroundColor, inputPlaceholderColor, primaryColor, secondaryColor, textColor, whitecolor } from '../../utils/Colors';
 
 import firestore from '@react-native-firebase/firestore';
 import { PoppinsRegular, RalewayRegular } from '../../utils/fonts';
@@ -33,6 +33,7 @@ const Search = ({ listType, placeholderText, setSearchItems, main, searchText })
   const [listings, setListings] = useState([]);
   const [filteredListings, setFilteredListings] = useState([]);
   const [showListing, setShowListing] = useState(false);
+  const [addedCart, setAddedCart] = useState(false);
   const { user, contextCartCount, setContextCartCount } = useContext(AuthContext);
 
   const searchRef = useRef(null);
@@ -96,6 +97,7 @@ const Search = ({ listType, placeholderText, setSearchItems, main, searchText })
     // }
   };
 
+
   const ListItem = ({ item, key }) => {
     return (
       // Flat List Item
@@ -106,23 +108,12 @@ const Search = ({ listType, placeholderText, setSearchItems, main, searchText })
             <View style={{ width: 130 }}>
 
               <View style={styles.card_img_view}>
-                {console.log(item)}
+
                 {item?.image?.length > 0 && <Image source={{
                   uri: `https://firebasestorage.googleapis.com/v0/b/davat-ceb73.appspot.com/o/${item?.image[0]}?alt=media`,
                 }} resizeMode='contain' style={{ width: 100, height: 80 }} />}
 
-                {/* <ImageBackground
-              style={styles.card_img}
-              imageStyle={{ borderRadius: 15, }}
-              source={{
-                uri: `https://firebasestorage.googleapis.com/v0/b/groceryhub-ceb73.appspot.com/o/${item.images[0]}?alt=media`,
-              }}
-              >
-              <View style={{ height: "100%", width: "100%", justifyContent: "flex-end", alignItems: "flex-end", flexDirection: "row-reverse" }}>
-                <Text style={styles.heading}>{item.name}</Text>
-              </View>
-              
-            </ImageBackground> */}
+
               </View>
               <View style={{ marginBottom: 10 }}>
                 <Text style={{ fontFamily: RalewayRegular, fontSize: width * 0.04, fontWeight: '500', color: textColor, letterSpacing: width * 0.003, }}>{item?.name}</Text>
@@ -168,8 +159,10 @@ const Search = ({ listType, placeholderText, setSearchItems, main, searchText })
     );
   };
 
+console.log("filteredListings.length", filteredListings.length, !main)
+
   return (
-    <View style={{ justifyContent: "center", width: "90%", alignItems: "center", alignSelf: "center", }}>
+    <View style={{ justifyContent: "center", alignItems: "center", alignSelf: "center", paddingHorizontal: 10, paddingVertical:20 }}>
       <SearchBar
         lightTheme={true}
         placeholderTextColor={inputPlaceholderColor}
@@ -180,13 +173,13 @@ const Search = ({ listType, placeholderText, setSearchItems, main, searchText })
         value={searchText ?? search}
         onChangeText={(text) => {
 
-          main ? navigation.navigate('Listing', { search: text, listType: itemTypes })
+          main ? navigation.navigate('Listing', { search: text, listType: itemTypes, searchEnabled: true })
             : navigation.setParams({ search: undefined })
 
 
           updateSearch(text);
         }}
-        style={{ color: '#000', }}
+        style={{ color: '#000' }}
 
         inputStyle={{
           minHeight: 20,
@@ -222,7 +215,7 @@ const Search = ({ listType, placeholderText, setSearchItems, main, searchText })
         }}
       />
 
-      {(filteredListings.length == 0 && !main) ? (
+      {(filteredListings.length == 0) ? (
         <></>
         // <Text style={{ padding: 15, color: "#fff" }}>No results found</Text>
       )
@@ -232,13 +225,22 @@ const Search = ({ listType, placeholderText, setSearchItems, main, searchText })
           width: '100%',
           zIndex: 1,
           // flex: 1,
-          alignItems: 'flex-start',
-          justifyContent: 'flex-start',
-          backgroundColor: whitecolor
+          // alignItems: 'flex-start',
+          // justifyContent: 'flex-start',
+          backgroundColor: background
         }}>
 
-          <ScrollView contentContainerStyle={[styles.scrollView, { marginTop: 20 }]} showsVerticalScrollIndicator={false}>
+          <ScrollView contentContainerStyle={[styles.scrollView, { marginTop: 20, paddingBottom: 150 }]} showsVerticalScrollIndicator={false}>
+            <View style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 20,
+            }}>
+
             {showListing && filteredListings.length > 0 && filteredListings?.map((item, i) => <ListItem item={item} key={i} />)}
+            </View>
             {/* {filteredListings.length == 0 && (
             <Text style={{padding: 15}}>No results found</Text>
           )} */}

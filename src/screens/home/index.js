@@ -95,9 +95,9 @@ const Home = ({ navigation, route }) => {
 
     const Slide = ({ item }) => {
         return (
-            <View style={{ justifyContent: 'center', alignItems: 'center', paddingHorizontal: WINDOWWIDTH * .05 }}>
-                <View style={{ borderRadius: 8, overflow: 'hidden' }}>
-                    <Image source={item.img} resizeMode='contain' style={{ width: WINDOWWIDTH * .9, height: WINDOWHEIGHT * .17, }} />
+            <View style={{ justifyContent: 'center', alignItems: 'center',width: WINDOWWIDTH, }}>
+                <View style={{ borderRadius: 8, overflow: 'hidden', width: WINDOWWIDTH, }}>
+                    <Image source={item.img} resizeMode='contain' style={{ width: WINDOWWIDTH, height: WINDOWHEIGHT * .17, }} />
                 </View>
                 {/* <Image style={{resizeMode:"center",width:"80%",height:120}} source={require("../../assets/promotion-banner.png")}/> */}
             </View>
@@ -192,19 +192,12 @@ const Home = ({ navigation, route }) => {
                             </View>
                         </ImageBackground>
                     </View>
-                    <View style={{ paddingHorizontal: 30, paddingVertical: WINDOWHEIGHT / 50 }}>
-                        <View style={styles.searchInputContainer}>
-                            {/* <TextInput style={[styles.searchInput]} placeholder='What are you looking for?' placeholderTextColor={'#454545'} />
-                            <Icon name='search' size={24} color={'#454545'} /> */}
-                   
-                        </View>
+                    <ScrollView >
+                    <View style={{ paddingHorizontal: 10, paddingTop: WINDOWHEIGHT / 50 }}>
+                        
                             <Search listType={[]} placeholderText={`Search ... `} main={true} />
-                        {/* <InputField
-                        placeholder="Enter your password"
-                        placeholderTextColor={primaryColorShaded}
-                    /> */}
+                    
                     </View>
-                    <ScrollView>
                         <View style={{}}>
                             <FlatList
                                 ref={ref}
@@ -290,7 +283,7 @@ const Home = ({ navigation, route }) => {
                                 <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '600', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: WINDOWHEIGHT / 50 }}>
                                     Popular Products
                                 </Text>
-                                <Text style={{ fontFamily: RalewayRegular, fontSize: 14, fontWeight: '500', color: primaryColor, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: WINDOWHEIGHT / 50, lineHeight: 22, }}>
+                                <Text style={{ fontFamily: RalewayRegular, fontSize: 14, fontWeight: '500', color: primaryColor, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: WINDOWHEIGHT / 50, lineHeight: 22, }} >
                                     View All
                                 </Text>
                             </View>
