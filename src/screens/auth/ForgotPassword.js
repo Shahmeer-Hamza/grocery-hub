@@ -11,6 +11,7 @@ import {
   Pressable,
   ImageBackground,
   KeyboardAvoidingView,
+  Keyboard,
 } from 'react-native';
 
 import {
@@ -34,6 +35,28 @@ import { RalewayRegular } from '../../utils/fonts';
 const { width, height } = Dimensions.get("screen")
 const ForgotPassword = ({ navigation }) => {
   const [email, setEmail] = useState('');
+  const [showFooter, setShowFooter] = useState('flex');
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setShowFooter('none');
+      }
+    );
+
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setShowFooter('flex');
+      }
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
 
   const {
     login,
@@ -177,7 +200,11 @@ const ForgotPassword = ({ navigation }) => {
             </View> */}
               </View>
             </View>
-        <View style={{ width: width, height: height * .16, position: 'relative', bottom: 0, left: 0, }}>
+            </ScrollView>
+          </KeyboardAvoidingView>
+        </View>
+
+        <View style={{ display: showFooter, width: width, height: height * .16, position: 'relative', bottom: 0, left: 0, }}>
           <ImageBackground resizeMode='stretch' style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', width: width + 1, height: height * .2, alignItems: "flex-end" }} source={require('../../assets/auth-footer.png')}>
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingBottom: height * .02 }}>
               <Text style={styles.loginText}>Remember your account? </Text>
@@ -187,10 +214,6 @@ const ForgotPassword = ({ navigation }) => {
             </View>
           </ImageBackground>
         </View>
-            </ScrollView>
-          </KeyboardAvoidingView>
-        </View>
-
         {/* </SafeAreaView> */}
       </SafeAreaView>
     </>

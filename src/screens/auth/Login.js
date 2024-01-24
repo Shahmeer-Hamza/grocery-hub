@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import {
   View,
   Text,
@@ -11,6 +11,7 @@ import {
   ProgressBarAndroid,
   Pressable,
   KeyboardAvoidingView,
+  Keyboard,
 } from 'react-native';
 
 import {
@@ -32,6 +33,7 @@ import { Divider, Icon } from 'react-native-elements';
 // import FeatherIcons from 'react-native-elements/FeatherIcons';
 import { RalewayRegular } from '../../utils/fonts';
 import  "@react-native-google-signin/google-signin"
+import { ActivityIndicator } from 'react-native-paper';
 
 
 const WINDOWHEIGHT = Dimensions.get("screen").height
@@ -40,6 +42,28 @@ const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [showFooter, setShowFooter] = useState('flex');
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setShowFooter('none');
+      }
+    );
+
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setShowFooter('flex');
+      }
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
 
   const {
     login,
@@ -120,7 +144,8 @@ const Login = ({ navigation }) => {
                 <View style={{ paddingBottom: 10, }}>
                   <View style={[]} >
                     {/* <SecondaryButton buttonText={isLoading ? <ProgressBarAndroid styleAttr="Small" color={secondaryColor} shouldRasterizeIOS /> : "Login"} onPress={() => doLogin()} /> */}
-                    <AuthButton buttonText={isLoading ? <ProgressBarAndroid styleAttr="Small" color={whitecolor} shouldRasterizeIOS /> : "LOGIN"} onPress={() => doLogin()} />
+                    {console.log('Loading ', isLoading)}
+                    <AuthButton buttonText={isLoading ? <ActivityIndicator color='#fff' size="small" /> : "LOGIN"} onPress={() => doLogin()} />
                   </View>
                   <View style={{ flexDirection: 'row', paddingVertical: 1, alignItems: 'center' }}>
                     {/* <Divider inset={true} width={1} color='#000' insetType='left' /> */}
@@ -148,7 +173,7 @@ const Login = ({ navigation }) => {
         </View>
         {/* </KeyboardAvoidingView> */}
       </SafeAreaView>
-        <View style={{ width: width, height: height * .16, position: 'absolute', bottom: 0, left: 0, }}>
+        <View style={{ display: showFooter, width: width, height: height * .16, position: 'absolute', bottom: 0, left: 0, }}>
           <ImageBackground resizeMode='stretch' style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', width: width + 1, height: height * .2, alignItems: "flex-end" }} source={require('../../assets/auth-footer.png')}>
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingBottom: height * .02 }}>
               <Text style={styles.loginText}>Don’t have an account? </Text>
