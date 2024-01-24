@@ -4,7 +4,7 @@ import firestore, { firebase } from '@react-native-firebase/firestore';
 
 import { ToastAndroid, Alert, DevSettings, ProgressBarAndroid } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import { AsyncStorage } from 'react-native'
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children, navigation }) => {
@@ -17,6 +17,21 @@ export const AuthProvider = ({ children, navigation }) => {
   const [contextWishedCount, setContextWishedCount] = useState(null);
   const [contextCartCount, setContextCartCount] = useState(null);
 
+  // const setToFirestore = async (userData, message) => {
+  //   await firestore()
+  //     .collection('users')
+  //     .doc(userData.uid)
+  //     .set(userData)
+  //     .then(async () => {
+  //       setName(userData.username);
+  //       ToastAndroid.show(
+  //         `${message} Successfully`,
+  //         ToastAndroid.SHORT,
+  //       );
+  //       setLoading(false)
+  //       setUser(userData);
+  //     })
+  // }
   return (
     <AuthContext.Provider
       value={{
@@ -74,6 +89,60 @@ export const AuthProvider = ({ children, navigation }) => {
               });
           } catch (e) {
             setLoading(false)
+          }
+        },
+        onGoogleLogin: async () => {
+          // setLoading(true)
+          GoogleSignin.configure({
+            webClientId: '841003551346-9tsu96i9lc7btia3ghqsk7jge530b8q2.apps.googleusercontent.com',
+          });
+          try {
+            // try {
+            await GoogleSignin.hasPlayServices();
+            // google services are available
+            const userInfo = await GoogleSignin.signIn();
+            console.log('google signin user', userInfo)
+            // } catch (err) {
+            //   console.error('play services are not available');
+            // }
+            const { accessToken, idToken } = userInfo
+            // setState({ userInfo, error: undefined });
+            const credential = auth.GoogleAuthProvider.credential(
+              idToken,
+              accessToken,
+            );
+            const { uid, email, emailVerified, phoneNumber, photoURL, displayName } = (await auth().signInWithCredential(credential)).user
+            setToFirestore({ uid, email, emailVerified, phoneNumber, photoURL, username: displayName, role: "user" }, "Sign-in")
+          } catch (error) {
+            console.error(error)
+            if (error) {
+              if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+                // user cancelled the login flow
+              } else if (error.code === statusCodes.IN_PROGRESS) {
+                // operation (e.g. sign in) is in progress already
+              } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+                // play services not available or outdated
+              } else {
+                // some other error happened
+              }
+              // switch (error.code) {
+              //   case statusCodes.SIGN_IN_CANCELLED:
+              //     // user cancelled the login flow
+              //     break;
+              //   case statusCodes.IN_PROGRESS:
+              //     // operation (eg. sign in) already in progress
+              //     break;
+              //   case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+              //     // play services not available or outdated
+              //     break;
+              //   default:
+              //   // some other error happened
+              // }
+            } else {
+              // an error that's not related to google sign in occurred
+            }
+          } finally {
+            // setLoading(false)
           }
         },
         register: async (username, email, password) => {
