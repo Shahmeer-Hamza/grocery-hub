@@ -122,9 +122,8 @@ const ViewOrder = ({ route, navigation }) => {
     try {
       setLoading(true);
 
-      alert('Order Id : ' + order_id);
-      console.log('Order Id', order_id);
-      const orderDoc = await firestore().collection('orders').doc(order_id).get();
+      const orderDoc = await firestore().collection('orders')
+      .doc(order_id).get();
       const status = await getStatusText(orderDoc.data().status); // Use a function for status mapping
       setOrderStatus(status);
       setTableData(orderDoc);

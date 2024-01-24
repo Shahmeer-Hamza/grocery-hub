@@ -86,8 +86,6 @@ const Checkout = ({ route, navigation }) => {
             listingsArray.push(
               doc.data().item,
             );
-
-            console.log("Data", response.data().price)
             cartTotalSum += parseFloat(response.data().price.replace(/,/g, ''));
             setCartTotal(cartTotalSum);
           });
@@ -170,7 +168,7 @@ const Checkout = ({ route, navigation }) => {
         cnic: cnic,
         phone: phone,
         email: email,
-        bookingDate: new Date(bookingDate).toLocaleDateString("en"),
+        bookingDate: new Date().toLocaleDateString("en"),
         payment: value,
         imageDownloadLink: imageDownloadLink,
         status: 0,

@@ -19,10 +19,11 @@ import { AuthContext } from '../../navigation/AuthProvider';
 import storage from '@react-native-firebase/storage';
 import { background, borderColor, greyColorShaded, primaryColor, primaryColorShaded, secondaryColor, secondaryColorShaded, textColor } from '../../utils/Colors';
 import { PoppinsRegular, RalewayRegular } from '../../utils/fonts';
+import { windowHeight, windowWidth } from '../../utils/WindowDimensions';
 
 export const Item = ({ v }) => (
   <View style={styles.item}>
-    <View style={{ borderBottomColor: borderColor, borderBottomWidth: 0.2, paddingVertical: 15 }}>
+    <View style={{ borderBottomColor: borderColor, borderBottomWidth: 0.2, paddingVertical: 15, paddingHorizontal:10 }}>
       <View style={{ flexDirection: "row", }}>
         <View>
           <Text style={{ ...styles.title, }}>Order ID:</Text>
@@ -31,7 +32,7 @@ export const Item = ({ v }) => (
           <Text style={styles.title}>Payment Status:</Text>
         </View>
         <View>
-          <Text style={{ ...styles.title, fontWeight: '700', letterSpacing: 0.5 }}> {v.order_id}</Text>
+          <Text style={{ ...styles.title, fontSize: windowWidth/30, fontWeight: '700', letterSpacing: 0.5 }} numberOfLines={1} > {v.order_id}</Text>
           <Text style={styles.value}> {v.bookingDate}</Text>
           <Text style={styles.value}> {v.status}</Text>
           <Text style={styles.value}> {v.payment} </Text>
@@ -63,7 +64,7 @@ const OrderHistory = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [tableData, setTableData] = useState([]);
   useEffect(() => {
-    loadOrders();
+    tableData?.length ==0 && loadOrders();
   }, []);
 
   const loadOrders = () => {
@@ -132,12 +133,8 @@ const OrderHistory = ({ navigation }) => {
   }
 
   if (loading) {
-    return <View style={[styles.container, styles.horizontal]}><ActivityIndicator size="large" color={primaryColorShaded} /></View>;
+    return <View style={[styles.container, styles.horizontal]}><ActivityIndicator size="large" color={primaryColor} /></View>;
   }
-
-  // const viewItem = (item_id) => {
-  //   navigator.navigate()
-  // }
 
   return (
     <>
@@ -168,8 +165,10 @@ const OrderHistory = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   horizontal: {
-    flexDirection: "row",
-    justifyContent: "space-around",
+    // flexDirection: "row",
+    height: windowHeight-100,
+    justifyContent: "center",
+    alignItems:"center",
     padding: 10
   },
   container: {

@@ -99,7 +99,6 @@ const Home = ({ navigation, route }) => {
                 <View style={{ borderRadius: 8, overflow: 'hidden', width: WINDOWWIDTH, }}>
                     <Image source={item.img} resizeMode='contain' style={{ width: WINDOWWIDTH, height: WINDOWHEIGHT * .17, }} />
                 </View>
-                {/* <Image style={{resizeMode:"center",width:"80%",height:120}} source={require("../../assets/promotion-banner.png")}/> */}
             </View>
         )
     }
@@ -111,23 +110,6 @@ const Home = ({ navigation, route }) => {
     }
 
     const addToCart = (item_id) => {
-        // console.log(item_id)
-        // if (addedCart) {
-        // var cart_query = firestore()
-        //     .collection('carts')
-        //     .where('user', '==', user.uid)
-        //     .where('item', '==', item_id)
-        //     .get()
-        //     .then(function (querySnapshot) {
-        //         querySnapshot.forEach(function (doc) {
-        //             doc.ref.delete();
-        //             // setAddedCart(false);
-        //             // setContextCartCount(1 - contextCartCount);
-        //             ToastAndroid.show('Item Removed From The Cart', ToastAndroid.SHORT);
-        //         });
-        //     });
-        // }
-        // else {
         firestore().collection("carts").add({
             user: user.uid,
             item: item_id
@@ -192,7 +174,7 @@ const Home = ({ navigation, route }) => {
                             </View>
                         </ImageBackground>
                     </View>
-                    <ScrollView >
+                    <ScrollView showsVerticalScrollIndicator={false} >
                     <View style={{ paddingHorizontal: 10, paddingTop: WINDOWHEIGHT / 50 }}>
                         
                             <Search listType={[]} placeholderText={`Search ... `} main={true} />
@@ -287,193 +269,7 @@ const Home = ({ navigation, route }) => {
                                     View All
                                 </Text>
                             </View>
-                            {/* <ScrollView showsHorizontalScrollIndicator={false} horizontal contentContainerStyle={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }} >
-                                <Card style={[styles.shadow, styles.card]}>
-                                    <View style={[styles.cardImage]}>
-                                        <Image source={
-                                            require("../../assets/fruits/banana-icon.png")
-                                            //     {
-                                            //     uri: `${firebaseStorageUrl}Home%2Fshan-decorator.png?alt=media`,
-                                            // }
-                                        } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
-                                    </View>
-                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
-                                        Banana
-                                    </Text>
-                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
-                                        1 Dozen
-                                    </Text>
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS.150</Text>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.190</Text>
-                                        <TouchableOpacity style={[styles.addCartButton]} onPress={() => addToCart("DdydDmJz4xwtLAOq5zJs")}>
-                                            <Icon name="add" size={18} color="#fff" />
-                                        </TouchableOpacity>
-                                    </View>
-                                </Card>
-                                <Card style={[styles.shadow, styles.card]}>
-                                    <View style={[styles.cardImage]}>
-                                        <Image source={
-                                            require("../../assets/fruits/apple-icon.png")
-                                            //     {
-                                            //     uri: `${firebaseStorageUrl}Home%2Fkda-venue.png?alt=media`,
-                                            // }
-                                        } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
-                                    </View>
-                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
-                                        Apple
-                                    </Text>
-                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
-                                        1 Kilogram
-                                    </Text>
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS.120</Text>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.190</Text>
-                                        <TouchableOpacity style={[styles.addCartButton]} onPress={() => addToCart()}>
-                                            <Icon name="add" size={18} color="#fff" />
-                                        </TouchableOpacity>
-                                    </View>
-
-                                </Card>
-                                <Card style={[styles.shadow, styles.card]}>
-                                    <View style={[styles.cardImage]}>
-                                        <Image source={
-                                            require("../../assets/fruits/strawberries.png")
-                                            //     {
-                                            //     uri: `${firebaseStorageUrl}Home%2Fhanif-caterers.png?alt=media`,
-                                            // }
-                                        } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
-                                    </View>
-                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
-                                        strawberries
-                                    </Text>
-                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
-                                        1 Kilogram
-                                    </Text>
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS.200</Text>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.290</Text>
-                                        <TouchableOpacity style={[styles.addCartButton]} onPress={() => addToCart()}>
-                                            <Icon name="add" size={18} color="#fff" />
-                                        </TouchableOpacity>
-                                    </View>
-                                </Card>
-                                <Card style={[styles.shadow, styles.card]}>
-                                    <View style={[styles.cardImage]}>
-                                        <Image source={
-                                            require("../../assets/fruits/watermelons.png")
-                                            //     {
-                                            //     uri: `${firebaseStorageUrl}Home%2Fhanif-caterers.png?alt=media`,
-                                            // }
-                                        } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
-                                    </View>
-                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
-                                        Watermelon
-                                    </Text>
-                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
-                                        1 kilogram
-                                    </Text>
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS.200</Text>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.290</Text>
-                                        <TouchableOpacity style={[styles.addCartButton]} onPress={() => addToCart()}>
-                                            <Icon name="add" size={18} color="#fff" />
-                                        </TouchableOpacity>
-                                    </View>
-                                </Card>
-                                <Card style={[styles.shadow, styles.card]}>
-                                    <View style={[styles.cardImage]}>
-                                        <Image source={
-                                            require("../../assets/fruits/pomegranate.png")
-                                            //     {
-                                            //     uri: `${firebaseStorageUrl}Home%2Fhanif-caterers.png?alt=media`,
-                                            // }
-                                        } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
-                                    </View>
-                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
-                                        Pomegranate
-                                    </Text>
-                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
-                                        1 Kilogram
-                                    </Text>
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS.200</Text>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.290</Text>
-                                        <TouchableOpacity style={[styles.addCartButton]} onPress={() => addToCart()}>
-                                            <Icon name="add" size={18} color="#fff" />
-                                        </TouchableOpacity>
-                                    </View>
-                                </Card>
-                                <Card style={[styles.shadow, styles.card]}>
-                                    <View style={[styles.cardImage]}>
-                                        <Image source={
-                                            require("../../assets/fruits/avacardo.png")
-                                            //     {
-                                            //     uri: `${firebaseStorageUrl}Home%2Fhanif-caterers.png?alt=media`,
-                                            // }
-                                        } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
-                                    </View>
-                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
-                                        Avacardo
-                                    </Text>
-                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
-                                        1 kilogram
-                                    </Text>
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS.200</Text>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.290</Text>
-                                        <TouchableOpacity style={[styles.addCartButton]} onPress={() => addToCart()}>
-                                            <Icon name="add" size={18} color="#fff" />
-                                        </TouchableOpacity>
-                                    </View>
-                                </Card>
-                                <Card style={[styles.shadow, styles.card]}>
-                                    <View style={[styles.cardImage]}>
-                                        <Image source={
-                                            require("../../assets/fruits/grapes.png")
-                                            //     {
-                                            //     uri: `${firebaseStorageUrl}Home%2Fhanif-caterers.png?alt=media`,
-                                            // }
-                                        } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
-                                    </View>
-                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
-                                        Grapes
-                                    </Text>
-                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
-                                        1 Kilogram
-                                    </Text>
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS.200</Text>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.290</Text>
-                                        <TouchableOpacity style={[styles.addCartButton]} onPress={() => addToCart()}>
-                                            <Icon name="add" size={18} color="#fff" />
-                                        </TouchableOpacity>
-                                    </View>
-                                </Card>
-                                <Card style={[styles.shadow, styles.card]}>
-                                    <View style={[styles.cardImage]}>
-                                        <Image source={
-                                            require("../../assets/fruits/oranges.png")
-                                            //     {
-                                            //     uri: `${firebaseStorageUrl}Home%2Fhanif-caterers.png?alt=media`,
-                                            // }
-                                        } resizeMode='contain' style={{ width: 120, height: 85, borderRadius: 20, }} />
-                                    </View>
-                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 20, fontWeight: '500', color: textColor, letterSpacing: WINDOWHEIGHT * 0.001, }}>
-                                        Oranges
-                                    </Text>
-                                    <Text style={{ fontFamily: RalewayRegular, fontSize: WINDOWWIDTH / 30, fontWeight: '400', color: greyColorShaded, letterSpacing: WINDOWHEIGHT * 0.001, marginBottom: 10 }}>
-                                        1 Dozen
-                                    </Text>
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'flex-end' }}>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 24, fontWeight: 400, color: primaryColor, fontFamily: 'play' }}>RS.200</Text>
-                                        <Text style={{ fontSize: WINDOWWIDTH / 28, fontWeight: 400, color: greyColorShaded, fontFamily: 'play', textDecorationLine: 'line-through' }}>RS.290</Text>
-                                        <TouchableOpacity style={[styles.addCartButton]} onPress={() => addToCart()}>
-                                            <Icon name="add" size={18} color="#fff" />
-                                        </TouchableOpacity>
-                                    </View>
-                                </Card>
-                            </ScrollView> */}
+ 
                             {
                                 popularItems && <FlatList
                                     data={popularItems}
