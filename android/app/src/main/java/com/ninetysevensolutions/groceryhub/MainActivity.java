@@ -1,4 +1,4 @@
-package com.groceryhub;
+package com.ninetysevensolutions.groceryhub;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

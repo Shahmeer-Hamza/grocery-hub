@@ -247,6 +247,223 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:841003551346:android:a905606faf1f61a48e10eb",
+        "android_client_info": {
+          "package_name": "com.ninetysevensolution.groceryhub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "841003551346-9tsu96i9lc7btia3ghqsk7jge530b8q2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-POe0zralOOc3IBrcXrePYuc7AxQk4po"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "841003551346-6m52gj99gbp4cf6g04g6v5bpibv1pvlj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:841003551346:android:3c7ae646884c7b8d8e10eb",
+        "android_client_info": {
+          "package_name": "com.ninetysevensolutions.davat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "841003551346-bt0v4gfrcs6vf1v22krqjqpllnj7cp3p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ninetysevensolutions.davat",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "841003551346-pj69gqbf7qle8c06o5d68ip2ieenmgeg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ninetysevensolutions.davat",
+            "certificate_hash": "8707737d7d6cd10d7f608fd6a3396341dabd6f47"
+          }
+        },
+        {
+          "client_id": "841003551346-9tsu96i9lc7btia3ghqsk7jge530b8q2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-POe0zralOOc3IBrcXrePYuc7AxQk4po"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "841003551346-6m52gj99gbp4cf6g04g6v5bpibv1pvlj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:841003551346:android:74c775e7731b17b78e10eb",
+        "android_client_info": {
+          "package_name": "com.ninetysevensolutions.groceryhub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "841003551346-lb71jqt9m48v561s4kjh3v6pvd4mq065.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ninetysevensolutions.groceryhub",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "841003551346-qhh7tkc7ij0vc0qril4ab5lu6stl8f84.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ninetysevensolutions.groceryhub",
+            "certificate_hash": "ebc049991864e4a403b5ae18f5a6fd8bf6689555"
+          }
+        },
+        {
+          "client_id": "841003551346-9tsu96i9lc7btia3ghqsk7jge530b8q2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-POe0zralOOc3IBrcXrePYuc7AxQk4po"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "841003551346-6m52gj99gbp4cf6g04g6v5bpibv1pvlj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:841003551346:android:6aa5eb36055baec18e10eb",
+        "android_client_info": {
+          "package_name": "com.ninetysevensolutions.khelo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "841003551346-5p8esssl4h7496lqrpvnb0rvjj8073s0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ninetysevensolutions.khelo",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "841003551346-iob3cfff4j7ikknnd3ea8rpp1k5p0aqq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ninetysevensolutions.khelo",
+            "certificate_hash": "5b92f2d53694db4362c62fad00a56393d6b26899"
+          }
+        },
+        {
+          "client_id": "841003551346-jjt0tni7gucgblecn60c5fqpg98rfnfe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ninetysevensolutions.khelo",
+            "certificate_hash": "f1a2c4f43baae8bc82b2513ab0ae95613b00bc73"
+          }
+        },
+        {
+          "client_id": "841003551346-9tsu96i9lc7btia3ghqsk7jge530b8q2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-POe0zralOOc3IBrcXrePYuc7AxQk4po"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "841003551346-6m52gj99gbp4cf6g04g6v5bpibv1pvlj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:841003551346:android:25de8df24540fc8a8e10eb",
+        "android_client_info": {
+          "package_name": "com.ninetysevensolutions.medicare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "841003551346-8b5jokl3guat269a7222i59arpsc28cq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ninetysevensolutions.medicare",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "841003551346-b78olcso34523drke19mibhj5urmm27f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ninetysevensolutions.medicare",
+            "certificate_hash": "bd92906b5a8c93dac3a9c2ab798b2734c6355161"
+          }
+        },
+        {
+          "client_id": "841003551346-9tsu96i9lc7btia3ghqsk7jge530b8q2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-POe0zralOOc3IBrcXrePYuc7AxQk4po"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "841003551346-6m52gj99gbp4cf6g04g6v5bpibv1pvlj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
