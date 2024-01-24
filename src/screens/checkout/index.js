@@ -57,6 +57,7 @@ const Checkout = ({ route, navigation }) => {
   const [showDateTimePicker, setshowDateTimePicker] = useState(false)
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [selectedDate, setSelectedDate] = useState('');
+  const [uploadingImg, setUploadingImg] = useState(false);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -108,43 +109,92 @@ const Checkout = ({ route, navigation }) => {
     },
   };
 
-  const selectReceipt = () => {
-    launchImageLibrary(options, (response) => {
 
-      if (response.didCancel) {
+  const selectReceipt = async () => {
+    try {
+      setUploadingImg(true);
+
+      const result = await launchImageLibrary(options);
+
+      if (result.didCancel) {
         console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
+      } else if (result.error) {
+        throw new Error('ImagePicker Error: ', result.error);
       } else {
-        const uri = response.uri;
+        const uri = result.assets[0].uri;
+        const newImageName = 'profile' + Math.random(0, 9999) + '.jpg'; // Add extension for clarity
 
-        setSelectedPictureUri(uri);
+        const uploadTask = storage().ref(newImageName).putFile(uri);
 
-        let newImageName = 'profile' + Math.random(0, 9999);
-        storage()
-          .ref(newImageName)
-          .putFile(uri)
-          .then((snapshot) => {
-            //You can check the image is now uploaded in the storage bucket
-            let imageRef = storage().ref('/' + newImageName);
-            imageRef
-              .getDownloadURL()
-              .then((url) => {
-                //from url you can fetched the uploaded image easily
-                url = url.substring(0, url.indexOf('&token'));
-                setImageDownloadLink(url);
-
-
-              })
-              .catch((e) => console.log('getting downloadURL of image error => ', e));
-            console.log(`${imageName} has been successfully uploaded.`);
-          })
-          .catch((e) => console.log('uploading image error => ', e));
-
-
+        uploadTask.on(
+          storage.TaskEvent.STATE_CHANGED,
+          (snapshot) => {
+            // Progress monitoring
+            const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+            console.log(`Upload progress: ${progress}%`);
+          },
+          (error) => {
+            // Error handling
+            console.error(error);
+            alert('Image upload failed');
+          },
+          async () => {
+            // Upload complete
+            try {
+              const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
+              console.log('Image uploaded:', downloadURL);
+              setImageDownloadLink(downloadURL);
+            } catch (error) {
+              console.error(error);
+              alert('Failed to get download URL');
+            }
+            setUploadingImg(false);
+          }
+        );
       }
-    });
-  }
+    } catch (error) {
+      console.error(error);
+      alert('Error selecting or uploading image');
+      setUploadingImg(false);
+    }
+  };
+  // const selectReceipt = () => {
+  //   launchImageLibrary(options, (response) => {
+
+  //     if (response.didCancel) {
+  //       console.log('User cancelled image picker');
+  //     } else if (response.error) {
+  //       console.log('ImagePicker Error: ', response.error);
+  //     } else {
+  //       const uri = response.uri;
+
+  //       setSelectedPictureUri(uri);
+
+  //       let newImageName = 'profile' + Math.random(0, 9999);
+  //       storage()
+  //         .ref(newImageName)
+  //         .putFile(uri)
+  //         .then((snapshot) => {
+  //           //You can check the image is now uploaded in the storage bucket
+  //           let imageRef = storage().ref('/' + newImageName);
+  //           imageRef
+  //             .getDownloadURL()
+  //             .then((url) => {
+  //               //from url you can fetched the uploaded image easily
+  //               url = url.substring(0, url.indexOf('&token'));
+  //               setImageDownloadLink(url);
+
+
+  //             })
+  //             .catch((e) => console.log('getting downloadURL of image error => ', e));
+  //           console.log(`${imageName} has been successfully uploaded.`);
+  //         })
+  //         .catch((e) => console.log('uploading image error => ', e));
+
+
+  //     }
+  //   });
+  // }
 
   const confirmOrder = () => {
     if (fullname == '') {
@@ -260,7 +310,7 @@ const Checkout = ({ route, navigation }) => {
                   <Text style={{ ...styles.radioText, color: value == "cash" ? "grey" : primaryColor }}>Online</Text>
                   {value == 'online' && (
                     <TouchableOpacity style={styles.upload_btn} onPress={() => selectReceipt()}>
-                      <Text style={styles.upload_btn_text}>Upload Receipt</Text>
+                      {uploadingImg ? <ActivityIndicator color="#fff" /> : <Text style={styles.upload_btn_text}>Upload Receipt</Text>}
                     </TouchableOpacity>
 
                   )}
@@ -275,7 +325,7 @@ const Checkout = ({ route, navigation }) => {
             <Text style={[styles.billing_text, { color: "#000" }]}>Sub Total:</Text>
             <Text style={[styles.billing_text, { color: "#30A444" }]}>Rs.{cartTotal}</Text>
           </View>
-          <TouchableOpacity style={styles.checkout_btn} onPress={() => confirmOrder()}>
+          <TouchableOpacity style={styles.checkout_btn} onPress={() => confirmOrder()} disabled={uploadingImg}>
             <Text style={styles.checkout_btn_text}>PAY NOW</Text>
           </TouchableOpacity>
         </View>
