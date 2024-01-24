@@ -31,6 +31,7 @@ import { styles } from '../../assets/styles/auth';
 import { Divider, Icon } from 'react-native-elements';
 // import FeatherIcons from 'react-native-elements/FeatherIcons';
 import { RalewayRegular } from '../../utils/fonts';
+import  "@react-native-google-signin/google-signin"
 
 
 const WINDOWHEIGHT = Dimensions.get("screen").height
@@ -47,6 +48,7 @@ const Login = ({ navigation }) => {
     successMessage,
     setErrorMessage,
     setSuccessMessage,
+    onGoogleLogin
   } = useContext(AuthContext);
 
   useEffect(() => {
@@ -128,7 +130,7 @@ const Login = ({ navigation }) => {
                     {/* <Divider inset={true} width={1} color='#000' insetType='right' /> */}
                   </View>
                   <View>
-                    <PrimaryButton buttonText={<><Image resizeMode='contain' style={{ width: 15, height: 15 }} source={require("../../assets/google-icon.png")} /> <Text style={{ fontSize: 12 }}>Login with Google</Text></>} />
+                    <PrimaryButton onPress={() => onGoogleLogin()} buttonText={<><Image resizeMode='contain' style={{ width: 15, height: 15 }} source={require("../../assets/google-icon.png")} /> <Text style={{ fontSize: 12 }}>Login with Google</Text></>} />
                   </View>
                 </View>
 
